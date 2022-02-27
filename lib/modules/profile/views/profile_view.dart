@@ -8,11 +8,6 @@ class ProfileView extends StatelessWidget {
     return const Center(
       child: Text(
         'Profile',
-        style: TextStyle(
-          fontFamily: 'AlegreyaSans',
-          fontWeight: FontWeight.w900,
-          fontSize: 24.0,
-        ),
       ),
     );
   }

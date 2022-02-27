@@ -1,0 +1,84 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_images.dart';
+import '../../navbar/views/nav_bar_view.dart';
+
+class SplashView extends StatefulWidget {
+  const SplashView({Key? key}) : super(key: key);
+
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  @override
+  void initState() {
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const NavBarView(),
+          ),
+          (route) => false,
+        );
+      },
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 36.0),
+              Image.asset(
+                AppImages.logoSquare,
+                width: width / 1.5,
+              ),
+              SizedBox(
+                height: 36.0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Slice Job',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'v1.0.0',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.grey,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

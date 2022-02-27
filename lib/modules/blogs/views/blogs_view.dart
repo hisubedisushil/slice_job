@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../../jobs/widgets/job_list_item_applied.dart';
+import '../widgets/blog_list_item.dart';
 
-class AppliedView extends StatelessWidget {
-  const AppliedView({Key? key}) : super(key: key);
+class BlogsView extends StatelessWidget {
+  const BlogsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView.separated(
         itemBuilder: (cxt, index) {
-          return const JobListItemApplied();
+          return const BlogListItem();
         },
         separatorBuilder: (cxt, index) {
           return const SizedBox(height: 10.0);
         },
-        itemCount: 3,
+        itemCount: 10,
         shrinkWrap: true,
         padding: const EdgeInsets.all(10.0),
         physics: const BouncingScrollPhysics(),

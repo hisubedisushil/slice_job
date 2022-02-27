@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_color_gen/material_color_gen.dart';
 
 import 'constants/app_colors.dart';
-import 'modules/navbar/views/nav_bar_view.dart';
+import 'modules/splash/views/splash_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const NavBarView(),
+      home: const SplashView(),
     );
   }
 }
