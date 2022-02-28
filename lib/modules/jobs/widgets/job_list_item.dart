@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../constants/app_colors.dart';
+import '../views/job_detail_view.dart';
 
 class JobListItem extends StatefulWidget {
   const JobListItem({Key? key}) : super(key: key);
@@ -95,25 +96,36 @@ class _JobListItemState extends State<JobListItem> {
                     ],
                   ),
                   for (int i = 0; i < (_isMore ? 6 : 2); i++)
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '\u25CF  ',
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 14.0,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2.5),
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '\u25CF  ',
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 14.0,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: _jobs[i],
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 14.0,
+                            TextSpan(
+                              text: _jobs[i],
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 14.0,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (cxt) => const JobDetailView(),
+                                    ),
+                                  );
+                                },
                             ),
-                            recognizer: TapGestureRecognizer()..onTap = () {},
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                 ],

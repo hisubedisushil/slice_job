@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../applied/views/applied_view.dart';
 import '../../blogs/views/blogs_view.dart';
+import '../../jobs/views/job_filter_view.dart';
 import '../../jobs/views/job_view.dart';
 import '../../profile/views/profile_view.dart';
 import '../controllers/nav_bar_controller.dart';
@@ -26,8 +26,8 @@ class NavBarView extends StatelessWidget {
           controller: navigator.pageController,
           children: const [
             JobView(),
+            JobFilterView(),
             BlogsView(),
-            AppliedView(),
             ProfileView(),
           ],
         ),
@@ -47,12 +47,12 @@ class NavBarView extends StatelessWidget {
                   title: 'Home',
                 ),
                 BarItem(
-                  icon: Ionicons.chatbox_ellipses_outline,
-                  title: 'Blogs',
+                  icon: Ionicons.briefcase_outline,
+                  title: 'Jobs',
                 ),
                 BarItem(
-                  icon: Ionicons.ribbon_outline,
-                  title: 'Applied',
+                  icon: Ionicons.chatbox_ellipses_outline,
+                  title: 'Blogs',
                 ),
                 BarItem(
                   icon: Ionicons.person_outline,

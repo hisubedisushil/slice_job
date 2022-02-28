@@ -17,7 +17,7 @@ class _RegisterViewState extends State<RegisterView> {
   bool _showConfirmPassword = false;
   bool _receiveNews = true;
   bool _receivePromotions = true;
-  bool _aggree = false;
+  bool _agree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -236,9 +236,9 @@ class _RegisterViewState extends State<RegisterView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Checkbox(
-                        value: _aggree,
+                        value: _agree,
                         onChanged: (value) {
-                          _aggree = value ?? false;
+                          _agree = value ?? false;
                           setState(() {});
                         },
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

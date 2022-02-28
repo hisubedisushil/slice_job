@@ -75,6 +75,25 @@ class JobListItemApplied extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 2.5),
+                    Row(
+                      children: [
+                        Text(
+                          'Applied On ',
+                          style: TextStyle(
+                            color: AppColors.grey,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '22 Feb 2022',
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2.5),
                     ActionChip(
                       onPressed: () {},
                       label: Text(

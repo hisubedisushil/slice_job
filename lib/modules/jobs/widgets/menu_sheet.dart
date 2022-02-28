@@ -134,7 +134,7 @@ class MenuSheet extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: ListTile(
             onTap: () {
-              navbar.setSelectedIndex(0);
+              navbar.setSelectedIndex(1);
               Navigator.pop(context);
             },
             leading: Icon(
@@ -166,7 +166,7 @@ class MenuSheet extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: ListTile(
             onTap: () {
-              navbar.setSelectedIndex(1);
+              navbar.setSelectedIndex(2);
               Navigator.pop(context);
             },
             leading: Icon(

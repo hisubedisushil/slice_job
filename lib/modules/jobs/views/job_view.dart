@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_images.dart';
+import '../../../widgets/header_widget.dart';
 import '../widgets/job_list_item.dart';
 import '../widgets/job_list_item_single.dart';
-import '../widgets/menu_sheet.dart';
 import '../widgets/top_employer_list_item.dart';
+import 'job_search_view.dart';
 
 class JobView extends StatelessWidget {
   const JobView({Key? key}) : super(key: key);
@@ -17,101 +17,80 @@ class JobView extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.white,
           floating: true,
           pinned: false,
           snap: false,
-          title: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(
-                  AppImages.logoSquare,
-                ),
-                backgroundColor: AppColors.white,
-                radius: 17.5,
-              ),
-              const SizedBox(width: 10.0),
-              Material(
-                borderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(24.0),
-                ),
-                color: AppColors.white.withOpacity(0.8),
-                child: Padding(
-                  padding: const EdgeInsets.all(5.5),
-                  child: Icon(
-                    Ionicons.search_outline,
-                    color: AppColors.primary,
-                    size: 24.0,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.horizontal(
-                    right: Radius.circular(24.0),
-                  ),
-                  child: InkWell(
-                    onTap: () {},
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        disabledBorder: InputBorder.none,
-                        fillColor: AppColors.white.withOpacity(0.8),
-                        hintText: 'Search jobs here ...',
-                        hintStyle: TextStyle(
-                          color: AppColors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        filled: true,
-                        isDense: true,
-                        enabled: false,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10.0),
-              SizedBox(
-                height: 35.0,
-                width: 35.0,
-                child: IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(10.0),
-                      )),
-                      builder: (cxt) => const MenuSheet(),
-                    );
-                  },
-                  tooltip: 'Menu',
-                  padding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                  icon: const Icon(
-                    Ionicons.menu,
-                  ),
-                ),
-              )
-            ],
-          ),
+          title: const HeaderWidget(),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(72.0),
+            preferredSize: const Size.fromHeight(87.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Text(
-                    'View Jobs by Popular Category',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
+                  child: Row(
+                    children: [
+                      Material(
+                        borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(24.0),
+                        ),
+                        color: AppColors.primary.withOpacity(0.2),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.5),
+                          child: Icon(
+                            Ionicons.search_outline,
+                            color: AppColors.primary,
+                            size: 24.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(24.0),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (cxt) => const JobSearchView(),
+                                ),
+                              );
+                            },
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                disabledBorder: InputBorder.none,
+                                fillColor: AppColors.primary.withOpacity(0.2),
+                                hintText: 'Search jobs here ...',
+                                hintStyle: TextStyle(
+                                  color: AppColors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                filled: true,
+                                isDense: true,
+                                enabled: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 5.0),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                //   child: Text(
+                //     'View Jobs by Popular Category',
+                //     style: TextStyle(
+                //       fontSize: 20.0,
+                //       fontWeight: FontWeight.bold,
+                //       color: AppColors.white,
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(height: 10.0),
                 SizedBox(
                   height: 32.0,
                   child: ListView.separated(
@@ -122,11 +101,18 @@ class JobView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: AppColors.white,
                           ),
                         ),
-                        onPressed: () {},
-                        backgroundColor: AppColors.white,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (cxt) => const JobSearchView(),
+                            ),
+                          );
+                        },
+                        backgroundColor: AppColors.primary,
                       );
                     },
                     separatorBuilder: (cxt, index) {
