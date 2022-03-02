@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../constants/app_colors.dart';
+import '../views/job_detail_view.dart';
 
 class JobListItemSingle extends StatelessWidget {
   const JobListItemSingle({Key? key}) : super(key: key);
@@ -10,7 +11,14 @@ class JobListItemSingle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (cxt) => const JobDetailView(),
+          ),
+        );
+      },
       borderRadius: BorderRadius.circular(10.0),
       child: Material(
         borderRadius: BorderRadius.circular(10.0),
