@@ -1,6 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
+import 'package:provider/provider.dart';
+import 'package:slice_job/controllers/authentication_controller.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../register/views/register_view.dart';
@@ -13,7 +20,16 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   bool _showPassword = false;
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +72,18 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       filled: true,
                     ),
+                    keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      bool b = RegExp(
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                          .hasMatch(value ?? '');
+                      if (!b) {
+                        return 'Please enter valid email address';
+                      }
+                      return null;
+                    },
+                    controller: _email,
                   ),
                   const SizedBox(height: 20.0),
                   TextFormField(
@@ -88,32 +116,66 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                     ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if ((value ?? '').length < 6) {
+                        return 'Password must have at least 6 characters.';
+                      }
+                      return null;
+                    },
+                    controller: _password,
                   ),
                   const SizedBox(height: 20.0),
-                  MaterialButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      Container(
+                        height: 56.0,
+                        width: 56.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: AppColors.red,
+                        ),
+                        child: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            Ionicons.arrow_back,
+                            color: AppColors.white,
+                          ),
+                        ),
                       ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: AppColors.primary,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    minWidth: double.infinity,
-                    height: 56.0,
-                    elevation: 0.0,
+                      const SizedBox(width: 10.0),
+                      Expanded(
+                        child: MaterialButton(
+                          onPressed: _login,
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          color: AppColors.primary,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          minWidth: double.infinity,
+                          height: 56.0,
+                          elevation: 0.0,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20.0),
                   Row(
                     children: [
                       Expanded(
                         child: InkWell(
+                          onTap: () {
+                            launch('https://www.slicejob.com/password/forget');
+                          },
                           child: Text(
                             'Forget Password?',
                             textAlign: TextAlign.left,
@@ -175,5 +237,62 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  _login() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+    bool b = RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(_email.text);
+    if (!b) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Invalid Email",
+        message: "Please enter valid email address.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
+
+    if (_password.text.length < 6) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Invalid Password",
+        message: "Password must have at least 6 characters.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
+
+    bool result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        context.read<AuthenticationController>().login(
+              email: _email.text,
+              password: _password.text,
+            ),
+      ),
+    );
+    log(result.toString());
+    if (result) {
+      Navigator.pop(context);
+    } else {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Login Failed",
+        message: "Invalid Credential, Please try again.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
   }
 }

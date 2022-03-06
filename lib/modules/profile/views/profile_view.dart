@@ -1,10 +1,17 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 import 'package:slice_job/modules/applied/views/applied_view.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../controllers/authentication_controller.dart';
 import '../../../widgets/header_widget.dart';
+import '../../login/views/login_view.dart';
+import '../../register/views/register_view.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -12,6 +19,94 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
+    final authentication = context.watch<AuthenticationController>();
+
+    if (!authentication.isLoggedIn) {
+      return SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Ionicons.lock_closed_outline,
+                    size: 60.0,
+                    color: AppColors.red,
+                  ),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    'To access the page you need to be login. '
+                    'Please login if you already a register user or '
+                    'register if you are not registered.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const LoginView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 0.0,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RegisterView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.transparent,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 0.0,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -560,7 +655,15 @@ class ProfileView extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () async {
+                bool result = await showDialog(
+                  context: context,
+                  builder: (context) => FutureProgressDialog(
+                    authentication.logOut(),
+                  ),
+                );
+                log(result.toString());
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

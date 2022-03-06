@@ -3,6 +3,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../controllers/authentication_controller.dart';
 import '../../login/views/login_view.dart';
 import '../../navbar/controllers/nav_bar_controller.dart';
 import '../../register/views/register_view.dart';
@@ -13,6 +14,7 @@ class MenuSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navbar = context.watch<NavBarController>();
+    final authentication = context.watch<AuthenticationController>();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -26,110 +28,116 @@ class MenuSheet extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 15.0),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListTile(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const LoginView(),
+        if (!authentication.isLoggedIn)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const LoginView(),
+                  ),
+                );
+              },
+              leading: Icon(
+                Ionicons.lock_open_outline,
+                color: AppColors.primary,
+                size: 24.0,
+              ),
+              title: Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black,
                 ),
-              );
-            },
-            leading: Icon(
-              Ionicons.lock_open_outline,
-              color: AppColors.primary,
-              size: 24.0,
-            ),
-            title: Text(
-              'Login',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.black,
+              ),
+              horizontalTitleGap: 0.0,
+              dense: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            horizontalTitleGap: 0.0,
-            dense: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
           ),
-        ),
-        const Divider(
-          height: 0.0,
-          indent: 20.0,
-          endIndent: 20.0,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListTile(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RegisterView(),
+        if (!authentication.isLoggedIn)
+          const Divider(
+            height: 0.0,
+            indent: 20.0,
+            endIndent: 20.0,
+          ),
+        if (!authentication.isLoggedIn)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RegisterView(),
+                  ),
+                );
+              },
+              leading: Icon(
+                Ionicons.person_add_outline,
+                color: AppColors.primary,
+                size: 24.0,
+              ),
+              title: Text(
+                'Register',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black,
                 ),
-              );
-            },
-            leading: Icon(
-              Ionicons.person_add_outline,
-              color: AppColors.primary,
-              size: 24.0,
-            ),
-            title: Text(
-              'Register',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.black,
+              ),
+              horizontalTitleGap: 0.0,
+              dense: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            horizontalTitleGap: 0.0,
-            dense: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
           ),
-        ),
-        const Divider(
-          height: 0.0,
-          indent: 20.0,
-          endIndent: 20.0,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListTile(
-            onTap: () {
-              navbar.setSelectedIndex(3);
-              Navigator.pop(context);
-            },
-            leading: Icon(
-              Ionicons.person_outline,
-              color: AppColors.primary,
-              size: 24.0,
-            ),
-            title: Text(
-              'Profile',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.black,
+        if (!authentication.isLoggedIn)
+          const Divider(
+            height: 0.0,
+            indent: 20.0,
+            endIndent: 20.0,
+          ),
+        if (authentication.isLoggedIn)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ListTile(
+              onTap: () {
+                navbar.setSelectedIndex(3);
+                Navigator.pop(context);
+              },
+              leading: Icon(
+                Ionicons.person_outline,
+                color: AppColors.primary,
+                size: 24.0,
+              ),
+              title: Text(
+                'Profile',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black,
+                ),
+              ),
+              horizontalTitleGap: 0.0,
+              dense: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            horizontalTitleGap: 0.0,
-            dense: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
           ),
-        ),
-        const Divider(
-          height: 0.0,
-          indent: 20.0,
-          endIndent: 20.0,
-        ),
+        if (authentication.isLoggedIn)
+          const Divider(
+            height: 0.0,
+            indent: 20.0,
+            endIndent: 20.0,
+          ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: ListTile(
