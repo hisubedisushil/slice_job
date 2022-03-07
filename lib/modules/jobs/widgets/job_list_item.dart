@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/features_jobs_response_model.dart';
 import '../views/job_detail_view.dart';
 
 class JobListItem extends StatefulWidget {
-  const JobListItem({Key? key}) : super(key: key);
+  final FeaturedJobData item;
+
+  const JobListItem({Key? key, required this.item}) : super(key: key);
 
   @override
   State<JobListItem> createState() => _JobListItemState();
@@ -38,8 +41,7 @@ class _JobListItemState extends State<JobListItem> {
             ClipRRect(
               borderRadius: BorderRadius.circular(5.0),
               child: CachedNetworkImage(
-                imageUrl: 'https://www.slicejob.com/upload/'
-                    'company/96_company.jpg',
+                imageUrl: widget.item.image ?? '',
                 errorWidget: (cxt, str, val) {
                   return SizedBox(
                     height: 64.0,
@@ -53,7 +55,7 @@ class _JobListItemState extends State<JobListItem> {
                     ),
                   );
                 },
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 height: 68.0,
                 width: 68.0,
               ),
@@ -67,7 +69,7 @@ class _JobListItemState extends State<JobListItem> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Dish Media Network Ltd',
+                          widget.item.name ?? '',
                           style: TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
@@ -95,7 +97,14 @@ class _JobListItemState extends State<JobListItem> {
                       )
                     ],
                   ),
-                  for (int i = 0; i < (_isMore ? 6 : 2); i++)
+                  for (int i = 0;
+                      i <
+                          (_isMore
+                              ? (widget.item.jobs ?? []).length
+                              : (widget.item.jobs ?? []).length > 2
+                                  ? 2
+                                  : (widget.item.jobs ?? []).length);
+                      i++)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.5),
                       child: RichText(
@@ -109,7 +118,7 @@ class _JobListItemState extends State<JobListItem> {
                               ),
                             ),
                             TextSpan(
-                              text: _jobs[i],
+                              text: (widget.item.jobs ?? [])[i].jobTittle ?? '',
                               style: TextStyle(
                                 color: AppColors.black,
                                 fontSize: 14.0,

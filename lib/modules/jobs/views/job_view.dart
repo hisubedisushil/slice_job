@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../controllers/general_controller.dart';
+import '../../../controllers/job_controller.dart';
 import '../../../widgets/header_widget.dart';
 import '../widgets/job_list_item.dart';
 import '../widgets/job_list_item_single.dart';
@@ -13,6 +16,8 @@ class JobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final jobController = context.watch<JobController>();
+    final generalController = context.watch<GeneralController>();
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -95,9 +100,10 @@ class JobView extends StatelessWidget {
                   height: 32.0,
                   child: ListView.separated(
                     itemBuilder: (cxt, index) {
+                      final category = generalController.allCategories[index];
                       return ActionChip(
                         label: Text(
-                          'Accounting',
+                          category.name ?? '',
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
@@ -121,7 +127,7 @@ class JobView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15.0,
                     ),
-                    itemCount: 26,
+                    itemCount: generalController.allCategories.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                   ),
@@ -147,12 +153,13 @@ class JobView extends StatelessWidget {
             ),
             ListView.separated(
               itemBuilder: (cxt, index) {
-                return const JobListItem();
+                final job = jobController.featuredJobs[index];
+                return JobListItem(item: job);
               },
               separatorBuilder: (cxt, index) {
                 return const SizedBox(height: 10.0);
               },
-              itemCount: 10,
+              itemCount: jobController.featuredJobs.length,
               shrinkWrap: true,
               padding: const EdgeInsets.all(10.0),
               physics: const NeverScrollableScrollPhysics(),
@@ -171,12 +178,13 @@ class JobView extends StatelessWidget {
             ),
             ListView.separated(
               itemBuilder: (cxt, index) {
-                return const JobListItemSingle();
+                final job = jobController.recentJobs[index];
+                return JobListItemSingle(job: job);
               },
               separatorBuilder: (cxt, index) {
                 return const SizedBox(height: 10.0);
               },
-              itemCount: 10,
+              itemCount: jobController.recentJobs.length,
               shrinkWrap: true,
               padding: const EdgeInsets.all(10.0),
               physics: const NeverScrollableScrollPhysics(),
@@ -200,9 +208,10 @@ class JobView extends StatelessWidget {
                 crossAxisSpacing: 10.0,
               ),
               itemBuilder: (cxt, index) {
-                return const TopEmployerListItem();
+                final c = generalController.companies[index];
+                return TopEmployerListItem(company: c);
               },
-              itemCount: 4,
+              itemCount: generalController.companies.length,
               shrinkWrap: true,
               padding: const EdgeInsets.all(10.0),
               physics: const NeverScrollableScrollPhysics(),

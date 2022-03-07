@@ -4,11 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:slice_job/modules/applied/views/applied_view.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../controllers/authentication_controller.dart';
+import '../../../controllers/profile_controller.dart';
 import '../../../widgets/header_widget.dart';
 import '../../login/views/login_view.dart';
 import '../../register/views/register_view.dart';
@@ -108,6 +110,8 @@ class ProfileView extends StatelessWidget {
       );
     }
 
+    final profile = context.watch<ProfileController>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.white,
@@ -127,13 +131,11 @@ class ProfileView extends StatelessWidget {
                   CircleAvatar(
                     radius: width / 4.0,
                     backgroundColor: AppColors.primary.withOpacity(0.2),
-                    backgroundImage: const CachedNetworkImageProvider(
-                      'https://people.zoho.com/ebpearls/viewPhoto?'
-                      'erecno=395870000009742089&mode=2&avatarid=7',
+                    backgroundImage: CachedNetworkImageProvider(
+                      profile.profile?.photo ?? '',
                     ),
-                    foregroundImage: const CachedNetworkImageProvider(
-                      'https://people.zoho.com/ebpearls/viewPhoto?'
-                      'erecno=395870000009742089&mode=2&avatarid=7',
+                    foregroundImage: CachedNetworkImageProvider(
+                      profile.profile?.photo ?? '',
                     ),
                   ),
                   Positioned(
@@ -176,7 +178,8 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Alok Mishra',
+                      '${profile.profile?.firstName ?? ''} '
+                      '${profile.profile?.lastName ?? ''}',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -207,7 +210,9 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '23 Dec 1992',
+                      (profile.profile?.dob ?? '').isNotEmpty
+                          ? Jiffy(profile.profile?.dob ?? '').yMMMd
+                          : '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -238,7 +243,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Nepali',
+                      profile.profile?.nationality ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -269,7 +274,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Male',
+                      profile.profile?.gender ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -300,7 +305,9 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Nepal, Kathamandu',
+                      '${profile.profile?.currCity ?? ''}'
+                      '${(profile.profile?.currCity ?? '').isEmpty ? '' : ', '}'
+                      '${profile.profile?.currCountry ?? ''}',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -331,7 +338,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '+977-9869050723',
+                      profile.profile?.mobileNumber ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -362,7 +369,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'alokmishra@gmail.com',
+                      profile.profile?.email ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -393,7 +400,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '3-4 Years',
+                      profile.profile?.experience ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -424,7 +431,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Bachelor\'s degree / higher diploma',
+                      profile.profile?.qualification ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,
@@ -455,7 +462,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Individual',
+                      profile.profile?.userType ?? '',
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: 18.0,

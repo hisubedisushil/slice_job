@@ -8,6 +8,9 @@ import 'constants/app_colors.dart';
 import 'controllers/authentication_controller.dart';
 import 'controllers/connectivity_controller.dart';
 import 'controllers/dio_controller.dart';
+import 'controllers/general_controller.dart';
+import 'controllers/job_controller.dart';
+import 'controllers/profile_controller.dart';
 import 'modules/splash/views/splash_view.dart';
 
 class MyApp extends StatelessWidget {
@@ -41,6 +44,29 @@ class MyApp extends StatelessWidget {
             conn,
             dio,
           ),
+        ),
+        ChangeNotifierProxyProvider3<ConnectivityController,
+            AuthenticationController, DioController, JobController>(
+          create: (cxt) => JobController(null, null, null),
+          update: (cxt, conn, auth, dio, pack) => JobController(
+            conn,
+            auth,
+            dio,
+          ),
+        ),
+        ChangeNotifierProxyProvider3<ConnectivityController,
+            AuthenticationController, DioController, ProfileController>(
+          create: (cxt) => ProfileController(null, null, null),
+          update: (cxt, conn, auth, dio, pack) => ProfileController(
+            conn,
+            auth,
+            dio,
+          ),
+        ),
+        ChangeNotifierProxyProvider2<ConnectivityController, DioController,
+            GeneralController>(
+          create: (cxt) => GeneralController(null, null),
+          update: (cxt, conn, dio, pack) => GeneralController(conn, dio),
         ),
       ],
       child: MaterialApp(

@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/company_model.dart';
 
 class TopEmployerListItem extends StatelessWidget {
-  const TopEmployerListItem({Key? key}) : super(key: key);
+  final CompanyModel company;
+
+  const TopEmployerListItem({
+    Key? key,
+    required this.company,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +25,7 @@ class TopEmployerListItem extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
             child: CachedNetworkImage(
-              imageUrl: 'https://www.slicejob.com/upload/'
-                  'company/96_company.jpg',
+              imageUrl: company.photo ?? '',
               errorWidget: (cxt, str, val) {
                 return Center(
                   child: Icon(
@@ -30,7 +35,7 @@ class TopEmployerListItem extends StatelessWidget {
                   ),
                 );
               },
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
         ),

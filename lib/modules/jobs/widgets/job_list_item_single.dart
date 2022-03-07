@@ -1,12 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/job_model.dart';
 import '../views/job_detail_view.dart';
 
 class JobListItemSingle extends StatelessWidget {
-  const JobListItemSingle({Key? key}) : super(key: key);
+  final JobModel job;
+
+  const JobListItemSingle({Key? key, required this.job}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +35,7 @@ class JobListItemSingle extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child: CachedNetworkImage(
-                  imageUrl: 'https://www.slicejob.com/upload/'
-                      'company/96_company.jpg',
+                  imageUrl: job.company?.photo ?? '',
                   errorWidget: (cxt, str, val) {
                     return SizedBox(
                       height: 62.0,
@@ -46,7 +49,7 @@ class JobListItemSingle extends StatelessWidget {
                       ),
                     );
                   },
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   height: 62.0,
                   width: 62.0,
                 ),
@@ -57,7 +60,7 @@ class JobListItemSingle extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Solution Architect-Executive',
+                      job.jobTittle ?? '',
                       style: TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
@@ -74,7 +77,7 @@ class JobListItemSingle extends StatelessWidget {
                         ),
                         const SizedBox(width: 5.0),
                         Text(
-                          'Worldlink Communications',
+                          job.company?.name ?? '',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 14.0,
@@ -92,7 +95,7 @@ class JobListItemSingle extends StatelessWidget {
                         ),
                         const SizedBox(width: 5.0),
                         Text(
-                          '2 days ago',
+                          '${Jiffy().diff(Jiffy(job.postDate, 'dd MMM y hh:mm:ss'), Units.DAY)} days ago',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 14.0,
