@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/all_jobs_response_model.dart';
 import '../models/features_jobs_response_model.dart';
+import '../models/job_detail_model.dart';
 import '../models/job_model.dart';
 import '../services/job_service.dart';
 import 'authentication_controller.dart';
@@ -141,6 +142,73 @@ class JobController with ChangeNotifier {
 
     _isLoadingRecentJobs = false;
     notifyListeners();
+  }
+
+  Future<List<JobModel>> getRelatedJobs({required int jobCatId}) async {
+    if (_connectivityController == null) {
+      return [];
+    }
+
+    if (_dioController == null) {
+      return [];
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return [];
+    }
+
+    return await _jobService.getRelatedJobs(
+      dio: _dioController!,
+      jobCatId: jobCatId,
+    );
+  }
+
+  Future<JobDetailModel?> getJobDetail({required String jobId}) async {
+    if (_connectivityController == null) {
+      return null;
+    }
+
+    if (_dioController == null) {
+      return null;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return null;
+    }
+
+    return await _jobService.getJobDetail(
+      dio: _dioController!,
+      jobId: jobId,
+    );
+  }
+
+  Future<String?> applyForJob({
+    required String jobId,
+    required String qualification,
+    required String experience,
+    String? cv,
+    String? letter,
+  }) async {
+    if (_connectivityController == null) {
+      return null;
+    }
+
+    if (_dioController == null) {
+      return null;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return null;
+    }
+
+    return await _jobService.apply(
+      dio: _dioController!,
+      jobId: jobId,
+      qualification: qualification,
+      experience: experience,
+      cv: cv,
+      letter: letter,
+    );
   }
 
   /// Data

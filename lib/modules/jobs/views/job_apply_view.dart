@@ -1,14 +1,37 @@
+import 'dart:developer';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../controllers/general_controller.dart';
+import '../../../controllers/job_controller.dart';
+import '../../../models/job_detail_model.dart';
+import '../../../models/job_type_model.dart';
 import 'job_success_view.dart';
 
-class JobApplyView extends StatelessWidget {
-  const JobApplyView({Key? key}) : super(key: key);
+class JobApplyView extends StatefulWidget {
+  final JobDetailModel jobDetail;
+
+  const JobApplyView({Key? key, required this.jobDetail}) : super(key: key);
+
+  @override
+  State<JobApplyView> createState() => _JobApplyViewState();
+}
+
+class _JobApplyViewState extends State<JobApplyView> {
+  String? _cvFile;
+  String? _coverFile;
+  JobTypeModel? _selectedEducation;
+  JobTypeModel? _selectedExperience;
 
   @override
   Widget build(BuildContext context) {
+    final generalController = context.watch<GeneralController>();
     return Material(
       color: AppColors.white,
       child: Scaffold(
@@ -48,39 +71,62 @@ class JobApplyView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Container(
-                        height: 120.0,
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(
-                            color: AppColors.grey.withOpacity(0.4),
-                            width: 2.0,
-                            style: BorderStyle.solid,
+                      InkWell(
+                        onTap: () async {
+                          final result = await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: ['pdf', 'docx', 'doc'],
+                          );
+
+                          if (result != null) {
+                            _cvFile = result.files.single.path;
+                          } else {
+                            _cvFile = null;
+                          }
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 120.0,
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: AppColors.grey.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: AppColors.grey.withOpacity(0.4),
+                              width: 2.0,
+                              style: BorderStyle.solid,
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Ionicons.document_attach_outline,
-                                color: AppColors.primary,
-                              ),
-                              iconSize: 40.0,
-                            ),
-                            Text(
-                              '(Doc/Docx or PDF only, and maximum file size allowed is 500 KB)',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: AppColors.grey,
-                              ),
-                            ),
-                          ],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (_cvFile != null)
+                                Text(
+                                  (_cvFile ?? '').split('/').last,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              if (_cvFile == null)
+                                Icon(
+                                  Ionicons.document_attach_outline,
+                                  color: AppColors.primary,
+                                  size: 40.0,
+                                ),
+                              if (_cvFile == null)
+                                Text(
+                                  '(Doc/Docx or PDF only, and maximum file size allowed is 500 KB)',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: AppColors.grey,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -106,39 +152,62 @@ class JobApplyView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      Container(
-                        height: 120.0,
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(
-                            color: AppColors.grey.withOpacity(0.4),
-                            width: 2.0,
-                            style: BorderStyle.solid,
+                      InkWell(
+                        onTap: () async {
+                          final result = await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: ['pdf', 'docx', 'doc'],
+                          );
+
+                          if (result != null) {
+                            _coverFile = result.files.single.path;
+                          } else {
+                            _coverFile = null;
+                          }
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 120.0,
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: AppColors.grey.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: AppColors.grey.withOpacity(0.4),
+                              width: 2.0,
+                              style: BorderStyle.solid,
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Ionicons.document_attach_outline,
-                                color: AppColors.primary,
-                              ),
-                              iconSize: 40.0,
-                            ),
-                            Text(
-                              '(Doc/Docx or PDF only, and maximum file size allowed is 500 KB)',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: AppColors.grey,
-                              ),
-                            ),
-                          ],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (_coverFile != null)
+                                Text(
+                                  (_coverFile ?? '').split('/').last,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              if (_coverFile == null)
+                                Icon(
+                                  Ionicons.document_attach_outline,
+                                  color: AppColors.primary,
+                                  size: 40.0,
+                                ),
+                              if (_coverFile == null)
+                                Text(
+                                  '(Doc/Docx or PDF only, and maximum file size allowed is 500 KB)',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: AppColors.grey,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -164,17 +233,13 @@ class JobApplyView extends StatelessWidget {
                         ),
                       ),
                       const Divider(),
-                      DropdownButton<String>(
-                        items: [
-                          'Certification / diploma',
-                          'Bachelor\'s degree / higher diploma',
-                          'Master\'s degree',
-                          'Doctorate',
-                        ].map((item) {
+                      DropdownButton<JobTypeModel>(
+                        value: _selectedEducation,
+                        items: generalController.educationLevels.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(
-                              item,
+                              item.name ?? '',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
@@ -183,7 +248,10 @@ class JobApplyView extends StatelessWidget {
                             ),
                           );
                         }).toList(),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _selectedEducation = value;
+                          setState(() {});
+                        },
                         hint: Text(
                           'Select your Qualification Level',
                           style: TextStyle(
@@ -218,18 +286,13 @@ class JobApplyView extends StatelessWidget {
                         ),
                       ),
                       const Divider(),
-                      DropdownButton<String>(
-                        items: [
-                          '0 - 1 Year',
-                          '1 - 2 Year',
-                          '2 - 3 Year',
-                          '3 - 4 Year',
-                          'Above 5 Year',
-                        ].map((item) {
+                      DropdownButton<JobTypeModel>(
+                        value: _selectedExperience,
+                        items: generalController.experienceLevels.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(
-                              item,
+                              item.name ?? '',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
@@ -238,7 +301,10 @@ class JobApplyView extends StatelessWidget {
                             ),
                           );
                         }).toList(),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _selectedExperience = value;
+                          setState(() {});
+                        },
                         hint: Text(
                           'Select your Job Experiences',
                           style: TextStyle(
@@ -255,14 +321,15 @@ class JobApplyView extends StatelessWidget {
                 ),
                 const SizedBox(height: 10.0),
                 MaterialButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (cxt) => const JobSuccessView(),
-                      ),
-                    );
-                  },
+                  onPressed: _submit,
+                  // onPressed: () {
+                  //   Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (cxt) => const JobSuccessView(),
+                  //     ),
+                  //   );
+                  // },
                   child: Text(
                     'Submit',
                     style: TextStyle(
@@ -287,5 +354,68 @@ class JobApplyView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _submit() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    if (_selectedEducation == null) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Qualification Not Selected",
+        message: "Please select Qualification level to apply for job.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
+
+    if (_selectedExperience == null) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Experience Not Selected",
+        message: "Please select your job experience to apply for job.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
+
+    String result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        context.read<JobController>().applyForJob(
+              jobId: widget.jobDetail.jobKey ?? '',
+              qualification: _selectedEducation?.name ?? '',
+              experience: _selectedExperience?.name ?? '',
+              cv: _cvFile,
+              letter: _coverFile,
+            ),
+      ),
+    );
+    log(result.toString());
+    if (result.isEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (cxt) => const JobSuccessView(),
+        ),
+      );
+    } else {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Failed",
+        message: "$result Please try again.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
   }
 }

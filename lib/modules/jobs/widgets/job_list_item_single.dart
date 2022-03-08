@@ -19,7 +19,7 @@ class JobListItemSingle extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (cxt) => const JobDetailView(),
+            builder: (cxt) => JobDetailView(job: job),
           ),
         );
       },

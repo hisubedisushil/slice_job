@@ -128,7 +128,9 @@ class _JobListItemState extends State<JobListItem> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (cxt) => const JobDetailView(),
+                                      builder: (cxt) => JobDetailView(
+                                        job: (widget.item.jobs ?? [])[i],
+                                      ),
                                     ),
                                   );
                                 },

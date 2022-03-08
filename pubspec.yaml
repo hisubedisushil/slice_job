@@ -23,12 +23,14 @@ dependencies:
   panara_dialogs: ^0.0.5
   future_progress_dialog: ^0.2.0
   pinput: ^2.1.4
+  file_picker: ^4.5.0
 
   connectivity_plus: ^2.2.1
   dio: ^4.0.4
   shared_preferences: ^2.0.13
   url_launcher: ^6.0.20
   jiffy: ^5.0.0
+  flutter_widget_from_html_core: ^0.8.5+1
 
 dev_dependencies:
   flutter_test:
