@@ -41,6 +41,47 @@ class JobService {
     }
   }
 
+  Future<AllJobsResponseModel?> getSearchedJobs({
+    required DioController dio,
+    int page = 1,
+    String title = '',
+    String category = '',
+    String type = '',
+    String level = '',
+    String salary = '',
+    String education = '',
+    String experience = '',
+  }) async {
+    try {
+      Response response = await dio.dioClient.get(
+        'search-jobs?page=1'
+        '&job_tittle=$title'
+        '&job_category=$category'
+        '&job_type=$type'
+        '&career_level=$level'
+        '&job_salary=$salary'
+        '&education_level=$education'
+        '&experience=$experience',
+      );
+      log(response.requestOptions.uri.toString());
+      log(
+        prettyJson(response.data),
+        name: 'Get Searched Jobs Response Page #$page',
+      );
+      if (response.statusCode == 200) {
+        AllJobsResponseModel model = allJobsResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('Get Searched Jobs Error! Page #$page', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
   Future<List<FeaturedJobData>> getFeaturedJobs({
     required DioController dio,
   }) async {
@@ -135,6 +176,7 @@ class JobService {
   }) async {
     try {
       String token = await PreferenceService.service.token;
+      log(token);
       Map<String, dynamic> data = {
         'id': jobId,
         'qualification': qualification,
@@ -158,7 +200,11 @@ class JobService {
       Response response = await Dio().post(
         '${AppApis.baseUrlV1}job-apply',
         options: Options(
-          headers: {'Authorization': 'Bearer $token'},
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+            'Accept': '*/*',
+          },
         ),
         data: fd,
       );

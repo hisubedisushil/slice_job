@@ -6,6 +6,7 @@ import '../../../constants/app_colors.dart';
 import '../../../controllers/general_controller.dart';
 import '../../../controllers/job_controller.dart';
 import '../../../widgets/header_widget.dart';
+import '../../navbar/controllers/nav_bar_controller.dart';
 import '../widgets/job_list_item.dart';
 import '../widgets/job_list_item_single.dart';
 import '../widgets/top_employer_list_item.dart';
@@ -57,12 +58,15 @@ class JobView extends StatelessWidget {
                           ),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (cxt) => const JobSearchView(),
-                                ),
-                              );
+                              context
+                                  .read<NavBarController>()
+                                  .setSelectedIndex(1);
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (cxt) => const JobSearchView(),
+                              //   ),
+                              // );
                             },
                             child: TextFormField(
                               decoration: InputDecoration(
@@ -100,7 +104,8 @@ class JobView extends StatelessWidget {
                   height: 32.0,
                   child: ListView.separated(
                     itemBuilder: (cxt, index) {
-                      final category = generalController.allCategories[index];
+                      final category =
+                          generalController.featureCategories[index];
                       return ActionChip(
                         label: Text(
                           category.name ?? '',
@@ -127,7 +132,7 @@ class JobView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15.0,
                     ),
-                    itemCount: generalController.allCategories.length,
+                    itemCount: generalController.featureCategories.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                   ),

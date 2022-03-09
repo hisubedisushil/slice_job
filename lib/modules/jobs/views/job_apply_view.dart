@@ -75,10 +75,12 @@ class _JobApplyViewState extends State<JobApplyView> {
                         onTap: () async {
                           final result = await FilePicker.platform.pickFiles(
                             type: FileType.custom,
-                            allowedExtensions: ['pdf', 'docx', 'doc'],
+                            allowedExtensions: ['pdf'],
                           );
 
                           if (result != null) {
+                            log(result.files.single.size.toString());
+                            // if (result.files.single.size <)
                             _cvFile = result.files.single.path;
                           } else {
                             _cvFile = null;

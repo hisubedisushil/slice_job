@@ -211,6 +211,43 @@ class JobController with ChangeNotifier {
     );
   }
 
+  Future<List<JobModel>> searchJobs({
+    int page = 1,
+    String title = '',
+    String category = '',
+    String type = '',
+    String level = '',
+    String salary = '',
+    String education = '',
+    String experience = '',
+  }) async {
+    if (_connectivityController == null) {
+      return [];
+    }
+
+    if (_dioController == null) {
+      return [];
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return [];
+    }
+
+    AllJobsResponseModel? model = await _jobService.getSearchedJobs(
+      dio: _dioController!,
+      page: page,
+      title: title,
+      category: category,
+      type: type,
+      level: level,
+      salary: salary,
+      education: education,
+      experience: experience,
+    );
+
+    return model?.data ?? [];
+  }
+
   /// Data
   bool _isLoadingAllJobs = false;
   bool get isLoadingAllJobs => _isLoadingAllJobs;

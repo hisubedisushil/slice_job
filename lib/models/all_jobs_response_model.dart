@@ -25,7 +25,7 @@ class AllJobsResponseModel {
   AllJobsResponseModel.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
-    _total = json['total'];
+    _total = json['total'].toString();
     _page = json['page'];
     if (json['data'] != null) {
       _data = [];
