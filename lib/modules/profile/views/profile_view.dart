@@ -14,6 +14,8 @@ import '../../../controllers/profile_controller.dart';
 import '../../../widgets/header_widget.dart';
 import '../../login/views/login_view.dart';
 import '../../register/views/register_view.dart';
+import 'change_password_view.dart';
+import 'profile_update_view.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -475,7 +477,14 @@ class ProfileView extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProfileUpdateView(),
+                  ),
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -505,7 +514,14 @@ class ProfileView extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ChangePasswordView(),
+                  ),
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
