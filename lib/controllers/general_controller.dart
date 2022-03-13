@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/blog_category_model.dart';
 import '../models/city_model.dart';
 import '../models/company_model.dart';
 import '../models/country_model.dart';
@@ -22,6 +23,7 @@ class GeneralController with ChangeNotifier {
   ) {
     if (_connectivityController != null && _dioController != null) {
       getAllCategories();
+      getBlogCategories();
       getFeaturedCategories();
       getTopEmployers();
       getCountries();
@@ -58,6 +60,34 @@ class GeneralController with ChangeNotifier {
       ..addAll(await _generalService.getAllJobCategories(dio: _dioController!));
 
     _isLoadingAllJobCategories = false;
+    notifyListeners();
+  }
+
+  getBlogCategories() async {
+    if (_isLoadingBlogCategories) {
+      return;
+    }
+
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    _isLoadingBlogCategories = true;
+    notifyListeners();
+
+    _blogCategories
+      ..clear()
+      ..addAll(await _generalService.getBlogCategories(dio: _dioController!));
+
+    _isLoadingBlogCategories = false;
     notifyListeners();
   }
 
@@ -331,6 +361,12 @@ class GeneralController with ChangeNotifier {
 
   final List<JobCategoryModel> _allCategories = [];
   List<JobCategoryModel> get allCategories => _allCategories;
+
+  bool _isLoadingBlogCategories = false;
+  bool get isLoadingBlogCategories => _isLoadingBlogCategories;
+
+  final List<BlogCategoryModel> _blogCategories = [];
+  List<BlogCategoryModel> get blogCategories => _blogCategories;
 
   bool _isLoadingFeatureJobCategories = false;
   bool get isLoadingFeatureJobCategories => _isLoadingFeatureJobCategories;

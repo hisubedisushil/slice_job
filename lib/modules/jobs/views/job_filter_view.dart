@@ -14,7 +14,7 @@ import '../../../models/job_model.dart';
 import '../../../widgets/header_widget.dart';
 import '../widgets/filter_sheet.dart';
 import '../widgets/job_list_item_single.dart';
-import 'job_search_view.dart';
+import 'job_category_view.dart';
 
 class JobFilterView extends StatefulWidget {
   final String? searchText;
@@ -249,7 +249,9 @@ class _JobFilterViewState extends State<JobFilterView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (cxt) => const JobSearchView(),
+                                builder: (cxt) => JobCategoryView(
+                                  model: category,
+                                ),
                               ),
                             );
                           },

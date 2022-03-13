@@ -36,6 +36,33 @@ class BlogService {
     }
   }
 
+  Future<BlogsResponseModel?> getBlogsByCategory({
+    required DioController dio,
+    int page = 1,
+    required String categoryId,
+  }) async {
+    try {
+      Response response = await dio.dioClient.get(
+        'category-blogs?category_id=$categoryId&page=$page',
+      );
+      log(
+        prettyJson(response.data),
+        name: 'Get Blogs By Category Response Page #$page',
+      );
+      if (response.statusCode == 200) {
+        BlogsResponseModel model = blogsResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('Get Blogs By Category Error! Page #$page', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
   Future<BlogModel?> getBlogDetail({
     required DioController dio,
     required String blogId,

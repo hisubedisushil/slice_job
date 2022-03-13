@@ -6,7 +6,6 @@ import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../controllers/general_controller.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../models/language_model.dart';
 
@@ -55,14 +54,14 @@ class _WorkLanguageFormViewState extends State<WorkLanguageFormView> {
 
   @override
   Widget build(BuildContext context) {
-    final generalController = context.read<GeneralController>();
-
     return Material(
       color: AppColors.white,
       child: Scaffold(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         appBar: AppBar(
-          title: const Text('Add Language'),
+          title: Text(
+            '${widget.language != null ? 'Update' : 'Add'} CV  Language',
+          ),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -133,6 +132,7 @@ class _WorkLanguageFormViewState extends State<WorkLanguageFormView> {
                           );
                         }).toList(),
                         onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           _level = value;
                           setState(() {});
                         },
@@ -154,7 +154,7 @@ class _WorkLanguageFormViewState extends State<WorkLanguageFormView> {
                 MaterialButton(
                   onPressed: _add,
                   child: Text(
-                    'Add',
+                    widget.language != null ? 'Update' : 'Add',
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 18.0,

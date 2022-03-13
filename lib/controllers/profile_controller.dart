@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/appled_job_model.dart';
 import '../models/certificate_model.dart';
+import '../models/cv_basic_model.dart';
 import '../models/education_model.dart';
 import '../models/experience_model.dart';
 import '../models/language_model.dart';
@@ -29,6 +30,7 @@ class ProfileController with ChangeNotifier {
         _authenticationController != null &&
         _dioController != null) {
       getProfile();
+      getCVBasic();
       getAppliedJobs();
       getExperiences();
       getEducations();
@@ -72,6 +74,42 @@ class ProfileController with ChangeNotifier {
     );
 
     _isLoadingProfile = false;
+    notifyListeners();
+  }
+
+  getCVBasic() async {
+    if (_isLoadingCVBasic) {
+      return;
+    }
+
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    if (_authenticationController == null) {
+      return;
+    }
+
+    if (!(_authenticationController?.isLoggedIn ?? false)) {
+      return;
+    }
+
+    _isLoadingCVBasic = true;
+    notifyListeners();
+
+    _cvBasic = await _profileService.getCVBasic(
+      dio: _dioController!,
+    );
+
+    _isLoadingCVBasic = false;
     notifyListeners();
   }
 
@@ -184,7 +222,7 @@ class ProfileController with ChangeNotifier {
     }
     List<String> date = birthDate.split('-');
 
-    return await _profileService.updateCVBasicInformation(
+    String result = await _profileService.updateCVBasicInformation(
       dio: _dioController!,
       firstName: firstName,
       lastName: lastName,
@@ -197,6 +235,13 @@ class ProfileController with ChangeNotifier {
       currentCountry: currentCountry,
       currentCity: currentCity,
     );
+
+    if (result.isEmpty) {
+      await getCVBasic();
+      notifyListeners();
+    }
+
+    return result;
   }
 
   Future<String> updateCVContactInformation({
@@ -216,12 +261,19 @@ class ProfileController with ChangeNotifier {
       return 'Network Error!';
     }
 
-    return await _profileService.updateCVContactInformation(
+    String result = await _profileService.updateCVContactInformation(
       dio: _dioController!,
       email: email,
       contactNumber: contactNumber,
       website: website,
     );
+
+    if (result.isEmpty) {
+      await getCVBasic();
+      notifyListeners();
+    }
+
+    return result;
   }
 
   Future<String> updateCVTargetJob({
@@ -244,7 +296,7 @@ class ProfileController with ChangeNotifier {
       return 'Network Error!';
     }
 
-    return await _profileService.updateCVTargetJob(
+    String result = await _profileService.updateCVTargetJob(
       dio: _dioController!,
       jobRoleId: jobRoleId,
       jobTitle: jobTitle,
@@ -253,6 +305,13 @@ class ProfileController with ChangeNotifier {
       salary: salary,
       currency: currency,
     );
+
+    if (result.isEmpty) {
+      await getCVBasic();
+      notifyListeners();
+    }
+
+    return result;
   }
 
   /// Experience
@@ -716,6 +775,7 @@ class ProfileController with ChangeNotifier {
 
     String result = await _profileService.addCertificate(
       dio: _dioController!,
+      id: id,
       title: title,
       description: description,
       issueMonth: issueMonth,
@@ -779,6 +839,12 @@ class ProfileController with ChangeNotifier {
 
   ProfileModel? _profile;
   ProfileModel? get profile => _profile;
+
+  bool _isLoadingCVBasic = false;
+  bool get isLoadingCVBasic => _isLoadingCVBasic;
+
+  CVBasicModel? _cvBasic;
+  CVBasicModel? get cvBasic => _cvBasic;
 
   final List<AppliedJobModel> _appliedJobs = [];
   List<AppliedJobModel> get appliedJobs => _appliedJobs;

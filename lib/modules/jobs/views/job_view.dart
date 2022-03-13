@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:slice_job/modules/navbar/views/nav_bar_view.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../controllers/general_controller.dart';
 import '../../../controllers/job_controller.dart';
 import '../../../widgets/header_widget.dart';
 import '../../navbar/controllers/nav_bar_controller.dart';
+import '../../navbar/views/nav_bar_view.dart';
 import '../widgets/job_list_item.dart';
 import '../widgets/job_list_item_single.dart';
 import '../widgets/top_employer_list_item.dart';
+import 'job_category_view.dart';
 
 class JobView extends StatefulWidget {
   const JobView({Key? key}) : super(key: key);
@@ -146,15 +147,13 @@ class _JobViewState extends State<JobView> {
                           ),
                         ),
                         onPressed: () {
-                          context.read<NavBarController>().setSelectedIndex(1);
-                          Navigator.pushAndRemoveUntil(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (cxt) => NavBarView(
-                                category: category,
+                              builder: (cxt) => JobCategoryView(
+                                model: category,
                               ),
                             ),
-                            (route) => false,
                           );
                         },
                         backgroundColor: AppColors.primary,

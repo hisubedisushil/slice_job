@@ -64,7 +64,9 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
       child: Scaffold(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         appBar: AppBar(
-          title: const Text('Add Work Experience'),
+          title: Text(
+            '${widget.experience != null ? 'Update' : 'Add'} CV Work Experience',
+          ),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -158,6 +160,8 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _startDate.text == ''
@@ -198,6 +202,8 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _endDate.text == ''
@@ -271,7 +277,7 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                 MaterialButton(
                   onPressed: _add,
                   child: Text(
-                    'Add',
+                    widget.experience != null ? 'Update' : 'Add',
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 18.0,

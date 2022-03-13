@@ -54,7 +54,7 @@ class JobService {
   }) async {
     try {
       Response response = await dio.dioClient.get(
-        'search-jobs?page=1'
+        'search-jobs?page=$page'
         '&job_tittle=$title'
         '&job_category=$category'
         '&job_type=$type'
@@ -78,6 +78,34 @@ class JobService {
       }
     } on Exception catch (e, s) {
       log('Get Searched Jobs Error! Page #$page', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<AllJobsResponseModel?> getJobsByCategory({
+    required DioController dio,
+    int page = 1,
+    required String categoryId,
+  }) async {
+    try {
+      Response response = await dio.dioClient.get(
+        'category-jobs?job_cat_id=$categoryId&page=$page',
+      );
+      log(response.requestOptions.uri.toString());
+      log(
+        prettyJson(response.data),
+        name: 'Get Jobs ByCategory Response Page #$page',
+      );
+      if (response.statusCode == 200) {
+        AllJobsResponseModel model = allJobsResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('Get Jobs ByCategory Error! Page #$page', stackTrace: s, error: e);
       return null;
     }
   }

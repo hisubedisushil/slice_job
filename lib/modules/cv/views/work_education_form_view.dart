@@ -74,7 +74,9 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
       child: Scaffold(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         appBar: AppBar(
-          title: const Text('Add Education'),
+          title: Text(
+            '${widget.education != null ? 'Update' : 'Add'} CV Education',
+          ),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -201,6 +203,7 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
                           );
                         }).toList(),
                         onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           _country = value;
                           setState(() {});
                         },
@@ -249,6 +252,8 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _startDate.text == ''
@@ -289,6 +294,8 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _endDate.text == ''
@@ -330,7 +337,7 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
                 MaterialButton(
                   onPressed: _add,
                   child: Text(
-                    'Add',
+                    widget.education != null ? 'Update' : 'Add',
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 18.0,

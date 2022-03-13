@@ -248,6 +248,31 @@ class JobController with ChangeNotifier {
     return model?.data ?? [];
   }
 
+  Future<List<JobModel>> searchJobsByCategory({
+    int page = 1,
+    required String id,
+  }) async {
+    if (_connectivityController == null) {
+      return [];
+    }
+
+    if (_dioController == null) {
+      return [];
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return [];
+    }
+
+    AllJobsResponseModel? model = await _jobService.getJobsByCategory(
+      dio: _dioController!,
+      page: page,
+      categoryId: id,
+    );
+
+    return model?.data ?? [];
+  }
+
   /// Data
   bool _isLoadingAllJobs = false;
   bool get isLoadingAllJobs => _isLoadingAllJobs;

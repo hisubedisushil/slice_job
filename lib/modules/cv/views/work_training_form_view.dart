@@ -7,7 +7,6 @@ import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../controllers/general_controller.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../models/training_model.dart';
 
@@ -51,14 +50,14 @@ class _WorkTrainingFormViewState extends State<WorkTrainingFormView> {
 
   @override
   Widget build(BuildContext context) {
-    final generalController = context.read<GeneralController>();
-
     return Material(
       color: AppColors.white,
       child: Scaffold(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         appBar: AppBar(
-          title: const Text('Add Education'),
+          title: Text(
+            '${widget.training != null ? 'Update' : 'Add'} CV Training',
+          ),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -96,6 +95,8 @@ class _WorkTrainingFormViewState extends State<WorkTrainingFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _startDate.text == ''
@@ -136,6 +137,8 @@ class _WorkTrainingFormViewState extends State<WorkTrainingFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _endDate.text == ''
@@ -177,7 +180,7 @@ class _WorkTrainingFormViewState extends State<WorkTrainingFormView> {
                 MaterialButton(
                   onPressed: _add,
                   child: Text(
-                    'Add',
+                    widget.training != null ? 'Update' : 'Add',
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 18.0,

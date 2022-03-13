@@ -550,36 +550,36 @@ class ProfileView extends StatelessWidget {
               height: 56.0,
               elevation: 0.0,
             ),
-            const SizedBox(height: 10.0),
-            MaterialButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Test Yourself',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Icon(
-                    Ionicons.arrow_forward_circle,
-                    size: 32.0,
-                    color: AppColors.white,
-                  ),
-                ],
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: AppColors.primary,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minWidth: double.infinity,
-              height: 56.0,
-              elevation: 0.0,
-            ),
+            // const SizedBox(height: 10.0),
+            // MaterialButton(
+            //   onPressed: () {},
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Text(
+            //         'Test Yourself',
+            //         style: TextStyle(
+            //           color: AppColors.white,
+            //           fontSize: 18.0,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //       Icon(
+            //         Ionicons.arrow_forward_circle,
+            //         size: 32.0,
+            //         color: AppColors.white,
+            //       ),
+            //     ],
+            //   ),
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(10.0),
+            //   ),
+            //   color: AppColors.primary,
+            //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            //   minWidth: double.infinity,
+            //   height: 56.0,
+            //   elevation: 0.0,
+            // ),
             const SizedBox(height: 10.0),
             MaterialButton(
               onPressed: () {

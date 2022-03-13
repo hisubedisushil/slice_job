@@ -79,6 +79,31 @@ class BlogController with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<BlogModel>> searchBlogsByCategory({
+    int page = 1,
+    required String id,
+  }) async {
+    if (_connectivityController == null) {
+      return [];
+    }
+
+    if (_dioController == null) {
+      return [];
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return [];
+    }
+
+    BlogsResponseModel? model = await _blogService.getBlogsByCategory(
+      dio: _dioController!,
+      page: page,
+      categoryId: id,
+    );
+
+    return model?.data ?? [];
+  }
+
   Future<BlogModel?> getBlogDetail({required String blogId}) async {
     if (_connectivityController == null) {
       return null;

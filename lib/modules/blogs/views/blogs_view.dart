@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../controllers/blog_controller.dart';
+import '../../../controllers/general_controller.dart';
 import '../../../widgets/header_widget.dart';
 import '../widgets/blog_list_item.dart';
+import 'blog_category_view.dart';
 
 class BlogsView extends StatelessWidget {
   const BlogsView({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class BlogsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final blogController = context.watch<BlogController>();
+    final generalController = context.watch<GeneralController>();
 
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollInfo) {
@@ -55,9 +58,11 @@ class BlogsView extends StatelessWidget {
                       height: 32.0,
                       child: ListView.separated(
                         itemBuilder: (cxt, index) {
+                          final category =
+                              generalController.blogCategories[index];
                           return ActionChip(
                             label: Text(
-                              'Information Technology',
+                              category.catName ?? '',
                               style: TextStyle(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.bold,
@@ -65,12 +70,14 @@ class BlogsView extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (cxt) => const JobSearchView(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (cxt) => BlogCategoryView(
+                                    model: category,
+                                  ),
+                                ),
+                              );
                             },
                             backgroundColor: AppColors.primary,
                           );
@@ -81,7 +88,7 @@ class BlogsView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 15.0,
                         ),
-                        itemCount: 26,
+                        itemCount: generalController.blogCategories.length,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                       ),

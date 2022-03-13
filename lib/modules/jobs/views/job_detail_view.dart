@@ -51,6 +51,22 @@ class _JobDetailViewState extends State<JobDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return Material(
+        color: AppColors.white,
+        child: Scaffold(
+          backgroundColor: AppColors.primary.withOpacity(0.1),
+          appBar: AppBar(
+            title: Text(
+              widget.job.jobTittle ?? '',
+            ),
+          ),
+          body: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
     return Material(
       color: AppColors.white,
       child: Scaffold(

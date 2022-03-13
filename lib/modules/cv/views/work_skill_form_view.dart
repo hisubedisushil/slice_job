@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/general_controller.dart';
 import '../../../controllers/profile_controller.dart';
-import '../../../models/job_type_model.dart';
 import '../../../models/skill_model.dart';
 
 class WorkSkillFormView extends StatefulWidget {
@@ -25,7 +24,9 @@ class WorkSkillFormView extends StatefulWidget {
 
 class _WorkSkillFormViewState extends State<WorkSkillFormView> {
   final _skill = TextEditingController();
-  JobTypeModel? _level;
+  String? _level;
+
+  List<String> _levels = ['Beginner', 'Intermediate', 'Expert'];
 
   @override
   void initState() {
@@ -34,10 +35,7 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
     if (widget.skill != null) {
       _skill.text = widget.skill?.skill ?? '';
       try {
-        _level = context
-            .read<GeneralController>()
-            .jobCareerLevels
-            .firstWhere((e) => widget.skill?.level == e.name);
+        _level = _levels.firstWhere((e) => widget.skill?.level == e);
       } catch (e) {}
     }
   }
@@ -57,7 +55,9 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
       child: Scaffold(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         appBar: AppBar(
-          title: const Text('Add Skill'),
+          title: Text(
+            '${widget.skill != null ? 'Update' : 'Add'} CV Skill',
+          ),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -112,13 +112,13 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
                         ),
                       ),
                       const Divider(),
-                      DropdownButton<JobTypeModel>(
+                      DropdownButton<String>(
                         value: _level,
-                        items: generalController.jobCareerLevels.map((item) {
+                        items: _levels.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(
-                              item.name ?? '',
+                              item,
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
@@ -128,6 +128,7 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
                           );
                         }).toList(),
                         onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           _level = value;
                           setState(() {});
                         },
@@ -149,7 +150,7 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
                 MaterialButton(
                   onPressed: _add,
                   child: Text(
-                    'Add',
+                    widget.skill != null ? 'Update' : 'Add',
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 18.0,
@@ -183,7 +184,7 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
         context.read<ProfileController>().postSkill(
               id: widget.skill?.id,
               skill: _skill.text,
-              level: _level!.name ?? '',
+              level: _level ?? '',
             ),
       ),
     );

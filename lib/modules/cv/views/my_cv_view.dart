@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +14,7 @@ import '../../../controllers/profile_controller.dart';
 import '../../../models/certificate_model.dart';
 import '../../../models/city_model.dart';
 import '../../../models/country_model.dart';
+import '../../../models/cv_basic_model.dart';
 import '../../../models/education_model.dart';
 import '../../../models/experience_model.dart';
 import '../../../models/job_category_model.dart';
@@ -63,6 +64,75 @@ class _MyCVViewState extends State<MyCVView> {
   final List<String> _currencyFormats = ['USD', 'NRP'];
   List<JobTitleModel> _jobTitles = [];
   List<CityModel> _cities = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    CVBasicModel? model = context.read<ProfileController>().cvBasic;
+    if (model != null) {
+      final general = context.read<GeneralController>();
+
+      _firstName.text = model.firstName ?? '';
+      _lastName.text = model.lastName ?? '';
+      _dob.text = model.birthYear != null
+          ? '${model.birthYear}-${model.birthMonth}-${model.birthDay}'
+          : '';
+      try {
+        _gender = _genders.firstWhere(
+          (e) => model.gender == e,
+        );
+      } catch (e) {}
+      try {
+        _nationality = general.countries.firstWhere(
+          (e) => model.nationality == e.name,
+        );
+      } catch (e) {}
+      try {
+        _currentLocation = general.countries.firstWhere(
+          (e) => model.currentCountry == e.name,
+        );
+      } catch (e) {}
+      try {
+        _cities.add(CityModel(name: model.currentCity ?? ''));
+        _currentCity = _cities.first;
+      } catch (e) {}
+
+      _email.text = model.email ?? '';
+      _mobile.text = model.contactNumber ?? '';
+      _website.text = model.website ?? '';
+      // _jobRole = model.website ?? '';
+      // _jobTitle = model.website ?? '';
+      try {
+        _jobRole = general.allCategories.firstWhere(
+          (e) => model.jobRole == e.name,
+        );
+      } catch (e) {}
+      try {
+        _jobTitles.add(JobTitleModel(title: model.jobRole ?? ''));
+        _jobTitle = _jobTitles.first;
+      } catch (e) {}
+      // _careerLevel = model.website ?? '';
+      try {
+        _careerLevel = general.jobCareerLevels.firstWhere(
+          (e) => model.careerLevel == e.name,
+        );
+      } catch (e) {}
+      // _jobType = model.website ?? '';
+      try {
+        _jobType = general.jobTypes.firstWhere(
+          (e) => model.jobType == e.name,
+        );
+      } catch (e) {}
+      _targetSalary.text = model.targetSalary ?? '';
+      // _currency = model.website ?? '';
+      try {
+        _currency = _currencyFormats.firstWhere(
+          (e) => model.targetSalaryCurrency == e,
+        );
+      } catch (e) {}
+    }
+  }
 
   @override
   void dispose() {
@@ -987,9 +1057,22 @@ class _MyCVViewState extends State<MyCVView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onSelected: (value) {
+                            onSelected: (value) async {
                               if (value == 2) {
-                                _deleteWork(work: work);
+                                await PanaraConfirmDialog.showAnimatedGrow(
+                                  context,
+                                  title: 'Confirmation',
+                                  message: 'Do you want to delete this  item?',
+                                  cancelButtonText: 'No',
+                                  confirmButtonText: 'Yes',
+                                  onTapCancel: () => Navigator.pop(context),
+                                  onTapConfirm: () {
+                                    Navigator.pop(context);
+                                    _deleteWork(work: work);
+                                  },
+                                  panaraDialogType: PanaraDialogType.warning,
+                                  barrierDismissible: true,
+                                );
                               } else {
                                 Navigator.push(
                                   context,
@@ -1102,9 +1185,22 @@ class _MyCVViewState extends State<MyCVView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onSelected: (value) {
+                            onSelected: (value) async {
                               if (value == 2) {
-                                _deleteEducation(education: education);
+                                await PanaraConfirmDialog.showAnimatedGrow(
+                                  context,
+                                  title: 'Confirmation',
+                                  message: 'Do you want to delete this  item?',
+                                  cancelButtonText: 'No',
+                                  confirmButtonText: 'Yes',
+                                  onTapCancel: () => Navigator.pop(context),
+                                  onTapConfirm: () {
+                                    Navigator.pop(context);
+                                    _deleteEducation(education: education);
+                                  },
+                                  panaraDialogType: PanaraDialogType.warning,
+                                  barrierDismissible: true,
+                                );
                               } else {
                                 Navigator.push(
                                   context,
@@ -1217,9 +1313,22 @@ class _MyCVViewState extends State<MyCVView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onSelected: (value) {
+                            onSelected: (value) async {
                               if (value == 2) {
-                                _deleteSkill(skill: skill);
+                                await PanaraConfirmDialog.showAnimatedGrow(
+                                  context,
+                                  title: 'Confirmation',
+                                  message: 'Do you want to delete this  item?',
+                                  cancelButtonText: 'No',
+                                  confirmButtonText: 'Yes',
+                                  onTapCancel: () => Navigator.pop(context),
+                                  onTapConfirm: () {
+                                    Navigator.pop(context);
+                                    _deleteSkill(skill: skill);
+                                  },
+                                  panaraDialogType: PanaraDialogType.warning,
+                                  barrierDismissible: true,
+                                );
                               } else {
                                 Navigator.push(
                                   context,
@@ -1313,9 +1422,22 @@ class _MyCVViewState extends State<MyCVView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onSelected: (value) {
+                            onSelected: (value) async {
                               if (value == 2) {
-                                _deleteLanguage(language: language);
+                                await PanaraConfirmDialog.showAnimatedGrow(
+                                  context,
+                                  title: 'Confirmation',
+                                  message: 'Do you want to delete this  item?',
+                                  cancelButtonText: 'No',
+                                  confirmButtonText: 'Yes',
+                                  onTapCancel: () => Navigator.pop(context),
+                                  onTapConfirm: () {
+                                    Navigator.pop(context);
+                                    _deleteLanguage(language: language);
+                                  },
+                                  panaraDialogType: PanaraDialogType.warning,
+                                  barrierDismissible: true,
+                                );
                               } else {
                                 Navigator.push(
                                   context,
@@ -1409,9 +1531,22 @@ class _MyCVViewState extends State<MyCVView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onSelected: (value) {
+                            onSelected: (value) async {
                               if (value == 2) {
-                                _deleteTraining(training: training);
+                                await PanaraConfirmDialog.showAnimatedGrow(
+                                  context,
+                                  title: 'Confirmation',
+                                  message: 'Do you want to delete this  item?',
+                                  cancelButtonText: 'No',
+                                  confirmButtonText: 'Yes',
+                                  onTapCancel: () => Navigator.pop(context),
+                                  onTapConfirm: () {
+                                    Navigator.pop(context);
+                                    _deleteTraining(training: training);
+                                  },
+                                  panaraDialogType: PanaraDialogType.warning,
+                                  barrierDismissible: true,
+                                );
                               } else {
                                 Navigator.push(
                                   context,
@@ -1507,9 +1642,23 @@ class _MyCVViewState extends State<MyCVView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onSelected: (value) {
+                            onSelected: (value) async {
                               if (value == 2) {
-                                _deleteCertificate(certificate: certificate);
+                                await PanaraConfirmDialog.showAnimatedGrow(
+                                  context,
+                                  title: 'Confirmation',
+                                  message: 'Do you want to delete this  item?',
+                                  cancelButtonText: 'No',
+                                  confirmButtonText: 'Yes',
+                                  onTapCancel: () => Navigator.pop(context),
+                                  onTapConfirm: () {
+                                    Navigator.pop(context);
+                                    _deleteCertificate(
+                                        certificate: certificate);
+                                  },
+                                  panaraDialogType: PanaraDialogType.warning,
+                                  barrierDismissible: true,
+                                );
                               } else {
                                 Navigator.push(
                                   context,
@@ -1563,8 +1712,53 @@ class _MyCVViewState extends State<MyCVView> {
               /// CV
               TitleBarWidget(
                 title: 'Original CV',
-                onTap: () {},
+                onTap: _saveOriginalCV,
               ),
+              const SizedBox(height: 10.0),
+              if (_cvFile != null)
+                Material(
+                  color: AppColors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    dense: true,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            _cvFile ?? '',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        // PopupMenuButton(
+                        //   itemBuilder: (cxt) => [
+                        //     const PopupMenuItem(
+                        //       child: Text("Delete"),
+                        //       value: 2,
+                        //     ),
+                        //   ],
+                        //   shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(10.0),
+                        //   ),
+                        //   onSelected: (value) {
+                        //     if (value == 2) {
+                        //       _deleteCertificate(certificate: certificate);
+                        //     }
+                        //   },
+                        // ),
+                      ],
+                    ),
+                  ),
+                )
             ],
           ),
         ),
@@ -1917,6 +2111,54 @@ class _MyCVViewState extends State<MyCVView> {
         barrierDismissible: true,
       );
       return;
+    }
+  }
+
+  String? _cvFile;
+  _saveOriginalCV() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    FilePickerResult? file = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx'],
+    );
+
+    if (file != null) {
+      _cvFile = (file.files.single.path ?? '').split('/').last;
+
+      String result = await showDialog(
+        context: context,
+        builder: (context) => FutureProgressDialog(
+          context
+              .read<ProfileController>()
+              .uploadOriginalCV(cv: file.files.single.path ?? ''),
+        ),
+      );
+      log(result.toString());
+
+      if (result.isEmpty) {
+        await PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Success",
+          message: "CV Updated Successfully.",
+          buttonText: 'Okay',
+          onTapDismiss: () => Navigator.pop(context),
+          panaraDialogType: PanaraDialogType.success,
+          barrierDismissible: true,
+        );
+        return;
+      } else {
+        await PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Failed",
+          message: result,
+          buttonText: 'Okay',
+          onTapDismiss: () => Navigator.pop(context),
+          panaraDialogType: PanaraDialogType.error,
+          barrierDismissible: true,
+        );
+        return;
+      }
     }
   }
 }

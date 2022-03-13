@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:pretty_json/pretty_json.dart';
 
 import '../controllers/dio_controller.dart';
+import '../models/blog_categories_response_model.dart';
+import '../models/blog_category_model.dart';
 import '../models/city_model.dart';
 import '../models/city_response_model.dart';
 import '../models/company_model.dart';
@@ -37,6 +39,26 @@ class GeneralService {
       }
     } on Exception catch (e, s) {
       log('Get All Job Categories Error!', stackTrace: s, error: e);
+      return [];
+    }
+  }
+
+  Future<List<BlogCategoryModel>> getBlogCategories({
+    required DioController dio,
+  }) async {
+    try {
+      Response response = await dio.dioClient.get('blog-category');
+      log(prettyJson(response.data), name: 'Get Blog Categories Response');
+      if (response.statusCode == 200) {
+        BlogCategoriesResponseModel model = blogCategoriesResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model.data ?? [];
+      } else {
+        return [];
+      }
+    } on Exception catch (e, s) {
+      log('Get Blog Categories Error!', stackTrace: s, error: e);
       return [];
     }
   }

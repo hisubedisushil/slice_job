@@ -10,6 +10,8 @@ import '../models/appled_job_model.dart';
 import '../models/applied_jobs_response_model.dart';
 import '../models/certificate_list_response_model.dart';
 import '../models/certificate_model.dart';
+import '../models/cv_basic_all_response_model.dart';
+import '../models/cv_basic_model.dart';
 import '../models/education_list_response_model.dart';
 import '../models/education_model.dart';
 import '../models/experience_model.dart';
@@ -152,6 +154,27 @@ class ProfileService {
     } on Exception catch (e, s) {
       log('Get Applied Jobs Error!', stackTrace: s, error: e);
       return [];
+    }
+  }
+
+  Future<CVBasicModel?> getCVBasic({required DioController dio}) async {
+    try {
+      Response response = await dio.dioClient.get('cv-basic-all');
+      log(
+        prettyJson(response.data),
+        name: 'getCVBasic Response',
+      );
+      if (response.statusCode == 200) {
+        CvBasicAllResponseModel model = cvBasicAllResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model.data;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getCVBasic Error!', stackTrace: s, error: e);
+      return null;
     }
   }
 

@@ -59,7 +59,9 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
       child: Scaffold(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         appBar: AppBar(
-          title: const Text('Add Certificate'),
+          title: Text(
+            '${widget.certificate != null ? 'Update' : 'Add'} CV Certificate',
+          ),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -97,6 +99,8 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _startDate.text == ''
@@ -137,11 +141,15 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                 const SizedBox(height: 10.0),
                 InkWell(
                   onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+
                     DateTime? d = await showDatePicker(
                       context: context,
                       initialDate: _endDate.text == ''
                           ? DateTime.now()
-                          : DateFormat('yyyy-MM').parse(_endDate.text),
+                          : _endDate.text.split('-').first == ''
+                              ? DateTime.now()
+                              : DateFormat('yyyy-MM').parse(_endDate.text),
                       firstDate: DateTime(1990),
                       lastDate: DateTime(2100),
                     );
@@ -153,7 +161,7 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                   child: TextFormField(
                     decoration: InputDecoration(
                       label: const Text(
-                        'Expire  Date',
+                        'Expire Date',
                       ),
                       labelStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -209,7 +217,7 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                 MaterialButton(
                   onPressed: _add,
                   child: Text(
-                    'Add',
+                    widget.certificate != null ? 'Update' : 'Add',
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: 18.0,
