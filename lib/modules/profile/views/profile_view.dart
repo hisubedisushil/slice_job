@@ -12,6 +12,7 @@ import '../../../constants/app_colors.dart';
 import '../../../controllers/authentication_controller.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../widgets/header_widget.dart';
+import '../../cv/views/my_cv_view.dart';
 import '../../login/views/login_view.dart';
 import '../../register/views/register_view.dart';
 import 'change_password_view.dart';
@@ -581,7 +582,14 @@ class ProfileView extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const MyCVView(),
+                  ),
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

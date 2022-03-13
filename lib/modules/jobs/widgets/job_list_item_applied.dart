@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/appled_job_model.dart';
 
 class JobListItemApplied extends StatelessWidget {
-  const JobListItemApplied({Key? key}) : super(key: key);
+  final AppliedJobModel model;
+
+  const JobListItemApplied({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +29,7 @@ class JobListItemApplied extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child: CachedNetworkImage(
-                  imageUrl: 'https://www.slicejob.com/upload/'
-                      'company/96_company.jpg',
+                  imageUrl: model.company?.photo ?? '',
                   errorWidget: (cxt, str, val) {
                     return SizedBox(
                       height: 62.0,
@@ -49,7 +54,7 @@ class JobListItemApplied extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Solution Architect-Executive',
+                      model.job?.jobTittle ?? '',
                       style: TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
@@ -66,7 +71,7 @@ class JobListItemApplied extends StatelessWidget {
                         ),
                         const SizedBox(width: 5.0),
                         Text(
-                          'Worldlink Communications',
+                          model.company?.name ?? '',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 14.0,
@@ -85,7 +90,7 @@ class JobListItemApplied extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '22 Feb 2022',
+                          model.appliedDate ?? '',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 14.0,
@@ -97,7 +102,7 @@ class JobListItemApplied extends StatelessWidget {
                     ActionChip(
                       onPressed: () {},
                       label: Text(
-                        'Rejected',
+                        model.status ?? '',
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
@@ -105,7 +110,7 @@ class JobListItemApplied extends StatelessWidget {
                         ),
                       ),
                       visualDensity: VisualDensity.compact,
-                      backgroundColor: AppColors.red,
+                      backgroundColor: AppColors.primary,
                     ),
                   ],
                 ),

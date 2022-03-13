@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'constants/app_colors.dart';
 import 'controllers/authentication_controller.dart';
+import 'controllers/blog_controller.dart';
 import 'controllers/connectivity_controller.dart';
 import 'controllers/dio_controller.dart';
 import 'controllers/general_controller.dart';
@@ -67,6 +68,11 @@ class MyApp extends StatelessWidget {
             GeneralController>(
           create: (cxt) => GeneralController(null, null),
           update: (cxt, conn, dio, pack) => GeneralController(conn, dio),
+        ),
+        ChangeNotifierProxyProvider2<ConnectivityController, DioController,
+            BlogController>(
+          create: (cxt) => BlogController(null, null),
+          update: (cxt, conn, dio, blog) => BlogController(conn, dio),
         ),
       ],
       child: MaterialApp(

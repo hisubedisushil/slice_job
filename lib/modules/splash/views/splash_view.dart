@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
+import '../../../controllers/blog_controller.dart';
 import '../../../controllers/general_controller.dart';
 import '../../../controllers/job_controller.dart';
 import '../../../controllers/profile_controller.dart';
@@ -37,6 +38,7 @@ class _SplashViewState extends State<SplashView> {
     context.read<JobController>();
     context.read<ProfileController>();
     context.read<GeneralController>();
+    context.read<BlogController>();
   }
 
   @override

@@ -2,9 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/blog_model.dart';
+import '../views/blog_detail_view.dart';
 
 class BlogListItem extends StatelessWidget {
-  const BlogListItem({Key? key}) : super(key: key);
+  final BlogModel blog;
+
+  const BlogListItem({
+    Key? key,
+    required this.blog,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class BlogListItem extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(5.0),
               child: CachedNetworkImage(
-                imageUrl: 'https://www.slicejob.com/upload/blog/321.jpg',
+                imageUrl: blog.image ?? '',
                 alignment: Alignment.topCenter,
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
@@ -28,7 +35,7 @@ class BlogListItem extends StatelessWidget {
             ),
             const SizedBox(width: double.infinity, height: 5.0),
             Text(
-              'NIC ASIA BANK',
+              blog.title ?? '',
               style: TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,
@@ -36,7 +43,15 @@ class BlogListItem extends StatelessWidget {
               ),
             ),
             Text(
-              'Published 2 days ago',
+              blog.subTitle ?? '',
+              style: TextStyle(
+                color: AppColors.grey,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            Text(
+              'Published On ${blog.addDate}',
               style: TextStyle(
                 color: AppColors.red,
                 fontSize: 14.0,
@@ -45,7 +60,14 @@ class BlogListItem extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BlogDetailView(blog: blog),
+                    ),
+                  );
+                },
                 child: Text(
                   'Full Story',
                   style: TextStyle(

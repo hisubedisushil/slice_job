@@ -5,12 +5,16 @@ import 'package:dio/dio.dart';
 import 'package:pretty_json/pretty_json.dart';
 
 import '../controllers/dio_controller.dart';
+import '../models/city_model.dart';
+import '../models/city_response_model.dart';
 import '../models/company_model.dart';
 import '../models/company_response_model.dart';
 import '../models/countries_response_model.dart';
 import '../models/country_model.dart';
 import '../models/job_categories_response_model.dart';
 import '../models/job_category_model.dart';
+import '../models/job_title_model.dart';
+import '../models/job_title_response_model.dart';
 import '../models/job_type_model.dart';
 import '../models/job_types_response_model.dart';
 
@@ -197,6 +201,55 @@ class GeneralService {
       }
     } on Exception catch (e, s) {
       log('Get Job Experience Levels Error!', stackTrace: s, error: e);
+      return [];
+    }
+  }
+
+  Future<List<JobTitleModel>> getJobTitles({
+    required DioController dio,
+    required String categoryId,
+  }) async {
+    try {
+      Response response = await dio.dioClient.post(
+        'job-title',
+        data: {'category_id': categoryId},
+      );
+      log(prettyJson(response.data), name: 'Get Job Titles Response');
+      if (response.statusCode == 200) {
+        JobTitleResponseModel model = jobTitleResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model.data ?? [];
+      } else {
+        return [];
+      }
+    } on Exception catch (e, s) {
+      log('Get Job Titles Error!', stackTrace: s, error: e);
+      return [];
+    }
+  }
+
+  Future<List<CityModel>> getCities({
+    required DioController dio,
+    required String countryId,
+  }) async {
+    log(countryId);
+    try {
+      Response response = await dio.dioClient.post(
+        'city',
+        data: {'country_id': countryId},
+      );
+      log(prettyJson(response.data), name: 'Get City Response');
+      if (response.statusCode == 200) {
+        CityResponseModel model = cityResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model.data ?? [];
+      } else {
+        return [];
+      }
+    } on Exception catch (e, s) {
+      log('Get City Error!', stackTrace: s, error: e);
       return [];
     }
   }

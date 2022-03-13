@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:slice_job/modules/navbar/views/nav_bar_view.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../controllers/general_controller.dart';
@@ -10,10 +11,22 @@ import '../../navbar/controllers/nav_bar_controller.dart';
 import '../widgets/job_list_item.dart';
 import '../widgets/job_list_item_single.dart';
 import '../widgets/top_employer_list_item.dart';
-import 'job_search_view.dart';
 
-class JobView extends StatelessWidget {
+class JobView extends StatefulWidget {
   const JobView({Key? key}) : super(key: key);
+
+  @override
+  State<JobView> createState() => _JobViewState();
+}
+
+class _JobViewState extends State<JobView> {
+  final _searchText = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchText.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,53 +50,70 @@ class JobView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Row(
                     children: [
-                      Material(
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(24.0),
-                        ),
-                        color: AppColors.primary.withOpacity(0.2),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.5),
-                          child: Icon(
-                            Ionicons.search_outline,
-                            color: AppColors.primary,
-                            size: 24.0,
-                          ),
-                        ),
-                      ),
+                      // Material(
+                      //   borderRadius: const BorderRadius.horizontal(
+                      //     left: Radius.circular(24.0),
+                      //   ),
+                      //   color: AppColors.primary.withOpacity(0.2),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(5.5),
+                      //     child: Icon(
+                      //       Ionicons.search_outline,
+                      //       color: AppColors.primary,
+                      //       size: 24.0,
+                      //     ),
+                      //   ),
+                      // ),
                       Expanded(
                         child: ClipRRect(
                           borderRadius: const BorderRadius.horizontal(
                             right: Radius.circular(24.0),
+                            left: Radius.circular(24.0),
                           ),
-                          child: InkWell(
-                            onTap: () {
-                              context
-                                  .read<NavBarController>()
-                                  .setSelectedIndex(1);
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (cxt) => const JobSearchView(),
-                              //   ),
-                              // );
-                            },
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                disabledBorder: InputBorder.none,
-                                fillColor: AppColors.primary.withOpacity(0.2),
-                                hintText: 'Search jobs here ...',
-                                hintStyle: TextStyle(
-                                  color: AppColors.grey,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                filled: true,
-                                isDense: true,
-                                enabled: false,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              disabledBorder: InputBorder.none,
+                              border: InputBorder.none,
+                              fillColor: AppColors.primary.withOpacity(0.2),
+                              hintText: 'Search jobs here ...',
+                              hintStyle: TextStyle(
+                                color: AppColors.grey,
+                                fontWeight: FontWeight.bold,
                               ),
+                              filled: true,
+                              isDense: true,
+                              // enabled: false,
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(width: 5.0),
+                      IconButton(
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          context.read<NavBarController>().setSelectedIndex(1);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (cxt) => NavBarView(
+                                searchText: _searchText.text,
+                              ),
+                            ),
+                            (route) => false,
+                          );
+                          setState(() {});
+                        },
+                        icon: CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          radius: 18.0,
+                          child: Icon(
+                            Ionicons.search_outline,
+                            color: AppColors.white,
+                            size: 20.0,
+                          ),
+                        ),
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
                       ),
                     ],
                   ),
@@ -116,11 +146,15 @@ class JobView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.push(
+                          context.read<NavBarController>().setSelectedIndex(1);
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (cxt) => const JobSearchView(),
+                              builder: (cxt) => NavBarView(
+                                category: category,
+                              ),
                             ),
+                            (route) => false,
                           );
                         },
                         backgroundColor: AppColors.primary,

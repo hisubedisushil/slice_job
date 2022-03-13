@@ -6,14 +6,37 @@ import 'package:provider/provider.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/job_category_model.dart';
 import '../../blogs/views/blogs_view.dart';
 import '../../jobs/views/job_filter_view.dart';
 import '../../jobs/views/job_view.dart';
 import '../../profile/views/profile_view.dart';
 import '../controllers/nav_bar_controller.dart';
 
-class NavBarView extends StatelessWidget {
-  const NavBarView({Key? key}) : super(key: key);
+class NavBarView extends StatefulWidget {
+  final int index;
+  final String? searchText;
+  final JobCategoryModel? category;
+
+  const NavBarView({
+    Key? key,
+    this.index = 0,
+    this.searchText,
+    this.category,
+  }) : super(key: key);
+
+  @override
+  State<NavBarView> createState() => _NavBarViewState();
+}
+
+class _NavBarViewState extends State<NavBarView> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.index != 0) {
+      context.read<NavBarController>().setSelectedIndex(widget.index);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +70,14 @@ class NavBarView extends StatelessWidget {
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: navigator.pageController,
-              children: const [
-                JobView(),
-                JobFilterView(),
-                BlogsView(),
-                ProfileView(),
+              children: [
+                const JobView(),
+                JobFilterView(
+                  searchText: widget.searchText,
+                  category: widget.category,
+                ),
+                const BlogsView(),
+                const ProfileView(),
               ],
             ),
             bottomNavigationBar: Material(

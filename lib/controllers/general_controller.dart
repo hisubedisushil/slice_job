@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/city_model.dart';
 import '../models/company_model.dart';
 import '../models/country_model.dart';
 import '../models/job_category_model.dart';
+import '../models/job_title_model.dart';
 import '../models/job_type_model.dart';
 import '../services/general_service.dart';
 import 'connectivity_controller.dart';
@@ -283,6 +285,44 @@ class GeneralController with ChangeNotifier {
 
     _isLoadingExperienceLevels = false;
     notifyListeners();
+  }
+
+  Future<List<JobTitleModel>> getJobTitles({required String categoryId}) async {
+    if (_connectivityController == null) {
+      return [];
+    }
+
+    if (_dioController == null) {
+      return [];
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return [];
+    }
+
+    return await _generalService.getJobTitles(
+      dio: _dioController!,
+      categoryId: categoryId,
+    );
+  }
+
+  Future<List<CityModel>> getCities({required String countryId}) async {
+    if (_connectivityController == null) {
+      return [];
+    }
+
+    if (_dioController == null) {
+      return [];
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return [];
+    }
+
+    return await _generalService.getCities(
+      dio: _dioController!,
+      countryId: countryId,
+    );
   }
 
   /// Data

@@ -17,7 +17,14 @@ import '../widgets/job_list_item_single.dart';
 import 'job_search_view.dart';
 
 class JobFilterView extends StatefulWidget {
-  const JobFilterView({Key? key}) : super(key: key);
+  final String? searchText;
+  final JobCategoryModel? category;
+
+  const JobFilterView({
+    Key? key,
+    this.searchText,
+    this.category,
+  }) : super(key: key);
 
   @override
   State<JobFilterView> createState() => _JobFilterViewState();
@@ -35,6 +42,10 @@ class _JobFilterViewState extends State<JobFilterView> {
   @override
   void initState() {
     super.initState();
+
+    _searchTextController.text = widget.searchText ?? '';
+    _category = widget.category;
+
     _initSearch();
   }
 
