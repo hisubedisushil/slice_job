@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
-import 'package:intl/intl.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
@@ -25,9 +24,29 @@ class WorkCertificateFormView extends StatefulWidget {
 
 class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
   final _title = TextEditingController();
-  final _startDate = TextEditingController();
-  final _endDate = TextEditingController();
   final _description = TextEditingController();
+  String? _startYear;
+  String? _startMonth;
+  String? _endYear;
+  String? _endMonth;
+
+  final List<String> _years = [
+    for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
+  ];
+  final List<String> _months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
   @override
   void initState() {
@@ -35,10 +54,26 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
 
     if (widget.certificate != null) {
       _title.text = widget.certificate?.title ?? '';
-      _startDate.text = '${widget.certificate?.issueYear ?? ''}'
-          '-${widget.certificate?.issueMonth ?? ''}';
-      _endDate.text = '${widget.certificate?.expireYear ?? ''}'
-          '-${widget.certificate?.expireMonth ?? ''}';
+      try {
+        _startYear = _years.firstWhere(
+          (e) => widget.certificate?.issueYear == e,
+        );
+      } catch (e) {}
+      try {
+        _endYear = _years.firstWhere(
+          (e) => widget.certificate?.expireYear == e,
+        );
+      } catch (e) {}
+      try {
+        _startMonth = _months.firstWhere(
+          (e) => widget.certificate?.issueMonth == e,
+        );
+      } catch (e) {}
+      try {
+        _endMonth = _months.firstWhere(
+          (e) => widget.certificate?.expireMonth == e,
+        );
+      } catch (e) {}
       _description.text = widget.certificate?.description ?? '';
     }
   }
@@ -46,8 +81,6 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
   @override
   void dispose() {
     _title.dispose();
-    _startDate.dispose();
-    _endDate.dispose();
     _description.dispose();
     super.dispose();
   }
@@ -97,89 +130,219 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                   // },
                 ),
                 const SizedBox(height: 10.0),
-                InkWell(
-                  onTap: () async {
-                    FocusScope.of(context).requestFocus(FocusNode());
-
-                    DateTime? d = await showDatePicker(
-                      context: context,
-                      initialDate: _startDate.text == ''
-                          ? DateTime.now()
-                          : DateFormat('yyyy-MM').parse(_startDate.text),
-                      firstDate: DateTime(1990),
-                      lastDate: DateTime(2100),
-                    );
-
-                    if (d != null) {
-                      _startDate.text = '${d.year}-${d.month}';
-                    }
-                  },
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: const Text(
-                        'Issue  Date',
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Issue Month',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                      labelStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _startMonth,
+                        items: _months.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _startMonth = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select Issue Month',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      fillColor: AppColors.white.withOpacity(0.8),
-                      hintStyle: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      filled: true,
-                    ),
-                    keyboardType: TextInputType.datetime,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    enabled: false,
-                    controller: _startDate,
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                InkWell(
-                  onTap: () async {
-                    FocusScope.of(context).requestFocus(FocusNode());
-
-                    DateTime? d = await showDatePicker(
-                      context: context,
-                      initialDate: _endDate.text == ''
-                          ? DateTime.now()
-                          : _endDate.text.split('-').first == ''
-                              ? DateTime.now()
-                              : DateFormat('yyyy-MM').parse(_endDate.text),
-                      firstDate: DateTime(1990),
-                      lastDate: DateTime(2100),
-                    );
-
-                    if (d != null) {
-                      _endDate.text = '${d.year}-${d.month}';
-                    }
-                  },
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: const Text(
-                        'Expire Date',
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Issue Year',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                      labelStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _startYear,
+                        items: _years.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _startYear = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select Issue Year',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Expire Month',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                      fillColor: AppColors.white.withOpacity(0.8),
-                      hintStyle: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _endMonth,
+                        items: _months.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _endMonth = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select Expire Month',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
                       ),
-                      filled: true,
-                    ),
-                    keyboardType: TextInputType.datetime,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    enabled: false,
-                    controller: _endDate,
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Expire Year',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _endYear,
+                        items: _years.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _endYear = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select Expire Year',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10.0),
@@ -244,8 +407,6 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
 
   _add() async {
     FocusScope.of(context).requestFocus(FocusNode());
-    List<String> from = _startDate.text.split('-');
-    List<String> to = _endDate.text.split('-');
 
     String result = await showDialog(
       context: context,
@@ -253,10 +414,10 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
         context.read<ProfileController>().postCertificate(
               id: widget.certificate?.id,
               title: _title.text,
-              issueMonth: from.length == 2 ? from[1] : '',
-              issueYear: from.length == 2 ? from[0] : '',
-              expireMonth: to.length == 2 ? to[1] : '',
-              expireYear: to.length == 2 ? to[0] : '',
+              issueMonth: _startMonth ?? '',
+              issueYear: _startYear ?? '',
+              expireMonth: _endMonth ?? '',
+              expireYear: _endYear ?? '',
               description: _description.text,
             ),
       ),

@@ -59,6 +59,7 @@ class ProfileService {
     required String dob,
     required String nationality,
     required String gender,
+    required String currentCountry,
     required String currentCity,
     required String qualification,
     required String experience,
@@ -73,8 +74,8 @@ class ProfileService {
           'dob': dob,
           'nationality': nationality,
           'gender': gender,
-          'curr_country': currentCity,
-          'curr_city': qualification,
+          'curr_country': currentCountry,
+          'curr_city': currentCity,
           'qualification': qualification,
           'experience': experience,
           'mobile_number': mobile,
@@ -281,7 +282,7 @@ class ProfileService {
 
   Future<String> updateCVTargetJob({
     required DioController dio,
-    required String jobRoleId,
+    required String jobRole,
     required String jobTitle,
     required String level,
     required String type,
@@ -292,7 +293,7 @@ class ProfileService {
       Response response = await dio.dioClient.post(
         'cv-targetjob-post',
         data: {
-          'job_role': jobRoleId,
+          'job_role': jobRole,
           'job_title': jobTitle,
           'career_level': level,
           'job_type': type,

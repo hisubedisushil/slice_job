@@ -60,7 +60,11 @@ class _MyCVViewState extends State<MyCVView> {
   String? _currency;
 
   final List<String> _genders = ['Male', 'Female', 'Other'];
-  final List<String> _maritalStatusTypes = ['Male', 'Female', 'Other'];
+  final List<String> _maritalStatusTypes = [
+    'Married',
+    'Unmarried',
+    'Unspecified'
+  ];
   final List<String> _currencyFormats = ['USD', 'NRP'];
   List<JobTitleModel> _jobTitles = [];
   List<CityModel> _cities = [];
@@ -89,6 +93,11 @@ class _MyCVViewState extends State<MyCVView> {
         );
       } catch (e) {}
       try {
+        _maritalStatus = _maritalStatusTypes.firstWhere(
+          (e) => model.maritalStatus == e,
+        );
+      } catch (e) {}
+      try {
         _currentLocation = general.countries.firstWhere(
           (e) => model.currentCountry == e.name,
         );
@@ -109,7 +118,7 @@ class _MyCVViewState extends State<MyCVView> {
         );
       } catch (e) {}
       try {
-        _jobTitles.add(JobTitleModel(title: model.jobRole ?? ''));
+        _jobTitles.add(JobTitleModel(title: model.jobTitle ?? ''));
         _jobTitle = _jobTitles.first;
       } catch (e) {}
       // _careerLevel = model.website ?? '';
@@ -1100,9 +1109,9 @@ class _MyCVViewState extends State<MyCVView> {
                             ),
                           ),
                           Text(
-                            '${work.fromMonth}/${work.fromYear} '
-                            '- '
-                            '${work.toMonth}/${work.toYear}',
+                            '${work.fromMonth} ${work.fromYear} '
+                            'to '
+                            '${work.toMonth} ${work.toYear}',
                             style: TextStyle(
                               color: AppColors.primary.withOpacity(0.7),
                               fontSize: 16.0,
@@ -1237,9 +1246,9 @@ class _MyCVViewState extends State<MyCVView> {
                             ),
                           ),
                           Text(
-                            '${education.startMonth}/${education.startYear} '
-                            '- '
-                            '${education.endMonth}/${education.endYear}',
+                            '${education.startMonth} ${education.startYear} '
+                            'to '
+                            '${education.endMonth} ${education.endYear}',
                             style: TextStyle(
                               color: AppColors.primary.withOpacity(0.7),
                               fontSize: 16.0,
@@ -1566,9 +1575,9 @@ class _MyCVViewState extends State<MyCVView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '${training.startMonth}/${training.startYear} '
-                            '- '
-                            '${training.endMonth}/${training.endYear}',
+                            '${training.startMonth} ${training.startYear} '
+                            'to '
+                            '${training.endMonth} ${training.endYear}',
                             style: TextStyle(
                               color: AppColors.primary.withOpacity(0.7),
                               fontSize: 16.0,
@@ -1678,9 +1687,9 @@ class _MyCVViewState extends State<MyCVView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '${certificate.issueMonth}/${certificate.issueYear} '
-                            '- '
-                            '${certificate.expireMonth}/${certificate.expireYear}',
+                            '${certificate.issueMonth} ${certificate.issueYear} '
+                            'to '
+                            '${certificate.expireMonth} ${certificate.expireYear}',
                             style: TextStyle(
                               color: AppColors.primary.withOpacity(0.7),
                               fontSize: 16.0,
@@ -1858,7 +1867,7 @@ class _MyCVViewState extends State<MyCVView> {
       context: context,
       builder: (context) => FutureProgressDialog(
         context.read<ProfileController>().updateCVTargetJob(
-              jobRoleId: _jobRole?.id ?? '',
+              jobRole: _jobRole?.name ?? '',
               jobTitle: _jobTitle?.title ?? '',
               level: _careerLevel?.name ?? '',
               type: _jobType?.name ?? '',

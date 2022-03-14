@@ -119,6 +119,7 @@ class ProfileController with ChangeNotifier {
     required String dob,
     required String nationality,
     required String gender,
+    required String currentCountry,
     required String currentCity,
     required String qualification,
     required String experience,
@@ -142,6 +143,7 @@ class ProfileController with ChangeNotifier {
       lastName: lastName,
       gender: gender,
       qualification: qualification,
+      currentCountry: currentCountry,
       currentCity: currentCity,
       mobile: mobile,
       nationality: nationality,
@@ -277,7 +279,7 @@ class ProfileController with ChangeNotifier {
   }
 
   Future<String> updateCVTargetJob({
-    required String jobRoleId,
+    required String jobRole,
     required String jobTitle,
     required String level,
     required String type,
@@ -298,7 +300,7 @@ class ProfileController with ChangeNotifier {
 
     String result = await _profileService.updateCVTargetJob(
       dio: _dioController!,
-      jobRoleId: jobRoleId,
+      jobRole: jobRole,
       jobTitle: jobTitle,
       level: level,
       type: type,

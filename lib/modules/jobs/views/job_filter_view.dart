@@ -322,6 +322,7 @@ class _JobFilterViewState extends State<JobFilterView> {
   _search() async {
     List<JobModel> jobs = await context.read<JobController>().searchJobs(
           page: _page,
+          title: _searchTextController.text.trim(),
           category: _category?.name ?? '',
           type: _type?.name ?? '',
           level: _level?.name ?? '',

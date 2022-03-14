@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
-import 'package:intl/intl.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
@@ -29,9 +28,30 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
   final _field = TextEditingController();
   final _institution = TextEditingController();
   final _city = TextEditingController();
-  final _startDate = TextEditingController();
-  final _endDate = TextEditingController();
   CountryModel? _country;
+
+  String? _startYear;
+  String? _startMonth;
+  String? _endYear;
+  String? _endMonth;
+
+  final List<String> _years = [
+    for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
+  ];
+  final List<String> _months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
   @override
   void initState() {
@@ -42,10 +62,26 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
       _field.text = widget.education?.field ?? '';
       _institution.text = widget.education?.institution ?? '';
       _city.text = widget.education?.city ?? '';
-      _startDate.text = '${widget.education?.startYear ?? ''}'
-          '-${widget.education?.startMonth ?? ''}';
-      _endDate.text = '${widget.education?.endYear ?? ''}'
-          '-${widget.education?.endMonth ?? ''}';
+      try {
+        _startYear = _years.firstWhere(
+          (e) => widget.education?.startYear == e,
+        );
+      } catch (e) {}
+      try {
+        _endYear = _years.firstWhere(
+          (e) => widget.education?.endYear == e,
+        );
+      } catch (e) {}
+      try {
+        _startMonth = _months.firstWhere(
+          (e) => widget.education?.startMonth == e,
+        );
+      } catch (e) {}
+      try {
+        _endMonth = _months.firstWhere(
+          (e) => widget.education?.endMonth == e,
+        );
+      } catch (e) {}
       try {
         _country = context.read<GeneralController>().countries.firstWhere(
               (e) => widget.education?.country == e.name,
@@ -60,8 +96,6 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
     _field.dispose();
     _institution.dispose();
     _city.dispose();
-    _startDate.dispose();
-    _endDate.dispose();
     super.dispose();
   }
 
@@ -250,87 +284,219 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
                   // },
                 ),
                 const SizedBox(height: 10.0),
-                InkWell(
-                  onTap: () async {
-                    FocusScope.of(context).requestFocus(FocusNode());
-
-                    DateTime? d = await showDatePicker(
-                      context: context,
-                      initialDate: _startDate.text == ''
-                          ? DateTime.now()
-                          : DateFormat('yyyy-MM').parse(_startDate.text),
-                      firstDate: DateTime(1990),
-                      lastDate: DateTime(2100),
-                    );
-
-                    if (d != null) {
-                      _startDate.text = '${d.year}-${d.month}';
-                    }
-                  },
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: const Text(
-                        'Start Date',
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Start Month',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                      labelStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _startMonth,
+                        items: _months.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _startMonth = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select Start Month',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      fillColor: AppColors.white.withOpacity(0.8),
-                      hintStyle: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      filled: true,
-                    ),
-                    keyboardType: TextInputType.datetime,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    enabled: false,
-                    controller: _startDate,
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                InkWell(
-                  onTap: () async {
-                    FocusScope.of(context).requestFocus(FocusNode());
-
-                    DateTime? d = await showDatePicker(
-                      context: context,
-                      initialDate: _endDate.text == ''
-                          ? DateTime.now()
-                          : DateFormat('yyyy-MM').parse(_endDate.text),
-                      firstDate: DateTime(1990),
-                      lastDate: DateTime(2100),
-                    );
-
-                    if (d != null) {
-                      _endDate.text = '${d.year}-${d.month}';
-                    }
-                  },
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: const Text(
-                        'End Date',
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Start Year',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                      labelStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _startYear,
+                        items: _years.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _startYear = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select Start Year',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'End Month',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                      fillColor: AppColors.white.withOpacity(0.8),
-                      hintStyle: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _endMonth,
+                        items: _months.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _endMonth = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select End Month',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
                       ),
-                      filled: true,
-                    ),
-                    keyboardType: TextInputType.datetime,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    enabled: false,
-                    controller: _endDate,
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: AppColors.white,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'End Year',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Divider(),
+                      DropdownButton<String>(
+                        value: _endYear,
+                        items: _years.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          _endYear = value;
+                          setState(() {});
+                        },
+                        hint: Text(
+                          'Select End Year',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        isExpanded: true,
+                        underline: Container(),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10.0),
@@ -364,8 +530,6 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
 
   _add() async {
     FocusScope.of(context).requestFocus(FocusNode());
-    List<String> from = _startDate.text.split('-');
-    List<String> to = _endDate.text.split('-');
 
     String result = await showDialog(
       context: context,
@@ -377,10 +541,10 @@ class _WorkEducationFormViewState extends State<WorkEducationFormView> {
               institution: _institution.text,
               country: _country?.name ?? '',
               city: _city.text,
-              startMonth: from.length == 2 ? from[1] : '',
-              startYear: from.length == 2 ? from[0] : '',
-              endMonth: to.length == 2 ? from[1] : '',
-              endYear: to.length == 2 ? from[0] : '',
+              startMonth: _startMonth ?? '',
+              startYear: _startYear ?? '',
+              endMonth: _endMonth ?? '',
+              endYear: _endYear ?? '',
             ),
       ),
     );

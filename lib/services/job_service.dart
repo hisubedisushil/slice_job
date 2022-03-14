@@ -53,15 +53,17 @@ class JobService {
     String experience = '',
   }) async {
     try {
-      Response response = await dio.dioClient.get(
-        'search-jobs?page=$page'
-        '&job_tittle=$title'
-        '&job_category=$category'
-        '&job_type=$type'
-        '&career_level=$level'
-        '&job_salary=$salary'
-        '&education_level=$education'
-        '&experience=$experience',
+      Response response = await dio.dioClient.post(
+        'search-jobs?page=$page',
+        data: {
+          'job_tittle': title,
+          'job_category': category,
+          'job_type': type,
+          'career_level': level,
+          'job_salary': salary,
+          'education_level': education,
+          'experience': experience,
+        },
       );
       log(response.requestOptions.uri.toString());
       log(

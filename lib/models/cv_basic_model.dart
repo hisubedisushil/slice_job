@@ -22,6 +22,7 @@ class CVBasicModel {
     String? contactNumber,
     String? website,
     String? jobRole,
+    String? jobTitle,
     String? careerLevel,
     String? jobType,
     String? targetSalary,
@@ -46,6 +47,7 @@ class CVBasicModel {
     _contactNumber = contactNumber;
     _website = website;
     _jobRole = jobRole;
+    _jobTitle = jobTitle;
     _careerLevel = careerLevel;
     _jobType = jobType;
     _targetSalary = targetSalary;
@@ -72,6 +74,7 @@ class CVBasicModel {
     _contactNumber = json['contact_number'];
     _website = json['website'];
     _jobRole = json['job_role'];
+    _jobTitle = json['job_title '];
     _careerLevel = json['career_level'];
     _jobType = json['job_type'];
     _targetSalary = json['target_salary'];
@@ -96,6 +99,7 @@ class CVBasicModel {
   String? _contactNumber;
   String? _website;
   String? _jobRole;
+  String? _jobTitle;
   String? _careerLevel;
   String? _jobType;
   String? _targetSalary;
@@ -120,6 +124,7 @@ class CVBasicModel {
   String? get contactNumber => _contactNumber;
   String? get website => _website;
   String? get jobRole => _jobRole;
+  String? get jobTitle => _jobTitle;
   String? get careerLevel => _careerLevel;
   String? get jobType => _jobType;
   String? get targetSalary => _targetSalary;
@@ -146,6 +151,7 @@ class CVBasicModel {
     map['contact_number'] = _contactNumber;
     map['website'] = _website;
     map['job_role'] = _jobRole;
+    map['job_title '] = _jobTitle;
     map['career_level'] = _careerLevel;
     map['job_type'] = _jobType;
     map['target_salary'] = _targetSalary;

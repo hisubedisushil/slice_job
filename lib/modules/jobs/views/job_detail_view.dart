@@ -679,44 +679,133 @@ class _JobDetailViewState extends State<JobDetailView> {
                 //     ],
                 //   ),
                 // ),
-                const SizedBox(height: 10.0),
-                MaterialButton(
-                  onPressed: () {
-                    if (context.read<AuthenticationController>().isLoggedIn) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (cxt) => JobApplyView(
-                            jobDetail: _jobDetail!,
+                if ((_jobDetail?.jobApplyUrl ?? '').isNotEmpty)
+                  const SizedBox(height: 10.0),
+                if ((_jobDetail?.jobApplyUrl ?? '').isNotEmpty)
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: AppColors.white,
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Interested candidate can directly apply to the '
+                          'official page ${_jobDetail?.jobApplyUrl}. We will '
+                          'let you know the detail after successful job apply. '
+                          'Good Luck for your career.',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
                           ),
                         ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (cxt) => const LoginView(),
+                        const SizedBox(height: 10.0),
+                        MaterialButton(
+                          onPressed: () {
+                            launch(_jobDetail?.jobApplyUrl ?? '');
+                          },
+                          child: Text(
+                            'Apply on Company Site',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          color: AppColors.primary,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          height: 44.0,
+                          elevation: 0.0,
                         ),
-                      );
-                    }
-                  },
-                  child: Text(
-                    'Apply Now',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                const SizedBox(height: 10.0),
+                if ((_jobDetail?.jobApplyUrl ?? '').isEmpty)
+                  MaterialButton(
+                    onPressed: () {
+                      if (context.read<AuthenticationController>().isLoggedIn) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (cxt) => JobApplyView(
+                              jobDetail: _jobDetail!,
+                            ),
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (cxt) => const LoginView(),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Apply Now',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: double.infinity,
+                    height: 56.0,
+                    elevation: 0.0,
                   ),
-                  color: AppColors.primary,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  minWidth: double.infinity,
-                  height: 56.0,
-                  elevation: 0.0,
-                ),
+                if ((_jobDetail?.jobApplyUrl ?? '').isNotEmpty &&
+                    (_jobDetail?.applicationReceieveBoth ?? '').trim() == 'yes')
+                  MaterialButton(
+                    onPressed: () {
+                      if (context.read<AuthenticationController>().isLoggedIn) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (cxt) => JobApplyView(
+                              jobDetail: _jobDetail!,
+                            ),
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (cxt) => const LoginView(),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Apply Now',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: double.infinity,
+                    height: 56.0,
+                    elevation: 0.0,
+                  ),
                 const SizedBox(height: 60.0),
               ],
             ),

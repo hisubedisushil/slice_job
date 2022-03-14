@@ -666,6 +666,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
               dob: _dob.text,
               nationality: _nationality.text,
               gender: _gender ?? '',
+              currentCountry: _country?.name ?? '',
               currentCity: _city.text,
               qualification: _qualification?.name ?? '',
               experience: _experience?.name ?? '',
