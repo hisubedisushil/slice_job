@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'modules/navbar/controllers/nav_bar_controller.dart';
 import 'my_app.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   LicenseRegistry.addLicense(() async* {

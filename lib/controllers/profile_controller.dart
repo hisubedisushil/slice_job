@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../models/appled_job_model.dart';
 import '../models/certificate_model.dart';
 import '../models/cv_basic_model.dart';
+import '../models/cv_download_response_model.dart';
 import '../models/education_model.dart';
 import '../models/experience_model.dart';
 import '../models/language_model.dart';
@@ -156,6 +161,31 @@ class ProfileController with ChangeNotifier {
     }
 
     return b;
+  }
+
+  Future<String?> uploadProfileImage({required String image}) async {
+    if (_connectivityController == null) {
+      return null;
+    }
+
+    if (_dioController == null) {
+      return null;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return null;
+    }
+
+    String result = await _profileService.uploadProfileImage(
+      dio: _dioController!,
+      image: image,
+    );
+
+    if (result.isEmpty) {
+      await getProfile();
+    }
+
+    return result;
   }
 
   Future<String> changePassword({
@@ -833,6 +863,42 @@ class ProfileController with ChangeNotifier {
     }
 
     return await _profileService.uploadCV(dio: _dioController!, cv: cv);
+  }
+
+  Future<String> getCVDownloadLink() async {
+    if (_connectivityController == null) {
+      return '';
+    }
+
+    if (_dioController == null) {
+      return '';
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return '';
+    }
+
+    CvDownloadResponseModel? cv = await _profileService.getCV(
+      dio: _dioController!,
+    );
+
+    // return cv?.data?.cvFile ?? '';
+
+    if (cv == null) {
+      return '';
+    } else {
+      try {
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        Response r = await Dio().download(
+          cv.data?.cvFile ?? '',
+          '${appDocDir.path}/cv.pdf',
+        );
+
+        return '${appDocDir.path}/cv.pdf';
+      } catch (e, s) {
+        return '';
+      }
+    }
   }
 
   /// Data

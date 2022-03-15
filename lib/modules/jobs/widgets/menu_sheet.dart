@@ -6,6 +6,11 @@ import '../../../constants/app_colors.dart';
 import '../../../controllers/authentication_controller.dart';
 import '../../login/views/login_view.dart';
 import '../../navbar/controllers/nav_bar_controller.dart';
+import '../../pages/about_us_view.dart';
+import '../../pages/contact_view.dart';
+import '../../pages/faq_view.dart';
+import '../../pages/privacy_view.dart';
+import '../../pages/term_view.dart';
 import '../../register/views/register_view.dart';
 
 class MenuSheet extends StatelessWidget {
@@ -207,6 +212,12 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AboutUsView(),
+                ),
+              );
             },
             leading: Icon(
               Ionicons.information_outline,
@@ -238,6 +249,12 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ContactView(),
+                ),
+              );
             },
             leading: Icon(
               Ionicons.call_outline,
@@ -269,6 +286,12 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const FAQView(),
+                ),
+              );
             },
             leading: Icon(
               Ionicons.help,
@@ -300,6 +323,12 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const TermView(),
+                ),
+              );
             },
             leading: Icon(
               Ionicons.reader_outline,
@@ -331,6 +360,12 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const PrivacyView(),
+                ),
+              );
             },
             leading: Icon(
               Ionicons.lock_closed_outline,

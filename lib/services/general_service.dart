@@ -5,20 +5,25 @@ import 'package:dio/dio.dart';
 import 'package:pretty_json/pretty_json.dart';
 
 import '../controllers/dio_controller.dart';
+import '../models/about_response_model.dart';
 import '../models/blog_categories_response_model.dart';
 import '../models/blog_category_model.dart';
 import '../models/city_model.dart';
 import '../models/city_response_model.dart';
 import '../models/company_model.dart';
 import '../models/company_response_model.dart';
+import '../models/contace_response_model.dart';
 import '../models/countries_response_model.dart';
 import '../models/country_model.dart';
+import '../models/faq_response_model.dart';
 import '../models/job_categories_response_model.dart';
 import '../models/job_category_model.dart';
 import '../models/job_title_model.dart';
 import '../models/job_title_response_model.dart';
 import '../models/job_type_model.dart';
 import '../models/job_types_response_model.dart';
+import '../models/policy_response_model.dart';
+import '../models/term_response_model.dart';
 
 class GeneralService {
   static GeneralService service = GeneralService();
@@ -273,6 +278,96 @@ class GeneralService {
     } on Exception catch (e, s) {
       log('Get City Error!', stackTrace: s, error: e);
       return [];
+    }
+  }
+
+  Future<PolicyResponseModel?> getPolicy({required DioController dio}) async {
+    try {
+      Response response = await dio.dioClient.get('page-policy');
+      log(prettyJson(response.data), name: 'getPolicy Response');
+      if (response.statusCode == 200) {
+        PolicyResponseModel model = policyResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getPolicy Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<TermResponseModel?> getTerm({required DioController dio}) async {
+    try {
+      Response response = await dio.dioClient.get('page-terms');
+      log(prettyJson(response.data), name: 'getTerm Response');
+      if (response.statusCode == 200) {
+        TermResponseModel model = termResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getTerm Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<AboutResponseModel?> getAbout({required DioController dio}) async {
+    try {
+      Response response = await dio.dioClient.get('page-about');
+      log(prettyJson(response.data), name: 'getAbout Response');
+      if (response.statusCode == 200) {
+        AboutResponseModel model = aboutResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getAbout Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<ContaceResponseModel?> getContact({required DioController dio}) async {
+    try {
+      Response response = await dio.dioClient.get('page-contact');
+      log(prettyJson(response.data), name: 'getContact Response');
+      if (response.statusCode == 200) {
+        ContaceResponseModel model = contaceResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getContact Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<FaqResponseModel?> getFaq({required DioController dio}) async {
+    try {
+      Response response = await dio.dioClient.get('page-faqs');
+      log(prettyJson(response.data), name: 'getFaq Response');
+      if (response.statusCode == 200) {
+        FaqResponseModel model = faqResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getFaq Error!', stackTrace: s, error: e);
+      return null;
     }
   }
 }

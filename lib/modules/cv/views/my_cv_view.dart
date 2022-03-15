@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:open_file/open_file.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
@@ -189,12 +190,7 @@ class _MyCVViewState extends State<MyCVView> {
           title: const Text('My CV'),
           actions: [
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Ionicons.eye_outline),
-              tooltip: 'View CV',
-            ),
-            IconButton(
-              onPressed: () {},
+              onPressed: _downloadCV,
               icon: const Icon(Ionicons.download_outline),
               tooltip: 'Download CV',
             ),
@@ -2168,6 +2164,45 @@ class _MyCVViewState extends State<MyCVView> {
         );
         return;
       }
+    }
+  }
+
+  _downloadCV() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    String result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        context.read<ProfileController>().getCVDownloadLink(),
+      ),
+    );
+    log(result.toString());
+
+    if (result.isNotEmpty) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Success",
+        message: "CV Downloaded Successfully.",
+        buttonText: 'Open CV',
+        onTapDismiss: () {
+          Navigator.pop(context);
+          OpenFile.open(result);
+        },
+        panaraDialogType: PanaraDialogType.success,
+        barrierDismissible: true,
+      );
+      return;
+    } else {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Failed",
+        message: result,
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
     }
   }
 }

@@ -1,26 +1,36 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:open_file/open_file.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
-import 'package:slice_job/modules/applied/views/applied_view.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../controllers/authentication_controller.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../widgets/header_widget.dart';
+import '../../applied/views/applied_view.dart';
 import '../../cv/views/my_cv_view.dart';
 import '../../login/views/login_view.dart';
 import '../../register/views/register_view.dart';
 import 'change_password_view.dart';
 import 'profile_update_view.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -149,7 +159,7 @@ class ProfileView extends StatelessWidget {
                       child: CircleAvatar(
                         backgroundColor: AppColors.primary,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: _uploadProfileImage,
                           icon: Icon(
                             Ionicons.camera_outline,
                             color: AppColors.white,
@@ -619,7 +629,7 @@ class ProfileView extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
-              onPressed: () {},
+              onPressed: _downloadCV,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -727,5 +737,109 @@ class ProfileView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _uploadProfileImage() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    FilePickerResult? file = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+    File? croppedFile;
+
+    if (file != null) {
+      croppedFile = await ImageCropper().cropImage(
+        sourcePath: file.files.single.path ?? '',
+        aspectRatioPresets: [CropAspectRatioPreset.square],
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Crop Profile Image',
+          toolbarColor: AppColors.primary,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.square,
+          lockAspectRatio: true,
+          hideBottomControls: true,
+        ),
+        iosUiSettings: const IOSUiSettings(
+          minimumAspectRatio: 1.0,
+          title: 'Crop Profile Image',
+          aspectRatioLockEnabled: true,
+        ),
+      );
+    }
+
+    if (croppedFile != null) {
+      String result = await showDialog(
+        context: context,
+        builder: (context) => FutureProgressDialog(
+          context
+              .read<ProfileController>()
+              .uploadProfileImage(image: croppedFile?.path ?? ''),
+        ),
+      );
+      log(result.toString());
+
+      if (result.isEmpty) {
+        await PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Success",
+          message: "Profile Image Updated Successfully.",
+          buttonText: 'Okay',
+          onTapDismiss: () => Navigator.pop(context),
+          panaraDialogType: PanaraDialogType.success,
+          barrierDismissible: true,
+        );
+        return;
+      } else {
+        await PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Failed",
+          message: result,
+          buttonText: 'Okay',
+          onTapDismiss: () => Navigator.pop(context),
+          panaraDialogType: PanaraDialogType.error,
+          barrierDismissible: true,
+        );
+        return;
+      }
+    }
+  }
+
+  _downloadCV() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+
+    String result = await showDialog(
+      context: context,
+      builder: (context) => FutureProgressDialog(
+        context.read<ProfileController>().getCVDownloadLink(),
+      ),
+    );
+    log(result.toString());
+
+    if (result.isNotEmpty) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Success",
+        message: "CV Downloaded Successfully.",
+        buttonText: 'Open CV',
+        onTapDismiss: () {
+          Navigator.pop(context);
+          OpenFile.open(result);
+        },
+        panaraDialogType: PanaraDialogType.success,
+        barrierDismissible: true,
+      );
+      return;
+    } else {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Failed",
+        message: result,
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
   }
 }

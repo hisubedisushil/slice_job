@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../models/about_response_model.dart';
 import '../models/blog_category_model.dart';
 import '../models/city_model.dart';
 import '../models/company_model.dart';
+import '../models/contace_response_model.dart';
 import '../models/country_model.dart';
+import '../models/faq_response_model.dart';
 import '../models/job_category_model.dart';
 import '../models/job_title_model.dart';
 import '../models/job_type_model.dart';
+import '../models/policy_response_model.dart';
+import '../models/term_response_model.dart';
 import '../services/general_service.dart';
 import 'connectivity_controller.dart';
 import 'dio_controller.dart';
@@ -32,6 +37,11 @@ class GeneralController with ChangeNotifier {
       getSalaryList();
       getEducationLevels();
       getExperienceLevels();
+      getAboutUs();
+      getContactUs();
+      getFaqs();
+      getTerms();
+      getPrivacy();
     }
   }
 
@@ -317,6 +327,96 @@ class GeneralController with ChangeNotifier {
     notifyListeners();
   }
 
+  getAboutUs() async {
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    _aboutUs = await _generalService.getAbout(dio: _dioController!);
+
+    notifyListeners();
+  }
+
+  getContactUs() async {
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    _contactUs = await _generalService.getContact(dio: _dioController!);
+
+    notifyListeners();
+  }
+
+  getFaqs() async {
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    _faq = await _generalService.getFaq(dio: _dioController!);
+
+    notifyListeners();
+  }
+
+  getTerms() async {
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    _terms = await _generalService.getTerm(dio: _dioController!);
+
+    notifyListeners();
+  }
+
+  getPrivacy() async {
+    if (_connectivityController == null) {
+      return;
+    }
+
+    if (_dioController == null) {
+      return;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return;
+    }
+
+    _privacy = await _generalService.getPolicy(dio: _dioController!);
+
+    notifyListeners();
+  }
+
   Future<List<JobTitleModel>> getJobTitles({required String categoryId}) async {
     if (_connectivityController == null) {
       return [];
@@ -415,4 +515,19 @@ class GeneralController with ChangeNotifier {
 
   final List<JobTypeModel> _experienceLevels = [];
   List<JobTypeModel> get experienceLevels => _experienceLevels;
+
+  AboutResponseModel? _aboutUs;
+  AboutResponseModel? get aboutUs => _aboutUs;
+
+  ContaceResponseModel? _contactUs;
+  ContaceResponseModel? get contactUs => _contactUs;
+
+  FaqResponseModel? _faq;
+  FaqResponseModel? get faq => _faq;
+
+  TermResponseModel? _terms;
+  TermResponseModel? get terms => _terms;
+
+  PolicyResponseModel? _privacy;
+  PolicyResponseModel? get privacy => _privacy;
 }

@@ -7,32 +7,19 @@ import '../../../controllers/general_controller.dart';
 import '../../../controllers/job_controller.dart';
 import '../../../widgets/header_widget.dart';
 import '../../navbar/controllers/nav_bar_controller.dart';
-import '../../navbar/views/nav_bar_view.dart';
 import '../widgets/job_list_item.dart';
 import '../widgets/job_list_item_single.dart';
 import '../widgets/top_employer_list_item.dart';
 import 'job_category_view.dart';
 
-class JobView extends StatefulWidget {
+class JobView extends StatelessWidget {
   const JobView({Key? key}) : super(key: key);
-
-  @override
-  State<JobView> createState() => _JobViewState();
-}
-
-class _JobViewState extends State<JobView> {
-  final _searchText = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchText.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final jobController = context.watch<JobController>();
     final generalController = context.watch<GeneralController>();
+    final navController = context.watch<NavBarController>();
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -51,71 +38,76 @@ class _JobViewState extends State<JobView> {
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Row(
                     children: [
-                      // Material(
-                      //   borderRadius: const BorderRadius.horizontal(
-                      //     left: Radius.circular(24.0),
-                      //   ),
-                      //   color: AppColors.primary.withOpacity(0.2),
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(5.5),
-                      //     child: Icon(
-                      //       Ionicons.search_outline,
-                      //       color: AppColors.primary,
-                      //       size: 24.0,
-                      //     ),
-                      //   ),
-                      // ),
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.horizontal(
-                            right: Radius.circular(24.0),
-                            left: Radius.circular(24.0),
-                          ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              disabledBorder: InputBorder.none,
-                              border: InputBorder.none,
-                              fillColor: AppColors.primary.withOpacity(0.2),
-                              hintText: 'Search jobs here ...',
-                              hintStyle: TextStyle(
-                                color: AppColors.grey,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              filled: true,
-                              isDense: true,
-                              // enabled: false,
-                            ),
-                          ),
+                      Material(
+                        borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(24.0),
                         ),
-                      ),
-                      const SizedBox(width: 5.0),
-                      IconButton(
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          context.read<NavBarController>().setSelectedIndex(1);
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (cxt) => NavBarView(
-                                searchText: _searchText.text,
-                              ),
-                            ),
-                            (route) => false,
-                          );
-                          setState(() {});
-                        },
-                        icon: CircleAvatar(
-                          backgroundColor: AppColors.primary,
-                          radius: 18.0,
+                        color: AppColors.primary.withOpacity(0.2),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.5),
                           child: Icon(
                             Ionicons.search_outline,
-                            color: AppColors.white,
-                            size: 20.0,
+                            color: AppColors.primary,
+                            size: 24.0,
                           ),
                         ),
-                        visualDensity: VisualDensity.compact,
-                        padding: EdgeInsets.zero,
                       ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            navController.setSelectedIndex(1);
+                          },
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.horizontal(
+                              right: Radius.circular(24.0),
+                              // left: Radius.circular(24.0),
+                            ),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                disabledBorder: InputBorder.none,
+                                border: InputBorder.none,
+                                fillColor: AppColors.primary.withOpacity(0.2),
+                                hintText: 'Search jobs here...',
+                                hintStyle: TextStyle(
+                                  color: AppColors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                filled: true,
+                                isDense: true,
+                                enabled: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // const SizedBox(width: 5.0),
+                      // IconButton(
+                      //   onPressed: () {
+                      //     FocusScope.of(context).requestFocus(FocusNode());
+                      //     context.read<NavBarController>().setSelectedIndex(1);
+                      //     Navigator.pushAndRemoveUntil(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (cxt) => NavBarView(
+                      //           searchText: _searchText.text,
+                      //         ),
+                      //       ),
+                      //       (route) => false,
+                      //     );
+                      //     setState(() {});
+                      //   },
+                      //   icon: CircleAvatar(
+                      //     backgroundColor: AppColors.primary,
+                      //     radius: 18.0,
+                      //     child: Icon(
+                      //       Ionicons.search_outline,
+                      //       color: AppColors.white,
+                      //       size: 20.0,
+                      //     ),
+                      //   ),
+                      //   visualDensity: VisualDensity.compact,
+                      //   padding: EdgeInsets.zero,
+                      // ),
                     ],
                   ),
                 ),

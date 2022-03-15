@@ -12,6 +12,7 @@ import '../models/certificate_list_response_model.dart';
 import '../models/certificate_model.dart';
 import '../models/cv_basic_all_response_model.dart';
 import '../models/cv_basic_model.dart';
+import '../models/cv_download_response_model.dart';
 import '../models/education_list_response_model.dart';
 import '../models/education_model.dart';
 import '../models/experience_model.dart';
@@ -48,6 +49,29 @@ class ProfileService {
       }
     } on Exception catch (e, s) {
       log('Get Profile Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<CvDownloadResponseModel?> getCV({
+    required DioController dio,
+  }) async {
+    try {
+      Response response = await dio.dioClient.get('cv-download-pdf');
+      log(
+        prettyJson(response.data),
+        name: 'getCV Response',
+      );
+      if (response.statusCode == 200) {
+        CvDownloadResponseModel model = cvDownloadResponseModelFromJson(
+          jsonEncode(response.data),
+        );
+        return model;
+      } else {
+        return null;
+      }
+    } on Exception catch (e, s) {
+      log('getCV Error!', stackTrace: s, error: e);
       return null;
     }
   }
@@ -95,6 +119,56 @@ class ProfileService {
     } on Exception catch (e, s) {
       log('Update Profile Error!', stackTrace: s, error: e);
       return false;
+    }
+  }
+
+  Future<String> uploadProfileImage({
+    required DioController dio,
+    required String image,
+  }) async {
+    try {
+      String token = await PreferenceService.service.token;
+      log(token);
+
+      FormData fd = FormData.fromMap({
+        'avatar': await MultipartFile.fromFile(image),
+      });
+
+      Response response = await Dio().post(
+        '${AppApis.baseUrlV1}profile-picture',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+            'Accept': '*/*',
+          },
+        ),
+        data: fd,
+      );
+
+      log(prettyJson(response.data), name: 'uploadProfileImage Response');
+
+      if (response.statusCode == 200) {
+        if (!(response.data['status'] as bool)) {
+          return response.data['message'] as String;
+        }
+        return '';
+      } else {
+        if (response.data['message'] != null) {
+          return response.data['message'] as String;
+        }
+        return 'Oops! Something went wrong. Please try again.';
+      }
+    } on Exception catch (e, s) {
+      log('uploadProfileImage Error!', stackTrace: s, error: e);
+      if (e is DioError) {
+        if ((e.response?.statusCode ?? 0) == 404) {
+          if (e.response?.data['message'] != null) {
+            return e.response?.data['message'] as String;
+          }
+        }
+      }
+      return 'Oops! Something went wrong. Please try again.';
     }
   }
 
