@@ -370,4 +370,48 @@ class GeneralService {
       return null;
     }
   }
+
+  Future<String> contactUs({
+    required DioController dio,
+    required String name,
+    required String email,
+    required String number,
+    required String message,
+  }) async {
+    try {
+      Response response = await dio.dioClient.post(
+        'contact-us',
+        data: {
+          "name": name,
+          "email": email,
+          "number": number,
+          "message": message,
+        },
+      );
+
+      log(prettyJson(response.data), name: 'contactUs Response');
+
+      if (response.statusCode == 200) {
+        if (!(response.data['status'] as bool)) {
+          return response.data['message'] as String;
+        }
+        return '';
+      } else {
+        if (response.data['message'] != null) {
+          return response.data['message'] as String;
+        }
+        return 'Oops! Something went wrong. Please try again.';
+      }
+    } on Exception catch (e, s) {
+      log('contactUs Error!', stackTrace: s, error: e);
+      if (e is DioError) {
+        if ((e.response?.statusCode ?? 0) == 404) {
+          if (e.response?.data['message'] != null) {
+            return e.response?.data['message'] as String;
+          }
+        }
+      }
+      return 'Oops! Something went wrong. Please try again.';
+    }
+  }
 }
