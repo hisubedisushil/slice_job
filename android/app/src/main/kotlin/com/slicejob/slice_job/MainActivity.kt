@@ -1,4 +1,4 @@
-package np.com.alokmishra.slice_job
+package com.slicejob.slice_job
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -455,6 +455,33 @@ class GeneralController with ChangeNotifier {
     );
   }
 
+  Future<String> contactSend({
+    required String name,
+    required String email,
+    required String number,
+    required String message,
+  }) async {
+    if (_connectivityController == null) {
+      return 'Network Error!';
+    }
+
+    if (_dioController == null) {
+      return 'Network Error!';
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return 'Network Error!';
+    }
+
+    return await _generalService.contactUs(
+      dio: _dioController!,
+      name: name,
+      email: email,
+      number: number,
+      message: message,
+    );
+  }
+
   /// Data
   bool _isLoadingAllJobCategories = false;
   bool get isLoadingAllJobCategories => _isLoadingAllJobCategories;

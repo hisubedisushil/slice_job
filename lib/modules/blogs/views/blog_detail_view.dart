@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants/app_colors.dart';
@@ -126,6 +128,21 @@ class _BlogDetailViewState extends State<BlogDetailView> {
               ),
             ],
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Share.share(
+                  '${_blog?.title}\n'
+                  '${_blog?.link}',
+                  subject: _blog?.title,
+                );
+              },
+              icon: Icon(
+                Ionicons.share_outline,
+                color: AppColors.white,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

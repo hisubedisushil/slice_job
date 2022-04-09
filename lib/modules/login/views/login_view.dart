@@ -6,7 +6,6 @@ import 'package:ionicons/ionicons.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 import 'package:slice_job/controllers/authentication_controller.dart';
-import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants/app_colors.dart';
@@ -222,14 +221,14 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
-                  SocialLoginButton(
-                    buttonType: SocialLoginButtonType.facebook,
-                    borderRadius: 10.0,
-                    height: 56.0,
-                    text: 'Login Using Facebook',
-                    onPressed: () {},
-                  ),
+                  // const SizedBox(height: 20.0),
+                  // SocialLoginButton(
+                  //   buttonType: SocialLoginButtonType.facebook,
+                  //   borderRadius: 10.0,
+                  //   height: 56.0,
+                  //   text: 'Login Using Facebook',
+                  //   onPressed: () {},
+                  // ),
                 ],
               ),
             ),

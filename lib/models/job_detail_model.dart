@@ -25,6 +25,7 @@ class JobDetailModel {
     String? benefits,
     String? descriptions,
     String? postDate,
+    String? link,
     CompanyModel? company,
   }) {
     _id = id;
@@ -44,6 +45,7 @@ class JobDetailModel {
     _benefits = benefits;
     _descriptions = descriptions;
     _postDate = postDate;
+    _link = link;
     _company = company;
   }
 
@@ -65,6 +67,7 @@ class JobDetailModel {
     _benefits = json['benefits'];
     _descriptions = json['descriptions'];
     _postDate = json['post_date'];
+    _link = json['link'];
     _company =
         json['company'] != null ? CompanyModel.fromJson(json['company']) : null;
   }
@@ -85,6 +88,7 @@ class JobDetailModel {
   String? _benefits;
   String? _descriptions;
   String? _postDate;
+  String? _link;
   CompanyModel? _company;
 
   String? get id => _id;
@@ -104,6 +108,7 @@ class JobDetailModel {
   String? get benefits => _benefits;
   String? get descriptions => _descriptions;
   String? get postDate => _postDate;
+  String? get link => _link;
   CompanyModel? get company => _company;
 
   Map<String, dynamic> toJson() {
@@ -125,6 +130,7 @@ class JobDetailModel {
     map['benefits'] = _benefits;
     map['descriptions'] = _descriptions;
     map['post_date'] = _postDate;
+    map['link'] = _link;
     if (_company != null) {
       map['company'] = _company?.toJson();
     }

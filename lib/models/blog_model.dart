@@ -18,6 +18,7 @@ class BlogModel {
     String? addDate,
     String? categoryId,
     String? categoryName,
+    String? link,
   }) {
     _id = id;
     _title = title;
@@ -32,6 +33,7 @@ class BlogModel {
     _addDate = addDate;
     _categoryId = categoryId;
     _categoryName = categoryName;
+    _link = link;
   }
 
   BlogModel.fromJson(dynamic json) {
@@ -48,6 +50,7 @@ class BlogModel {
     _addDate = json['add_date'];
     _categoryId = json['category_id'];
     _categoryName = json['category_name'];
+    _link = json['link'];
   }
   String? _id;
   String? _title;
@@ -62,6 +65,7 @@ class BlogModel {
   String? _addDate;
   String? _categoryId;
   String? _categoryName;
+  String? _link;
 
   String? get id => _id;
   String? get title => _title;
@@ -76,6 +80,7 @@ class BlogModel {
   String? get addDate => _addDate;
   String? get categoryId => _categoryId;
   String? get categoryName => _categoryName;
+  String? get link => _link;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -92,6 +97,7 @@ class BlogModel {
     map['add_date'] = _addDate;
     map['category_id'] = _categoryId;
     map['category_name'] = _categoryName;
+    map['link'] = _link;
     return map;
   }
 }
