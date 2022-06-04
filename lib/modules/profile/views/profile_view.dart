@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
@@ -75,6 +74,12 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       );
                     },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 0.0,
                     child: Text(
                       'Login',
                       style: TextStyle(
@@ -83,12 +88,6 @@ class _ProfileViewState extends State<ProfileView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: AppColors.primary,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    elevation: 0.0,
                   ),
                   const SizedBox(height: 10.0),
                   MaterialButton(
@@ -100,6 +99,12 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       );
                     },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.transparent,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 0.0,
                     child: Text(
                       'Register',
                       style: TextStyle(
@@ -108,12 +113,6 @@ class _ProfileViewState extends State<ProfileView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: Colors.transparent,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    elevation: 0.0,
                   ),
                 ],
               ),
@@ -496,6 +495,14 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 );
               },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: AppColors.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minWidth: double.infinity,
+              height: 56.0,
+              elevation: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -514,14 +521,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: AppColors.primary,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minWidth: double.infinity,
-              height: 56.0,
-              elevation: 0.0,
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
@@ -533,6 +532,14 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 );
               },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: AppColors.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minWidth: double.infinity,
+              height: 56.0,
+              elevation: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -551,14 +558,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: AppColors.primary,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minWidth: double.infinity,
-              height: 56.0,
-              elevation: 0.0,
             ),
             // const SizedBox(height: 10.0),
             // MaterialButton(
@@ -600,6 +599,14 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 );
               },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: AppColors.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minWidth: double.infinity,
+              height: 56.0,
+              elevation: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -618,6 +625,10 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 10.0),
+            MaterialButton(
+              onPressed: _downloadCV,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
@@ -626,10 +637,6 @@ class _ProfileViewState extends State<ProfileView> {
               minWidth: double.infinity,
               height: 56.0,
               elevation: 0.0,
-            ),
-            const SizedBox(height: 10.0),
-            MaterialButton(
-              onPressed: _downloadCV,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -648,14 +655,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: AppColors.primary,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minWidth: double.infinity,
-              height: 56.0,
-              elevation: 0.0,
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
@@ -667,6 +666,14 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 );
               },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: AppColors.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minWidth: double.infinity,
+              height: 56.0,
+              elevation: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -685,14 +692,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: AppColors.primary,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minWidth: double.infinity,
-              height: 56.0,
-              elevation: 0.0,
             ),
             const SizedBox(height: 10.0),
             MaterialButton(
@@ -705,6 +704,14 @@ class _ProfileViewState extends State<ProfileView> {
                 );
                 log(result.toString());
               },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: AppColors.red,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minWidth: double.infinity,
+              height: 56.0,
+              elevation: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -723,14 +730,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: AppColors.red,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              minWidth: double.infinity,
-              height: 56.0,
-              elevation: 0.0,
             ),
             const SizedBox(height: 60.0),
           ],
@@ -745,25 +744,27 @@ class _ProfileViewState extends State<ProfileView> {
     FilePickerResult? file = await FilePicker.platform.pickFiles(
       type: FileType.image,
     );
-    File? croppedFile;
+    CroppedFile? croppedFile;
 
     if (file != null) {
       croppedFile = await ImageCropper().cropImage(
         sourcePath: file.files.single.path ?? '',
         aspectRatioPresets: [CropAspectRatioPreset.square],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Crop Profile Image',
-          toolbarColor: AppColors.primary,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-          hideBottomControls: true,
-        ),
-        iosUiSettings: const IOSUiSettings(
-          minimumAspectRatio: 1.0,
-          title: 'Crop Profile Image',
-          aspectRatioLockEnabled: true,
-        ),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Profile Image',
+            toolbarColor: AppColors.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true,
+            hideBottomControls: true,
+          ),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+            title: 'Crop Profile Image',
+            aspectRatioLockEnabled: true,
+          ),
+        ],
       );
     }
 

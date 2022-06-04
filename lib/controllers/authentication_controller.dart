@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../models/login_response_model.dart';
@@ -15,9 +18,43 @@ class AuthenticationController with ChangeNotifier {
   final _preferenceService = PreferenceService.service;
 
   AuthenticationController(this._connectivityController, this._dioController) {
+    if (_dioController != null) {
+      _dioController?.setInterceptor(
+        InterceptorsWrapper(
+          onRequest: _onRequest,
+          onResponse: _onResponse,
+          onError: _onError,
+        ),
+      );
+    }
     if (_connectivityController != null && _dioController != null) {
       _initLogin();
     }
+  }
+
+  _onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    String token = await PreferenceService.service.token;
+    if (token.isNotEmpty) {
+      options.headers.addAll(
+        {'Authorization': 'Bearer $token'},
+      );
+    }
+    return handler.next(options);
+  }
+
+  _onResponse(Response response, ResponseInterceptorHandler handler) async {
+    return handler.next(response);
+  }
+
+  _onError(DioError error, ErrorInterceptorHandler handler) async {
+    try {
+      if (!((error.response?.data['status'] ?? false) as bool)) {
+        logOut();
+      }
+    } catch (error, stacktrace) {
+      log('API Error Caught', error: error, stackTrace: stacktrace);
+    }
+    return handler.next(error);
   }
 
   _initLogin() async {
@@ -30,6 +67,7 @@ class AuthenticationController with ChangeNotifier {
     required String firstName,
     required String lastName,
     required String email,
+    required String phone,
     required String password,
     required String rePassword,
   }) async {
@@ -50,6 +88,7 @@ class AuthenticationController with ChangeNotifier {
       firstName: firstName,
       lastName: lastName,
       email: email,
+      phone: phone,
       password: password,
       rePassword: rePassword,
     );
@@ -95,6 +134,7 @@ class AuthenticationController with ChangeNotifier {
 
   Future<bool> verify({
     required String email,
+    required String phone,
     required String pin,
   }) async {
     if (_connectivityController == null) {
@@ -112,6 +152,7 @@ class AuthenticationController with ChangeNotifier {
     bool b = await _authenticationService.registerVerify(
       dio: _dioController!,
       email: email,
+      phone: phone,
       code: pin,
     );
 

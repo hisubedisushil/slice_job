@@ -12,6 +12,7 @@ import 'controllers/dio_controller.dart';
 import 'controllers/general_controller.dart';
 import 'controllers/job_controller.dart';
 import 'controllers/profile_controller.dart';
+import 'controllers/test_controller.dart';
 import 'modules/splash/views/splash_view.dart';
 
 class MyApp extends StatelessWidget {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           create: (cxt) => ConnectivityController(),
         ),
         ChangeNotifierProvider(
-          create: (cxt) => DioController(cxt),
+          create: (cxt) => DioController(),
         ),
         ChangeNotifierProxyProvider2<ConnectivityController, DioController,
             AuthenticationController>(
@@ -50,6 +51,15 @@ class MyApp extends StatelessWidget {
             AuthenticationController, DioController, JobController>(
           create: (cxt) => JobController(null, null, null),
           update: (cxt, conn, auth, dio, pack) => JobController(
+            conn,
+            auth,
+            dio,
+          ),
+        ),
+        ChangeNotifierProxyProvider3<ConnectivityController,
+            AuthenticationController, DioController, TestController>(
+          create: (cxt) => TestController(null, null, null),
+          update: (cxt, conn, auth, dio, pack) => TestController(
             conn,
             auth,
             dio,

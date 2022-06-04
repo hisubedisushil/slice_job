@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
@@ -24,6 +25,7 @@ class _RegisterViewState extends State<RegisterView> {
   final _first = TextEditingController();
   final _last = TextEditingController();
   final _email = TextEditingController();
+  final _phone = TextEditingController();
   final _password = TextEditingController();
   final _rePassword = TextEditingController();
 
@@ -38,6 +40,7 @@ class _RegisterViewState extends State<RegisterView> {
     _first.dispose();
     _last.dispose();
     _email.dispose();
+    _phone.dispose();
     _password.dispose();
     _rePassword.dispose();
     super.dispose();
@@ -91,6 +94,7 @@ class _RegisterViewState extends State<RegisterView> {
                             filled: true,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textCapitalization: TextCapitalization.words,
                           validator: (value) {
                             if (((value ?? '').isEmpty)) {
                               return 'Please enter first name.';
@@ -123,6 +127,7 @@ class _RegisterViewState extends State<RegisterView> {
                             filled: true,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textCapitalization: TextCapitalization.words,
                           validator: (value) {
                             if (((value ?? '').isEmpty)) {
                               return 'Please enter last name.';
@@ -165,6 +170,38 @@ class _RegisterViewState extends State<RegisterView> {
                       return null;
                     },
                     controller: _email,
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      label: const Text(
+                        'Mobile',
+                      ),
+                      labelStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fillColor: AppColors.white.withOpacity(0.8),
+                      hintStyle: TextStyle(
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      filled: true,
+                    ),
+                    keyboardType: TextInputType.phone,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    validator: (value) {
+                      if ((value ?? '').length != 10) {
+                        return 'Please enter valid mobile number';
+                      }
+                      return null;
+                    },
+                    controller: _phone,
                   ),
                   const SizedBox(height: 10.0),
                   TextFormField(
@@ -334,8 +371,10 @@ class _RegisterViewState extends State<RegisterView> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      launch(
-                                        'https://www.slicejob.com/company/terms',
+                                      launchUrl(
+                                        Uri.parse(
+                                          'https://www.slicejob.com/company/terms',
+                                        ),
                                       );
                                     },
                                 ),
@@ -354,8 +393,10 @@ class _RegisterViewState extends State<RegisterView> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      launch(
-                                        'https://www.slicejob.com/company/policy',
+                                      launchUrl(
+                                        Uri.parse(
+                                          'https://www.slicejob.com/company/policy',
+                                        ),
                                       );
                                     },
                                 ),
@@ -395,14 +436,6 @@ class _RegisterViewState extends State<RegisterView> {
                       Expanded(
                         child: MaterialButton(
                           onPressed: _register,
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -412,6 +445,14 @@ class _RegisterViewState extends State<RegisterView> {
                           minWidth: double.infinity,
                           height: 56.0,
                           elevation: 0.0,
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -517,6 +558,19 @@ class _RegisterViewState extends State<RegisterView> {
       return;
     }
 
+    if (_phone.text.length != 10) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Invalid Mobile Number",
+        message: "Please enter valid mobile number",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
+
     if (_password.text.length < 6) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
@@ -550,6 +604,7 @@ class _RegisterViewState extends State<RegisterView> {
               firstName: _first.text,
               lastName: _last.text,
               email: _email.text,
+              phone: _phone.text,
               password: _password.text,
               rePassword: _rePassword.text,
             ),
@@ -564,6 +619,7 @@ class _RegisterViewState extends State<RegisterView> {
           builder: (_) => VerifyView(
             name: _first.text,
             email: _email.text,
+            phone: _phone.text,
           ),
         ),
       );

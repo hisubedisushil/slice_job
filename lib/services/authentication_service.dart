@@ -16,6 +16,7 @@ class AuthenticationService {
     required String firstName,
     required String lastName,
     required String email,
+    required String phone,
     required String password,
     required String rePassword,
   }) async {
@@ -26,6 +27,7 @@ class AuthenticationService {
           "first_name": firstName,
           "last_name": lastName,
           "email": email,
+          "phone": phone,
           "password": password,
           "repassword": rePassword,
         },
@@ -54,6 +56,7 @@ class AuthenticationService {
   Future<bool> registerVerify({
     required DioController dio,
     required String email,
+    required String phone,
     required String code,
   }) async {
     try {
@@ -61,6 +64,7 @@ class AuthenticationService {
         'register-verify',
         data: {
           "email": email,
+          "phone": phone,
           "code": code,
         },
       );

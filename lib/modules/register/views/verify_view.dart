@@ -14,11 +14,13 @@ import '../../login/views/login_view.dart';
 class VerifyView extends StatefulWidget {
   final String name;
   final String email;
+  final String phone;
 
   const VerifyView({
     Key? key,
     required this.name,
     required this.email,
+    required this.phone,
   }) : super(key: key);
 
   @override
@@ -113,14 +115,6 @@ class _VerifyViewState extends State<VerifyView> {
                       Expanded(
                         child: MaterialButton(
                           onPressed: _verify,
-                          child: Text(
-                            'Verify',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -130,6 +124,14 @@ class _VerifyViewState extends State<VerifyView> {
                           minWidth: double.infinity,
                           height: 56.0,
                           elevation: 0.0,
+                          child: Text(
+                            'Verify',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -162,9 +164,11 @@ class _VerifyViewState extends State<VerifyView> {
     bool? result = await showDialog(
       context: context,
       builder: (context) => FutureProgressDialog(
-        context
-            .read<AuthenticationController>()
-            .verify(email: widget.email, pin: _otp.text),
+        context.read<AuthenticationController>().verify(
+              email: widget.email,
+              phone: widget.phone,
+              pin: _otp.text,
+            ),
       ),
     );
     log(result.toString());

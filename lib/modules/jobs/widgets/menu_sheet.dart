@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants/app_colors.dart';
-import '../../../controllers/authentication_controller.dart';
-import '../../login/views/login_view.dart';
-import '../../navbar/controllers/nav_bar_controller.dart';
-import '../../pages/about_us_view.dart';
-import '../../pages/contact_view.dart';
-import '../../pages/faq_view.dart';
-import '../../pages/privacy_view.dart';
-import '../../pages/term_view.dart';
-import '../../register/views/register_view.dart';
+import '/constants/app_colors.dart';
+import '/controllers/authentication_controller.dart';
+import '/controllers/test_controller.dart';
+import '/modules/login/views/login_view.dart';
+import '/modules/navbar/controllers/nav_bar_controller.dart';
+import '/modules/pages/about_us_view.dart';
+import '/modules/pages/contact_view.dart';
+import '/modules/pages/faq_view.dart';
+import '/modules/pages/privacy_view.dart';
+import '/modules/pages/term_view.dart';
+import '/modules/register/views/register_view.dart';
+import '/modules/test/views/test_categories_view.dart';
 
 class MenuSheet extends StatelessWidget {
   const MenuSheet({Key? key}) : super(key: key);
@@ -189,6 +191,44 @@ class MenuSheet extends StatelessWidget {
             ),
             title: Text(
               'Blogs',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: AppColors.black,
+              ),
+            ),
+            horizontalTitleGap: 0.0,
+            dense: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        ),
+        const Divider(
+          height: 0.0,
+          indent: 20.0,
+          endIndent: 20.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: ListTile(
+            onTap: () {
+              context.read<TestController>().getTestCategories();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const TestCategoriesView(),
+                ),
+              );
+            },
+            leading: Icon(
+              Ionicons.clipboard_outline,
+              color: AppColors.primary,
+              size: 24.0,
+            ),
+            title: Text(
+              'Test Yourself',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
