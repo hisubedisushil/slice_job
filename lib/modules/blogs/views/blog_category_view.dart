@@ -31,14 +31,18 @@ class _BlogCategoryViewState extends State<BlogCategoryView> {
 
   _initSearch() {
     _searching = true;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     _page = 1;
     _search();
     Timer(
       const Duration(seconds: 3),
       () {
         _searching = false;
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       },
     );
   }
@@ -72,7 +76,9 @@ class _BlogCategoryViewState extends State<BlogCategoryView> {
                       log(scrollInfo.metrics.pixels.toString());
                       _page++;
                       _loadingMore = true;
-                      setState(() {});
+                      if (mounted) {
+                        setState(() {});
+                      }
                       _search();
                     }
                     return false;
@@ -123,6 +129,8 @@ class _BlogCategoryViewState extends State<BlogCategoryView> {
     }
     log(_searchedBlogs.length.toString());
     _loadingMore = false;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 }

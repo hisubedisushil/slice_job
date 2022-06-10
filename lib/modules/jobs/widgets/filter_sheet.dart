@@ -138,7 +138,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         _category = null;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         Ionicons.close_circle,
@@ -165,7 +167,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                   onChanged: (value) {
                     _category = value;
-                    setState(() {});
+                    if (mounted) {
+                      setState(() {});
+                    }
                   },
                   hint: Text(
                     'Select Job Category',
@@ -209,7 +213,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         _type = null;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         Ionicons.close_circle,
@@ -236,7 +242,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                   onChanged: (value) {
                     _type = value;
-                    setState(() {});
+                    if (mounted) {
+                      setState(() {});
+                    }
                   },
                   hint: Text(
                     'Select Job Type',
@@ -280,7 +288,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         _level = null;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         Ionicons.close_circle,
@@ -307,7 +317,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                   onChanged: (value) {
                     _level = value;
-                    setState(() {});
+                    if (mounted) {
+                      setState(() {});
+                    }
                   },
                   hint: Text(
                     'Select Career Level',
@@ -351,7 +363,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         _salary = null;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         Ionicons.close_circle,
@@ -378,7 +392,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                   onChanged: (value) {
                     _salary = value;
-                    setState(() {});
+                    if (mounted) {
+                      setState(() {});
+                    }
                   },
                   hint: Text(
                     'Select Job Salary',
@@ -422,7 +438,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         _education = null;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         Ionicons.close_circle,
@@ -449,7 +467,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                   onChanged: (value) {
                     _education = value;
-                    setState(() {});
+                    if (mounted) {
+                      setState(() {});
+                    }
                   },
                   hint: Text(
                     'Select Education Level',
@@ -493,7 +513,9 @@ class _FilterSheetState extends State<FilterSheet> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         _experience = null;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         Ionicons.close_circle,
@@ -520,7 +542,9 @@ class _FilterSheetState extends State<FilterSheet> {
                   }).toList(),
                   onChanged: (value) {
                     _experience = value;
-                    setState(() {});
+                    if (mounted) {
+                      setState(() {});
+                    }
                   },
                   hint: Text(
                     'Select Experience Level',

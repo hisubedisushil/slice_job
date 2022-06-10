@@ -225,7 +225,9 @@ class _RegisterViewState extends State<RegisterView> {
                       suffixIcon: IconButton(
                         onPressed: () {
                           _showPassword = !_showPassword;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         icon: Icon(
                           _showPassword
@@ -265,7 +267,9 @@ class _RegisterViewState extends State<RegisterView> {
                       suffixIcon: IconButton(
                         onPressed: () {
                           _showConfirmPassword = !_showConfirmPassword;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         icon: Icon(
                           _showConfirmPassword
@@ -291,7 +295,9 @@ class _RegisterViewState extends State<RegisterView> {
                         value: _receiveNews,
                         onChanged: (value) {
                           _receiveNews = value ?? false;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity: VisualDensity.compact,
@@ -318,7 +324,9 @@ class _RegisterViewState extends State<RegisterView> {
                         value: _receivePromotions,
                         onChanged: (value) {
                           _receivePromotions = value ?? false;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity: VisualDensity.compact,
@@ -345,7 +353,9 @@ class _RegisterViewState extends State<RegisterView> {
                         value: _agree,
                         onChanged: (value) {
                           _agree = value ?? false;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity: VisualDensity.compact,

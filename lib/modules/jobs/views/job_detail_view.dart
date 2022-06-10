@@ -36,7 +36,9 @@ class _JobDetailViewState extends State<JobDetailView> {
     if (!_loading) {
       _loading = true;
       _error = false;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
 
     _jobDetail = await context
@@ -48,7 +50,9 @@ class _JobDetailViewState extends State<JobDetailView> {
     }
 
     _loading = false;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override

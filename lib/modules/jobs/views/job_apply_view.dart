@@ -85,7 +85,9 @@ class _JobApplyViewState extends State<JobApplyView> {
                           } else {
                             _cvFile = null;
                           }
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         child: Container(
                           height: 120.0,
@@ -166,7 +168,9 @@ class _JobApplyViewState extends State<JobApplyView> {
                           } else {
                             _coverFile = null;
                           }
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         child: Container(
                           height: 120.0,
@@ -252,7 +256,9 @@ class _JobApplyViewState extends State<JobApplyView> {
                         }).toList(),
                         onChanged: (value) {
                           _selectedEducation = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select your Qualification Level',
@@ -305,7 +311,9 @@ class _JobApplyViewState extends State<JobApplyView> {
                         }).toList(),
                         onChanged: (value) {
                           _selectedExperience = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select your Job Experiences',

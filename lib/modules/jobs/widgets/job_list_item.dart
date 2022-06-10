@@ -80,7 +80,9 @@ class _JobListItemState extends State<JobListItem> {
                       TextButton(
                         onPressed: () {
                           _isMore = !_isMore;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         child: Text(
                           _isMore ? 'Less' : 'More',

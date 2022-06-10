@@ -14,13 +14,17 @@ class ConnectivityController with ChangeNotifier {
           case ConnectivityResult.none:
             if (_hasNetworkConnection) {
               _hasNetworkConnection = false;
-              notifyListeners();
+              try {
+                notifyListeners();
+              } catch (e) {}
             }
             break;
           default:
             if (!_hasNetworkConnection) {
               _hasNetworkConnection = true;
-              notifyListeners();
+              try {
+                notifyListeners();
+              } catch (e) {}
             }
         }
       },

@@ -53,7 +53,9 @@ class BlogController with ChangeNotifier {
       _allPage++;
       _isMoreBlogs = true;
     }
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     BlogsResponseModel? model = await _blogService.getAllBlogs(
       dio: _dioController!,
@@ -76,7 +78,9 @@ class BlogController with ChangeNotifier {
       _isMoreBlogs = false;
     }
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<List<BlogModel>> searchBlogsByCategory({

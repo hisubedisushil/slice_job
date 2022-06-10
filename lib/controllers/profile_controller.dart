@@ -72,14 +72,18 @@ class ProfileController with ChangeNotifier {
     }
 
     _isLoadingProfile = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _profile = await _profileService.getProfile(
       dio: _dioController!,
     );
 
     _isLoadingProfile = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getCVBasic() async {
@@ -108,14 +112,18 @@ class ProfileController with ChangeNotifier {
     }
 
     _isLoadingCVBasic = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _cvBasic = await _profileService.getCVBasic(
       dio: _dioController!,
     );
 
     _isLoadingCVBasic = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<bool> updateProfile({
@@ -228,7 +236,9 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getAppliedJobs(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<String> updateCVBasicInformation({
@@ -270,7 +280,9 @@ class ProfileController with ChangeNotifier {
 
     if (result.isEmpty) {
       await getCVBasic();
-      notifyListeners();
+      try {
+        notifyListeners();
+      } catch (e) {}
     }
 
     return result;
@@ -302,7 +314,9 @@ class ProfileController with ChangeNotifier {
 
     if (result.isEmpty) {
       await getCVBasic();
-      notifyListeners();
+      try {
+        notifyListeners();
+      } catch (e) {}
     }
 
     return result;
@@ -340,7 +354,9 @@ class ProfileController with ChangeNotifier {
 
     if (result.isEmpty) {
       await getCVBasic();
-      notifyListeners();
+      try {
+        notifyListeners();
+      } catch (e) {}
     }
 
     return result;
@@ -364,7 +380,11 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getExperiences(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      try {
+        notifyListeners();
+      } catch (e) {}
+    } catch (e) {}
   }
 
   Future<String> postExperience({
@@ -453,7 +473,9 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getEducations(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<String> postEducation({
@@ -544,7 +566,9 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getSkills(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<String> postSkill({
@@ -621,7 +645,9 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getLanguages(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<String> postLanguage({
@@ -698,7 +724,11 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getTrainings(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      try {
+        notifyListeners();
+      } catch (e) {}
+    } catch (e) {}
   }
 
   Future<String> postTraining({
@@ -781,7 +811,11 @@ class ProfileController with ChangeNotifier {
       ..clear()
       ..addAll(await _profileService.getCertificates(dio: _dioController!));
 
-    notifyListeners();
+    try {
+      try {
+        notifyListeners();
+      } catch (e) {}
+    } catch (e) {}
   }
 
   Future<String> postCertificate({

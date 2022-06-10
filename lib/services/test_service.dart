@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:pretty_json/pretty_json.dart';
 
 import '../controllers/dio_controller.dart';
-import '../models/asnwer_data_model.dart';
 import '../models/test_category_response_model.dart';
 import '../models/test_finish_response_model.dart';
 import '../models/test_start_response_model.dart';
@@ -68,12 +67,12 @@ class TestService {
 
   Future<TestFinishResponseModel?> testFinish({
     required DioController dio,
-    required AnswerDataModel answerDataModel,
+    required Map<String, dynamic> requestBody,
   }) async {
     try {
       Response response = await dio.dioClient.post(
         'test-finish',
-        data: answerDataModel.toJson(),
+        data: requestBody,
       );
       log(response.requestOptions.uri.toString());
       log(

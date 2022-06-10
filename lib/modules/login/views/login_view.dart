@@ -106,7 +106,9 @@ class _LoginViewState extends State<LoginView> {
                       suffixIcon: IconButton(
                         onPressed: () {
                           _showPassword = !_showPassword;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         icon: Icon(
                           _showPassword

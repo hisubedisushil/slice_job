@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/asnwer_data_model.dart';
+import '../models/answer_model.dart';
 import '../models/test_category_model.dart';
 import '../models/test_finish_response_model.dart';
 import '../models/test_start_response_model.dart';
@@ -46,7 +46,9 @@ class TestController with ChangeNotifier {
     }
 
     _isLoadingCategories = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     final model = await _testService.getTestCategories(
       dio: _dioController!,
@@ -59,7 +61,9 @@ class TestController with ChangeNotifier {
     }
 
     _isLoadingCategories = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<TestStartResponseModel?> getTestStart({
@@ -85,7 +89,8 @@ class TestController with ChangeNotifier {
 
   Future<TestFinishResponseModel?> getTestFinish({
     required String categoryId,
-    required AnswerDataModel answerDataModel,
+    required String entranceSet,
+    required List<AnswerModel> answers,
   }) async {
     if (_connectivityController == null) {
       return null;
@@ -99,9 +104,25 @@ class TestController with ChangeNotifier {
       return null;
     }
 
+    List<Map<String, dynamic>> results = [];
+    for (final ans in answers) {
+      results.add({
+        "id": ans.id,
+        "qno": ans.qno,
+        "question": ans.question,
+        "answer": ans.answer,
+        "option": ans.option,
+        "txt": ans.txt,
+      });
+    }
+
     return await _testService.testFinish(
       dio: _dioController!,
-      answerDataModel: answerDataModel,
+      requestBody: {
+        "category_id": categoryId,
+        "entrance_set": entranceSet,
+        "entrance_result": results,
+      },
     );
   }
 

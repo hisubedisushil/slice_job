@@ -69,7 +69,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         _showOldPassword = !_showOldPassword;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         _showOldPassword
@@ -109,7 +111,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         _showPassword = !_showPassword;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         _showPassword
@@ -149,7 +153,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         _showConfirmPassword = !_showConfirmPassword;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       icon: Icon(
                         _showConfirmPassword

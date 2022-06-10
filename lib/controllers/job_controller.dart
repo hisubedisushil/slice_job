@@ -62,7 +62,9 @@ class JobController with ChangeNotifier {
       _allPage++;
       _isMoreAllJobs = true;
     }
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     AllJobsResponseModel? model = await _jobService.getAllJobs(
       dio: _dioController!,
@@ -85,7 +87,11 @@ class JobController with ChangeNotifier {
       _isMoreAllJobs = false;
     }
 
-    notifyListeners();
+    try {
+      try {
+        notifyListeners();
+      } catch (e) {}
+    } catch (e) {}
   }
 
   getFeaturedJobs() async {
@@ -106,14 +112,18 @@ class JobController with ChangeNotifier {
     }
 
     _isLoadingFeaturedJobs = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _featuredJobs
       ..clear()
       ..addAll(await _jobService.getFeaturedJobs(dio: _dioController!));
 
     _isLoadingFeaturedJobs = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getRecentJobs() async {
@@ -134,14 +144,21 @@ class JobController with ChangeNotifier {
     }
 
     _isLoadingRecentJobs = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _recentJobs
       ..clear()
       ..addAll(await _jobService.getRecentJobs(dio: _dioController!));
 
     _isLoadingRecentJobs = false;
-    notifyListeners();
+
+    try {
+      try {
+        notifyListeners();
+      } catch (e) {}
+    } catch (e) {}
   }
 
   Future<List<JobModel>> getRelatedJobs({required int jobCatId}) async {

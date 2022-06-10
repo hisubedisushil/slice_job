@@ -51,14 +51,20 @@ class _JobFilterViewState extends State<JobFilterView> {
 
   _initSearch() {
     _searching = true;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     _page = 1;
     _search();
     Timer(
       const Duration(seconds: 3),
       () {
         _searching = false;
-        setState(() {});
+        if (mounted) {
+          if (mounted) {
+            setState(() {});
+          }
+        }
       },
     );
   }
@@ -79,7 +85,9 @@ class _JobFilterViewState extends State<JobFilterView> {
           log(scrollInfo.metrics.pixels.toString());
           _page++;
           _loadingMore = true;
-          setState(() {});
+          if (mounted) {
+            setState(() {});
+          }
           _search();
         }
         return false;
@@ -175,7 +183,9 @@ class _JobFilterViewState extends State<JobFilterView> {
                                     _salary = salary;
                                     _education = education;
                                     _experience = experience;
-                                    setState(() {});
+                                    if (mounted) {
+                                      setState(() {});
+                                    }
                                     Navigator.pop(context);
                                     _initSearch();
                                   },
@@ -339,6 +349,11 @@ class _JobFilterViewState extends State<JobFilterView> {
     }
     log(_searchedJobs.length.toString());
     _loadingMore = false;
-    setState(() {});
+
+    if (mounted) {
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 }

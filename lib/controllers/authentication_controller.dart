@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -47,20 +45,24 @@ class AuthenticationController with ChangeNotifier {
   }
 
   _onError(DioError error, ErrorInterceptorHandler handler) async {
-    try {
-      if (!((error.response?.data['status'] ?? false) as bool)) {
-        logOut();
-      }
-    } catch (error, stacktrace) {
-      log('API Error Caught', error: error, stackTrace: stacktrace);
-    }
+    // try {
+    //   if (!((error.response?.data['status'] ?? false) as bool)) {
+    //     if (_isLoggedIn) {
+    //       logOut();
+    //     }
+    //   }
+    // } catch (error, stacktrace) {
+    //   log('API Error Caught', error: error, stackTrace: stacktrace);
+    // }
     return handler.next(error);
   }
 
   _initLogin() async {
     _isLoggedIn = await _preferenceService.isLogin;
     _appUser = await _preferenceService.appUser;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<bool> register({

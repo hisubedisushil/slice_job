@@ -35,13 +35,17 @@ class _BlogDetailViewState extends State<BlogDetailView> {
   _loadBlog() async {
     if (_blog == null && !_loading) {
       _loading = true;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
     _blog = await context
         .read<BlogController>()
         .getBlogDetail(blogId: widget.blog.id ?? '');
     _loading = false;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override

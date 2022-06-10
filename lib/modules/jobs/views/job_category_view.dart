@@ -31,14 +31,18 @@ class _JobCategoryViewState extends State<JobCategoryView> {
 
   _initSearch() {
     _searching = true;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     _page = 1;
     _search();
     Timer(
       const Duration(seconds: 3),
       () {
         _searching = false;
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       },
     );
   }
@@ -72,7 +76,9 @@ class _JobCategoryViewState extends State<JobCategoryView> {
                       log(scrollInfo.metrics.pixels.toString());
                       _page++;
                       _loadingMore = true;
-                      setState(() {});
+                      if (mounted) {
+                        setState(() {});
+                      }
                       _search();
                     }
                     return false;
@@ -125,6 +131,8 @@ class _JobCategoryViewState extends State<JobCategoryView> {
     }
     log(_searchedJobs.length.toString());
     _loadingMore = false;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 }

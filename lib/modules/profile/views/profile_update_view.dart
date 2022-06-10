@@ -270,7 +270,9 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                         }).toList(),
                         onChanged: (value) {
                           _country = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select your current country',
@@ -323,7 +325,9 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                         }).toList(),
                         onChanged: (value) {
                           _gender = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select your gender',
@@ -426,7 +430,9 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                         }).toList(),
                         onChanged: (value) {
                           _qualification = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select your Qualification Level',
@@ -479,7 +485,9 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                         }).toList(),
                         onChanged: (value) {
                           _experience = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select your Job Experiences',

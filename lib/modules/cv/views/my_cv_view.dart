@@ -160,22 +160,30 @@ class _MyCVViewState extends State<MyCVView> {
     _currentLocation = country;
     _currentCity = null;
     _cities.clear();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     _cities = await context
         .read<GeneralController>()
         .getCities(countryId: country.id ?? '');
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   _loadJobTitles(category) async {
     _jobRole = category;
     _jobTitle = null;
     _jobTitles.clear();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     _jobTitles = await context
         .read<GeneralController>()
         .getJobTitles(categoryId: category.id ?? '');
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -354,7 +362,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _gender = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select your gender',
@@ -407,7 +417,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _nationality = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select your nationality',
@@ -460,7 +472,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _maritalStatus = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select your marital status',
@@ -541,7 +555,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _currentCity = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select your current city',
@@ -780,7 +796,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _jobTitle = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select target job title',
@@ -833,7 +851,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _careerLevel = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select target career level',
@@ -886,7 +906,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _jobType = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select target job type',
@@ -968,7 +990,9 @@ class _MyCVViewState extends State<MyCVView> {
                       }).toList(),
                       onChanged: (value) {
                         _currency = value;
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       },
                       hint: Text(
                         'Select currency format',

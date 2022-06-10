@@ -134,7 +134,9 @@ class _WorkLanguageFormViewState extends State<WorkLanguageFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _level = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select Experience Level',

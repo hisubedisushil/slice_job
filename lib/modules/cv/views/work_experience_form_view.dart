@@ -229,7 +229,9 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _startMonth = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select From Month',
@@ -283,7 +285,9 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _startYear = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select From Year',
@@ -337,7 +341,9 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _endMonth = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select To Month',
@@ -391,7 +397,9 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _endYear = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select To Year',

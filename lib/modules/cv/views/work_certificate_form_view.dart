@@ -167,7 +167,9 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _startMonth = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select Issue Month',
@@ -221,7 +223,9 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _startYear = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select Issue Year',
@@ -275,7 +279,9 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _endMonth = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select Expire Month',
@@ -329,7 +335,9 @@ class _WorkCertificateFormViewState extends State<WorkCertificateFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _endYear = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select Expire Year',

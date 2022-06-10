@@ -130,7 +130,9 @@ class _WorkSkillFormViewState extends State<WorkSkillFormView> {
                         onChanged: (value) {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _level = value;
-                          setState(() {});
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                         hint: Text(
                           'Select Experience Level',

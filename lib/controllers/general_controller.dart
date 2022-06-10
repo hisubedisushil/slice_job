@@ -63,14 +63,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingAllJobCategories = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _allCategories
       ..clear()
       ..addAll(await _generalService.getAllJobCategories(dio: _dioController!));
 
     _isLoadingAllJobCategories = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getBlogCategories() async {
@@ -91,14 +95,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingBlogCategories = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _blogCategories
       ..clear()
       ..addAll(await _generalService.getBlogCategories(dio: _dioController!));
 
     _isLoadingBlogCategories = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getFeaturedCategories() async {
@@ -119,7 +127,9 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingFeatureJobCategories = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _featureCategories
       ..clear()
@@ -128,7 +138,9 @@ class GeneralController with ChangeNotifier {
       );
 
     _isLoadingFeatureJobCategories = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getTopEmployers() async {
@@ -149,14 +161,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingCompany = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _companies
       ..clear()
       ..addAll(await _generalService.getTopEmployers(dio: _dioController!));
 
     _isLoadingCompany = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getCountries() async {
@@ -177,14 +193,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingCountries = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _countries
       ..clear()
       ..addAll(await _generalService.getCountries(dio: _dioController!));
 
     _isLoadingCountries = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getJobTypes() async {
@@ -205,14 +225,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingJobTypes = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _jobTypes
       ..clear()
       ..addAll(await _generalService.getJobTypes(dio: _dioController!));
 
     _isLoadingJobTypes = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getCareerLevels() async {
@@ -233,14 +257,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingCareerLevels = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _jobCareerLevels
       ..clear()
       ..addAll(await _generalService.getJobCareerLevels(dio: _dioController!));
 
     _isLoadingCareerLevels = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getSalaryList() async {
@@ -261,14 +289,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingSalaries = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _salaries
       ..clear()
       ..addAll(await _generalService.getJobSalaries(dio: _dioController!));
 
     _isLoadingSalaries = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getEducationLevels() async {
@@ -289,14 +321,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingEducationLevels = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _educationLevels
       ..clear()
       ..addAll(await _generalService.getEducationLevels(dio: _dioController!));
 
     _isLoadingEducationLevels = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getExperienceLevels() async {
@@ -317,14 +353,18 @@ class GeneralController with ChangeNotifier {
     }
 
     _isLoadingExperienceLevels = true;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
 
     _experienceLevels
       ..clear()
       ..addAll(await _generalService.getExperienceLevels(dio: _dioController!));
 
     _isLoadingExperienceLevels = false;
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getAboutUs() async {
@@ -342,7 +382,9 @@ class GeneralController with ChangeNotifier {
 
     _aboutUs = await _generalService.getAbout(dio: _dioController!);
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getContactUs() async {
@@ -360,7 +402,9 @@ class GeneralController with ChangeNotifier {
 
     _contactUs = await _generalService.getContact(dio: _dioController!);
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getFaqs() async {
@@ -378,7 +422,9 @@ class GeneralController with ChangeNotifier {
 
     _faq = await _generalService.getFaq(dio: _dioController!);
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getTerms() async {
@@ -396,7 +442,9 @@ class GeneralController with ChangeNotifier {
 
     _terms = await _generalService.getTerm(dio: _dioController!);
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   getPrivacy() async {
@@ -414,7 +462,9 @@ class GeneralController with ChangeNotifier {
 
     _privacy = await _generalService.getPolicy(dio: _dioController!);
 
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   Future<List<JobTitleModel>> getJobTitles({required String categoryId}) async {

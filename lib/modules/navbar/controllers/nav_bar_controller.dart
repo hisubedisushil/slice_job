@@ -17,7 +17,9 @@ class NavBarController with ChangeNotifier {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOutQuad,
     );
-    notifyListeners();
+    try {
+      notifyListeners();
+    } catch (e) {}
   }
 
   PageController get pageController => _pageController;
