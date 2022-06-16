@@ -19,6 +19,7 @@ class AnswerDataModel {
     String? categoryId,
     String? entranceSet,
     String? quizKey,
+    String? certificateLink,
     List<AnswerModel>? answers,
     int? totalQuestion,
     int? totalScore,
@@ -27,6 +28,7 @@ class AnswerDataModel {
     _categoryId = categoryId;
     _entranceSet = entranceSet;
     _quizKey = quizKey;
+    _certificateLink = certificateLink;
     _answers = answers;
     _totalQuestion = totalQuestion;
     _totalScore = totalScore;
@@ -37,6 +39,7 @@ class AnswerDataModel {
     _categoryId = json['category_id'];
     _entranceSet = json['entrance_set'];
     _quizKey = json['quiz_key'];
+    _certificateLink = json['certificate_link'];
     if (json['entrance_result'] != null) {
       _answers = [];
       json['entrance_result'].forEach((v) {
@@ -50,6 +53,7 @@ class AnswerDataModel {
   String? _categoryId;
   String? _entranceSet;
   String? _quizKey;
+  String? _certificateLink;
   List<AnswerModel>? _answers;
   int? _totalQuestion;
   int? _totalScore;
@@ -58,6 +62,7 @@ class AnswerDataModel {
     String? categoryId,
     String? entranceSet,
     String? quizKey,
+    String? certificateLink,
     List<AnswerModel>? answers,
     int? totalQuestion,
     int? totalScore,
@@ -67,6 +72,7 @@ class AnswerDataModel {
         categoryId: categoryId ?? _categoryId,
         entranceSet: entranceSet ?? _entranceSet,
         quizKey: quizKey ?? _quizKey,
+        certificateLink: certificateLink ?? _certificateLink,
         answers: answers ?? _answers,
         totalQuestion: totalQuestion ?? _totalQuestion,
         totalScore: totalScore ?? _totalScore,
@@ -75,6 +81,7 @@ class AnswerDataModel {
   String? get categoryId => _categoryId;
   String? get entranceSet => _entranceSet;
   String? get quizKey => _quizKey;
+  String? get certificateLink => _certificateLink;
   List<AnswerModel>? get answers => _answers;
   int? get totalQuestion => _totalQuestion;
   int? get totalScore => _totalScore;
@@ -85,6 +92,7 @@ class AnswerDataModel {
     map['category_id'] = _categoryId;
     map['entrance_set'] = _entranceSet;
     map['quiz_key'] = _quizKey;
+    map['certificate_link'] = _certificateLink;
     if (_answers != null) {
       map['entrance_result'] = _answers?.map((v) => v.toJson()).toList();
     }

@@ -49,7 +49,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             child: Column(
               children: [
                 TextFormField(
-                  obscureText: !_showPassword,
+                  obscureText: !_showOldPassword,
                   decoration: InputDecoration(
                     label: const Text(
                       'Old Password',
@@ -257,6 +257,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
     if (result.isEmpty) {
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Your password is successfully updated.',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: AppColors.green,
+        ),
+      );
     } else {
       await PanaraInfoDialog.showAnimatedGrow(
         context,

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '/constants/app_colors.dart';
 import '/controllers/test_controller.dart';
@@ -164,55 +166,198 @@ class _TestViewState extends State<TestView> {
         body: _loading
             ? const Center(child: CircularProgressIndicator())
             : _finished
-                ? Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'CONGRATULATIONS!',
-                            style: TextStyle(
-                              fontSize: 34.0,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.green,
-                            ),
+                ? SingleChildScrollView(
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                      top: 16.0,
+                      bottom: 80.0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hi, Thanks you for playing Slice Online Test,!',
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.green,
                           ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            'You Just Finish',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.grey,
-                            ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        Text(
+                          'Your Test Result',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
                           ),
-                          const SizedBox(height: 16.0),
-                          MaterialButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            color: AppColors.primary,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            minWidth: 120.0,
-                            height: 44.0,
-                            elevation: 0.0,
-                            child: Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(height: 8.0),
+                        Table(
+                          children: [
+                            TableRow(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    "Question\nNumber",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    "Your\nAnswer",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    "Correct\nAnswer",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    "",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.4),
                               ),
                             ),
+                            for (AnswerModel ans
+                                in (_finishResponseModel?.data?.answers ?? []))
+                              TableRow(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      (ans.qno ?? '').toString(),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      ans.option ?? '',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      ans.answer ?? '',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Icon(
+                                      (ans.answer == ans.option)
+                                          ? Ionicons.checkmark_circle
+                                          : Ionicons.close_circle,
+                                      color: (ans.answer == ans.option)
+                                          ? AppColors.green
+                                          : AppColors.red,
+                                    ),
+                                  ),
+                                ],
+                                decoration: BoxDecoration(
+                                  color: Colors.amberAccent.withOpacity(0.3),
+                                  border: Border(
+                                    top: BorderSide(
+                                      color: AppColors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 16.0),
+                        Text(
+                          'Your Score is '
+                          '${_finishResponseModel?.data?.totalScore ?? 0}',
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        Text(
+                          'Hi, you played very well',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        MaterialButton(
+                          onPressed: () {
+                            launchUrlString(
+                              _finishResponseModel?.data?.certificateLink ?? '',
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          color: AppColors.primary,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          minWidth: 120.0,
+                          height: 44.0,
+                          elevation: 0.0,
+                          child: Text(
+                            'Get Your Test Certificate Here',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : SingleChildScrollView(
@@ -332,9 +477,7 @@ class _TestViewState extends State<TestView> {
                                 groupValue: _optionSelected,
                                 onChanged: (value) {
                                   _optionSelected = value as int;
-                                  _selectedOption = _startResponseModel?.data
-                                          ?.questions?[_currentIndex].optionA ??
-                                      '';
+                                  _selectedOption = 'a';
                                   setState(() {});
                                 },
                               ),
@@ -406,9 +549,7 @@ class _TestViewState extends State<TestView> {
                                 groupValue: _optionSelected,
                                 onChanged: (value) {
                                   _optionSelected = value as int;
-                                  _selectedOption = _startResponseModel?.data
-                                          ?.questions?[_currentIndex].optionB ??
-                                      '';
+                                  _selectedOption = 'b';
                                   setState(() {});
                                 },
                               ),
@@ -480,9 +621,7 @@ class _TestViewState extends State<TestView> {
                                 groupValue: _optionSelected,
                                 onChanged: (value) {
                                   _optionSelected = value as int;
-                                  _selectedOption = _startResponseModel?.data
-                                          ?.questions?[_currentIndex].optionC ??
-                                      '';
+                                  _selectedOption = 'c';
                                   setState(() {});
                                 },
                               ),
@@ -521,9 +660,7 @@ class _TestViewState extends State<TestView> {
                                 groupValue: _optionSelected,
                                 onChanged: (value) {
                                   _optionSelected = value as int;
-                                  _selectedOption = _startResponseModel?.data
-                                          ?.questions?[_currentIndex].optionD ??
-                                      '';
+                                  _selectedOption = 'd';
                                   setState(() {});
                                 },
                               ),

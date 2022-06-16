@@ -686,6 +686,15 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
 
     if (result) {
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Your profile is successfully updated.',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: AppColors.green,
+        ),
+      );
     } else {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
@@ -696,7 +705,6 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
         panaraDialogType: PanaraDialogType.error,
         barrierDismissible: true,
       );
-      return;
     }
   }
 }

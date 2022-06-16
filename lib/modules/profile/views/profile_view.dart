@@ -814,9 +814,17 @@ class _ProfileViewState extends State<ProfileView> {
         context.read<ProfileController>().getCVDownloadLink(),
       ),
     );
-    log(result.toString());
 
     if (result.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'You have successfully downloaded your CV.',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: AppColors.green,
+        ),
+      );
       await PanaraInfoDialog.showAnimatedGrow(
         context,
         title: "Success",

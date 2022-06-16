@@ -407,8 +407,17 @@ class _JobApplyViewState extends State<JobApplyView> {
             ),
       ),
     );
-    log(result.toString());
     if (result.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'You have successfully applied for job.',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: AppColors.green,
+        ),
+      );
+      Navigator.pop(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

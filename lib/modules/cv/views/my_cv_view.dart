@@ -80,9 +80,15 @@ class _MyCVViewState extends State<MyCVView> {
 
       _firstName.text = model.firstName ?? '';
       _lastName.text = model.lastName ?? '';
-      _dob.text = model.birthYear != null
-          ? '${model.birthYear}-${model.birthMonth}-${model.birthDay}'
-          : '';
+      try {
+        DateFormat('yyyy-MM-dd').parse(_dob.text);
+        _dob.text = model.birthYear != null || model.birthYear != '0'
+            ? '${model.birthYear}-${model.birthMonth}-${model.birthDay}'
+            : '';
+      } catch (e) {
+        _dob.text = '';
+      }
+
       try {
         _gender = _genders.firstWhere(
           (e) => model.gender == e,
@@ -2203,6 +2209,15 @@ class _MyCVViewState extends State<MyCVView> {
     log(result.toString());
 
     if (result.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'You have successfully downloaded your CV.',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: AppColors.green,
+        ),
+      );
       await PanaraInfoDialog.showAnimatedGrow(
         context,
         title: "Success",
