@@ -35,7 +35,7 @@ dependencies:
   image_cropper: ^2.0.3
   webview_flutter_plus: ^0.3.0+2
   open_file: ^3.2.1
-  share_plus: ^4.0.9
+  share_plus: ^4.0.10
   google_maps_flutter: ^2.1.8
 
 dev_dependencies:
