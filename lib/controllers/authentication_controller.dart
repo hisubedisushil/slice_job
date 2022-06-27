@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../models/login_response_model.dart';
-import '../models/register_response_model.dart';
 import '../services/authentication_service.dart';
 import '../services/preference_service.dart';
 import 'connectivity_controller.dart';
@@ -65,7 +64,7 @@ class AuthenticationController with ChangeNotifier {
     } catch (e) {}
   }
 
-  Future<bool> register({
+  Future<dynamic> register({
     required String firstName,
     required String lastName,
     required String email,
@@ -85,7 +84,7 @@ class AuthenticationController with ChangeNotifier {
       return false;
     }
 
-    RegisterResponseData? model = await _authenticationService.register(
+    final result = await _authenticationService.register(
       dio: _dioController!,
       firstName: firstName,
       lastName: lastName,
@@ -95,11 +94,7 @@ class AuthenticationController with ChangeNotifier {
       rePassword: rePassword,
     );
 
-    if (model == null) {
-      return false;
-    }
-
-    return true;
+    return result;
   }
 
   Future<bool> login({
@@ -132,6 +127,54 @@ class AuthenticationController with ChangeNotifier {
     _initLogin();
 
     return true;
+  }
+
+  Future<dynamic> forgotPassword({required String email}) async {
+    if (_connectivityController == null) {
+      return false;
+    }
+
+    if (_dioController == null) {
+      return false;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return false;
+    }
+
+    final result = await _authenticationService.passwordForgot(
+      dio: _dioController!,
+      email: email,
+    );
+
+    return result;
+  }
+
+  Future<dynamic> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    if (_connectivityController == null) {
+      return false;
+    }
+
+    if (_dioController == null) {
+      return false;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return false;
+    }
+
+    final result = await _authenticationService.passwordReset(
+      dio: _dioController!,
+      email: email,
+      code: code,
+      password: password,
+    );
+
+    return result;
   }
 
   Future<bool> verify({

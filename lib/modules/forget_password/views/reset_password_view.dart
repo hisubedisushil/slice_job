@@ -1,37 +1,45 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
-import 'package:slice_job/controllers/authentication_controller.dart';
-import 'package:slice_job/modules/forget_password/views/forgot_password_view.dart';
 
-import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
-import '../../register/views/register_view.dart';
+import '../../../controllers/authentication_controller.dart';
+import '../../../packages/panara_dialogs/panara_dialogs.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class ResetPasswordView extends StatefulWidget {
+  final String email;
+
+  const ResetPasswordView({
+    Key? key,
+    required this.email,
+  }) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<ResetPasswordView> createState() => _ResetPasswordViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  final _email = TextEditingController();
+class _ResetPasswordViewState extends State<ResetPasswordView> {
+  final _otp = TextEditingController();
   final _password = TextEditingController();
+  final _rePassword = TextEditingController();
+
   bool _showPassword = false;
+  bool _showConfirmPassword = false;
 
   @override
   void dispose() {
-    _email.dispose();
+    _otp.dispose();
     _password.dispose();
+    _rePassword.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -44,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Login',
+                    'Reset Password',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.black,
@@ -53,48 +61,45 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      label: const Text(
-                        'Email Or Phone',
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      'Check your email or phone and enter '
+                      'verification code below to reset your password.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 16.0,
                       ),
-                      labelStyle: const TextStyle(
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Pinput(
+                    controller: _otp,
+                    length: 6,
+                    defaultPinTheme: PinTheme(
+                      width: (width - 20) / 6,
+                      height: (width - 20) / 6,
+                      textStyle: TextStyle(
+                        fontSize: 32.0,
+                        color: AppColors.black,
                         fontWeight: FontWeight.bold,
+                        height: 0.75,
                       ),
-                      border: OutlineInputBorder(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.primary),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      fillColor: AppColors.white.withOpacity(0.8),
-                      hintStyle: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      filled: true,
+                      padding: EdgeInsets.zero,
+                      margin: EdgeInsets.zero,
                     ),
-                    keyboardType: TextInputType.emailAddress,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      bool b = RegExp(
-                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                          .hasMatch(value ?? '');
-                      if (!b) {
-                        final phone = int.tryParse((value ?? '').trim());
-                        b = (phone != null && (value ?? '').length == 10);
-                      }
-
-                      if (!b) {
-                        return 'Please enter valid email or mobile number';
-                      }
-                      return null;
-                    },
-                    controller: _email,
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 40.0),
                   TextFormField(
                     obscureText: !_showPassword,
                     decoration: InputDecoration(
                       label: const Text(
-                        'Password',
+                        'New Password',
                       ),
                       labelStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -131,6 +136,48 @@ class _LoginViewState extends State<LoginView> {
                     },
                     controller: _password,
                   ),
+                  const SizedBox(height: 10.0),
+                  TextFormField(
+                    obscureText: !_showConfirmPassword,
+                    decoration: InputDecoration(
+                      label: const Text(
+                        'Re-type New Password',
+                      ),
+                      labelStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fillColor: AppColors.white.withOpacity(0.8),
+                      hintStyle: TextStyle(
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      filled: true,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          _showConfirmPassword = !_showConfirmPassword;
+                          if (mounted) {
+                            setState(() {});
+                          }
+                        },
+                        icon: Icon(
+                          _showConfirmPassword
+                              ? Ionicons.eye_off_outline
+                              : Ionicons.eye_outline,
+                        ),
+                      ),
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if ((value ?? '') != _password.text) {
+                        return 'Password does not match.';
+                      }
+                      return null;
+                    },
+                    controller: _rePassword,
+                  ),
                   const SizedBox(height: 20.0),
                   Row(
                     children: [
@@ -152,9 +199,9 @@ class _LoginViewState extends State<LoginView> {
                       const SizedBox(width: 10.0),
                       Expanded(
                         child: MaterialButton(
-                          onPressed: _login,
+                          onPressed: _submit,
                           child: Text(
-                            'Login',
+                            'Reset',
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 18.0,
@@ -174,73 +221,6 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const ForgotPasswordView(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'Forget Password?',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  Row(
-                    children: [
-                      Text(
-                        'Don\'t have an account? ',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const RegisterView(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Create New Account',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // const SizedBox(height: 20.0),
-                  // SocialLoginButton(
-                  //   buttonType: SocialLoginButtonType.facebook,
-                  //   borderRadius: 10.0,
-                  //   height: 56.0,
-                  //   text: 'Login Using Facebook',
-                  //   onPressed: () {},
-                  // ),
                 ],
               ),
             ),
@@ -250,22 +230,14 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  _login() async {
+  _submit() async {
     FocusScope.of(context).requestFocus(FocusNode());
 
-    bool b = RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(_email.text);
-    if (!b) {
-      final phone = int.tryParse(_email.text.trim());
-      b = (phone != null && _email.text.length == 10);
-    }
-
-    if (!b) {
+    if (_otp.text.length != 6) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Invalid Email",
-        message: "Please enter valid email or mobile number.",
+        title: "Invalid OTP",
+        message: "OTP must be 6 digit.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
         panaraDialogType: PanaraDialogType.error,
@@ -277,7 +249,7 @@ class _LoginViewState extends State<LoginView> {
     if (_password.text.length < 6) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Invalid Password",
+        title: "Invalid New Password",
         message: "Password must have at least 6 characters.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
@@ -287,23 +259,50 @@ class _LoginViewState extends State<LoginView> {
       return;
     }
 
-    bool result = await showDialog(
+    if (_password.text != _rePassword.text) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Invalid Re-Type Password",
+        message: "Password does not match.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
+    }
+
+    final result = await showDialog(
       context: context,
       builder: (context) => FutureProgressDialog(
-        context.read<AuthenticationController>().login(
-              email: _email.text,
+        context.read<AuthenticationController>().resetPassword(
+              email: widget.email,
+              code: _otp.text,
               password: _password.text,
             ),
       ),
     );
-    log(result.toString());
-    if (result) {
-      Navigator.pop(context);
+
+    if (result is bool) {
+      if (result) {
+        Navigator.pop(context);
+      }
+    } else if (result is String) {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Reset Password Failed",
+        message: result,
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
+      return;
     } else {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Login Failed",
-        message: "Invalid Credential, Please try again.",
+        title: "Reset Password Failed",
+        message: "Oops! Something went wrong.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
         panaraDialogType: PanaraDialogType.error,

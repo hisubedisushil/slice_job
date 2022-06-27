@@ -250,6 +250,8 @@ class ProfileController with ChangeNotifier {
     required String maritalStatus,
     required String currentCountry,
     required String currentCity,
+    required String haveLicence,
+    required String haveVehicle,
   }) async {
     if (_connectivityController == null) {
       return 'Network Error!';
@@ -276,6 +278,8 @@ class ProfileController with ChangeNotifier {
       maritalStatus: maritalStatus,
       currentCountry: currentCountry,
       currentCity: currentCity,
+      haveLicence: haveLicence,
+      haveVehicle: haveVehicle,
     );
 
     if (result.isEmpty) {

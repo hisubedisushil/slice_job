@@ -226,6 +226,10 @@ class ProfileService {
       } else {
         return [];
       }
+    } on DioError catch (e, s) {
+      log('Get Applied Jobs Error!', stackTrace: s, error: e);
+      log(prettyJson(e.response?.data));
+      return [];
     } on Exception catch (e, s) {
       log('Get Applied Jobs Error!', stackTrace: s, error: e);
       return [];
@@ -265,6 +269,8 @@ class ProfileService {
     required String maritalStatus,
     required String currentCountry,
     required String currentCity,
+    required String haveLicence,
+    required String haveVehicle,
   }) async {
     try {
       Response response = await dio.dioClient.post(
@@ -280,6 +286,8 @@ class ProfileService {
           'marital_status': maritalStatus,
           'current_country': currentCountry,
           'current_city': currentCity,
+          'have_licence': haveLicence,
+          'have_vehicle': haveVehicle,
         },
       );
 

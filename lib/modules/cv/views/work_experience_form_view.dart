@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../models/experience_model.dart';
@@ -35,7 +35,29 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
   final List<String> _years = [
     for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
   ];
+
   final List<String> _months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  final List<String> _endYears = [
+    'Present',
+    for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
+  ];
+
+  final List<String> _endMonths = [
+    'Present',
     'January',
     'February',
     'March',
@@ -64,7 +86,7 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
         );
       } catch (e) {}
       try {
-        _endYear = _years.firstWhere(
+        _endYear = _endYears.firstWhere(
           (e) => widget.experience?.toYear == e,
         );
       } catch (e) {}
@@ -74,7 +96,7 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
         );
       } catch (e) {}
       try {
-        _endMonth = _months.firstWhere(
+        _endMonth = _endMonths.firstWhere(
           (e) => widget.experience?.toMonth == e,
         );
       } catch (e) {}
@@ -325,7 +347,7 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                       const Divider(),
                       DropdownButton<String>(
                         value: _endMonth,
-                        items: _months.map((item) {
+                        items: _endMonths.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(
@@ -381,7 +403,7 @@ class _WorkExperienceFormViewState extends State<WorkExperienceFormView> {
                       const Divider(),
                       DropdownButton<String>(
                         value: _endYear,
-                        items: _years.map((item) {
+                        items: _endYears.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(

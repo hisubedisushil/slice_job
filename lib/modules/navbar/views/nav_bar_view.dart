@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../models/job_category_model.dart';
 import '../../blogs/views/blogs_view.dart';

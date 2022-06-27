@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../models/training_model.dart';

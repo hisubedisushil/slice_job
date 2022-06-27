@@ -4,9 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/general_controller.dart';
 import '../../../controllers/job_controller.dart';
@@ -421,7 +421,9 @@ class _JobApplyViewState extends State<JobApplyView> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (cxt) => const JobSuccessView(),
+          builder: (cxt) => JobSuccessView(
+            model: widget.jobDetail,
+          ),
         ),
       );
     } else {

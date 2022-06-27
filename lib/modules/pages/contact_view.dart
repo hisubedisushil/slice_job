@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../constants/app_colors.dart';
 import '../../controllers/general_controller.dart';
 

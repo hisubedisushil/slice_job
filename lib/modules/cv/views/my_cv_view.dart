@@ -6,9 +6,9 @@ import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:open_file/open_file.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/general_controller.dart';
 import '../../../controllers/profile_controller.dart';
@@ -59,6 +59,8 @@ class _MyCVViewState extends State<MyCVView> {
   JobTypeModel? _jobType;
   final _targetSalary = TextEditingController();
   String? _currency;
+  String? _haveLicence;
+  String? _haveVehicle;
 
   final List<String> _genders = ['Male', 'Female', 'Other'];
   final List<String> _maritalStatusTypes = [
@@ -67,6 +69,7 @@ class _MyCVViewState extends State<MyCVView> {
     'Unspecified'
   ];
   final List<String> _currencyFormats = ['USD', 'NRP'];
+  final List<String> _yesNo = ['Yes', 'No'];
   List<JobTitleModel> _jobTitles = [];
   List<CityModel> _cities = [];
 
@@ -299,7 +302,7 @@ class _MyCVViewState extends State<MyCVView> {
                     initialDate: _dob.text == ''
                         ? DateTime.now()
                         : DateFormat('yyyy-MM-dd').parse(_dob.text),
-                    firstDate: DateTime(1990),
+                    firstDate: DateTime(1900),
                     lastDate: DateTime(2100),
                   );
 
@@ -567,6 +570,116 @@ class _MyCVViewState extends State<MyCVView> {
                       },
                       hint: Text(
                         'Select your current city',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.grey,
+                        ),
+                      ),
+                      isExpanded: true,
+                      underline: Container(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppColors.white,
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Have Licence',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const Divider(),
+                    DropdownButton<String>(
+                      value: _haveLicence,
+                      items: _yesNo.map((item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        _haveLicence = value;
+                        if (mounted) {
+                          setState(() {});
+                        }
+                      },
+                      hint: Text(
+                        'Select your licence status',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.grey,
+                        ),
+                      ),
+                      isExpanded: true,
+                      underline: Container(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: AppColors.white,
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Have Vehicle',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const Divider(),
+                    DropdownButton<String>(
+                      value: _haveVehicle,
+                      items: _yesNo.map((item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        _haveVehicle = value;
+                        if (mounted) {
+                          setState(() {});
+                        }
+                      },
+                      hint: Text(
+                        'Select your vehicle status',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
@@ -1816,6 +1929,8 @@ class _MyCVViewState extends State<MyCVView> {
               maritalStatus: _maritalStatus ?? '',
               currentCountry: _currentLocation?.name ?? '',
               currentCity: _currentCity?.name ?? '',
+              haveLicence: _haveLicence ?? '',
+              haveVehicle: _haveVehicle ?? '',
             ),
       ),
     );

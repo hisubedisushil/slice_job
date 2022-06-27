@@ -23,6 +23,7 @@ class JobDetailModel {
     String? jobApplyUrl,
     String? applicationReceieveBoth,
     String? benefits,
+    String? onlineExam,
     String? descriptions,
     String? postDate,
     String? link,
@@ -43,6 +44,7 @@ class JobDetailModel {
     _jobApplyUrl = jobApplyUrl;
     _applicationReceieveBoth = applicationReceieveBoth;
     _benefits = benefits;
+    _onlineExam = onlineExam;
     _descriptions = descriptions;
     _postDate = postDate;
     _link = link;
@@ -65,6 +67,7 @@ class JobDetailModel {
     _jobApplyUrl = json['job_apply_url'];
     _applicationReceieveBoth = json['application_receieve_both'];
     _benefits = json['benefits'];
+    _onlineExam = json['online_exam'];
     _descriptions = json['descriptions'];
     _postDate = json['post_date'];
     _link = json['link'];
@@ -86,6 +89,7 @@ class JobDetailModel {
   String? _jobApplyUrl;
   String? _applicationReceieveBoth;
   String? _benefits;
+  String? _onlineExam;
   String? _descriptions;
   String? _postDate;
   String? _link;
@@ -106,6 +110,7 @@ class JobDetailModel {
   String? get jobApplyUrl => _jobApplyUrl;
   String? get applicationReceieveBoth => _applicationReceieveBoth;
   String? get benefits => _benefits;
+  String? get onlineExam => _onlineExam;
   String? get descriptions => _descriptions;
   String? get postDate => _postDate;
   String? get link => _link;
@@ -128,6 +133,7 @@ class JobDetailModel {
     map['job_apply_url'] = _jobApplyUrl;
     map['application_receieve_both'] = _applicationReceieveBoth;
     map['benefits'] = _benefits;
+    map['online_exam'] = _onlineExam;
     map['descriptions'] = _descriptions;
     map['post_date'] = _postDate;
     map['link'] = _link;

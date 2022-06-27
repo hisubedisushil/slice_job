@@ -11,7 +11,7 @@ import '../models/register_response_model.dart';
 class AuthenticationService {
   static AuthenticationService service = AuthenticationService();
 
-  Future<RegisterResponseData?> register({
+  Future<dynamic> register({
     required DioController dio,
     required String firstName,
     required String lastName,
@@ -32,6 +32,7 @@ class AuthenticationService {
           "repassword": rePassword,
         },
       );
+      log(response.requestOptions.uri.toString(), name: 'Register Url');
       log(prettyJson(response.data), name: 'Register Response');
       if (response.statusCode == 200) {
         RegisterResponseModel model = registerResponseModelFromJson(
@@ -45,6 +46,7 @@ class AuthenticationService {
       log('Register DioError!', stackTrace: s, error: e);
       if (e.response?.statusCode == 404) {
         log(prettyJson(e.response?.data), name: 'Register Error Response');
+        return e.response?.data['message'];
       }
       return null;
     } on Exception catch (e, s) {
@@ -118,6 +120,84 @@ class AuthenticationService {
       return null;
     } on Exception catch (e, s) {
       log('Login Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<dynamic> passwordForgot({
+    required DioController dio,
+    required String email,
+  }) async {
+    try {
+      Response response = await dio.dioClient.post(
+        'password-forgot',
+        data: {
+          "email": email,
+        },
+      );
+      log(prettyJson(response.data), name: 'Password Forgot Response');
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return null;
+      }
+    } on DioError catch (e, s) {
+      log(
+        prettyJson(e.response?.requestOptions.uri.toString()),
+        name: 'Password Forgot Request url',
+      );
+      log(
+        prettyJson(e.response?.requestOptions.data),
+        name: 'Password Forgot Request Data',
+      );
+      log('Password Forgot DioError!', stackTrace: s, error: e);
+      if (e.response?.statusCode == 404) {
+        log(
+          prettyJson(e.response?.data),
+          name: 'Password Forgot Error Response',
+        );
+        return e.response?.data['message'];
+      }
+      return null;
+    } on Exception catch (e, s) {
+      log('Password Forgot Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
+  Future<dynamic> passwordReset({
+    required DioController dio,
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    try {
+      Response response = await dio.dioClient.post(
+        'password-reset',
+        data: {
+          "email": email,
+          "code": code,
+          "password": password,
+        },
+      );
+      log(prettyJson(response.data), name: 'Password Reset Response');
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return null;
+      }
+    } on DioError catch (e, s) {
+      log('Password Reset DioError!', stackTrace: s, error: e);
+      if (e.response?.statusCode == 404) {
+        log(
+          prettyJson(e.response?.data),
+          name: 'Password Reset Error Response',
+        );
+        return e.response?.data['message'];
+      }
+      return null;
+    } on Exception catch (e, s) {
+      log('Password Reset Error!', stackTrace: s, error: e);
       return null;
     }
   }

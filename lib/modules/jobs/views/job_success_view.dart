@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
+import 'package:slice_job/models/job_detail_model.dart';
 
 import '../../navbar/views/nav_bar_view.dart';
 
 class JobSuccessView extends StatelessWidget {
-  const JobSuccessView({Key? key}) : super(key: key);
+  final JobDetailModel model;
+
+  const JobSuccessView({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,9 @@ class JobSuccessView extends StatelessWidget {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      'You have successfully applied for Solution Architect-Executive at Worldlink Communications.',
+                      'Congratulation! You have successfully applied for '
+                      'this job. '
+                      '${(model.onlineExam == 'yes') ? 'Please use a web browser to attempt an Online Job Interview for your applied job.' : 'Please check more detail in your email.'}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18.0,

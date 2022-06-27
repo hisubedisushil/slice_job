@@ -3,43 +3,31 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
+import 'package:slice_job/controllers/authentication_controller.dart';
 
+import '/constants/app_colors.dart';
 import '/packages/panara_dialogs/panara_dialogs.dart';
-import '../../../constants/app_colors.dart';
-import '../../../controllers/authentication_controller.dart';
-import '../../login/views/login_view.dart';
+import 'reset_password_view.dart';
 
-class VerifyView extends StatefulWidget {
-  final String name;
-  final String email;
-  final String phone;
-
-  const VerifyView({
-    Key? key,
-    required this.name,
-    required this.email,
-    required this.phone,
-  }) : super(key: key);
+class ForgotPasswordView extends StatefulWidget {
+  const ForgotPasswordView({Key? key}) : super(key: key);
 
   @override
-  State<VerifyView> createState() => _VerifyViewState();
+  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
 }
 
-class _VerifyViewState extends State<VerifyView> {
-  final _otp = TextEditingController();
+class _ForgotPasswordViewState extends State<ForgotPasswordView> {
+  final _email = TextEditingController();
 
   @override
   void dispose() {
-    _otp.dispose();
+    _email.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -52,7 +40,7 @@ class _VerifyViewState extends State<VerifyView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Verify your email',
+                    'Forget Password',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.black,
@@ -61,39 +49,39 @@ class _VerifyViewState extends State<VerifyView> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      'Hi ${widget.name}! Check your email and enter '
-                      'verification code below to verify your email '
-                      'address and complete registration process.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 16.0,
+                  TextFormField(
+                    decoration: InputDecoration(
+                      label: const Text(
+                        'Email',
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Pinput(
-                    controller: _otp,
-                    length: 6,
-                    defaultPinTheme: PinTheme(
-                      width: (width - 20) / 8,
-                      height: (width - 20) / 6,
-                      textStyle: TextStyle(
-                        fontSize: 32.0,
-                        color: AppColors.black,
+                      labelStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        height: 0.75,
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primary),
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      fillColor: AppColors.white.withOpacity(0.8),
+                      hintStyle: TextStyle(
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      filled: true,
                     ),
+                    keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      bool b = RegExp(
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                          .hasMatch(value ?? '');
+
+                      if (!b) {
+                        return 'Please enter valid email address';
+                      }
+                      return null;
+                    },
+                    controller: _email,
                   ),
-                  const SizedBox(height: 40.0),
+                  const SizedBox(height: 20.0),
                   Row(
                     children: [
                       Container(
@@ -114,7 +102,15 @@ class _VerifyViewState extends State<VerifyView> {
                       const SizedBox(width: 10.0),
                       Expanded(
                         child: MaterialButton(
-                          onPressed: _verify,
+                          onPressed: _submit,
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -124,14 +120,6 @@ class _VerifyViewState extends State<VerifyView> {
                           minWidth: double.infinity,
                           height: 56.0,
                           elevation: 0.0,
-                          child: Text(
-                            'Verify',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                         ),
                       ),
                     ],
@@ -145,14 +133,18 @@ class _VerifyViewState extends State<VerifyView> {
     );
   }
 
-  _verify() async {
+  _submit() async {
     FocusScope.of(context).requestFocus(FocusNode());
 
-    if (_otp.text.length != 6) {
+    bool b = RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(_email.text);
+
+    if (!b) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Invalid OTP",
-        message: "OTP must be 6 digit.",
+        title: "Invalid Email",
+        message: "Please enter valid email or mobile number.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
         panaraDialogType: PanaraDialogType.error,
@@ -161,30 +153,42 @@ class _VerifyViewState extends State<VerifyView> {
       return;
     }
 
-    bool? result = await showDialog(
+    final result = await showDialog(
       context: context,
       builder: (context) => FutureProgressDialog(
-        context.read<AuthenticationController>().verify(
-              email: widget.email,
-              phone: widget.phone,
-              pin: _otp.text,
+        context.read<AuthenticationController>().forgotPassword(
+              email: _email.text,
             ),
       ),
     );
     log(result.toString());
-
-    if (!(result ?? false)) {
-      Navigator.pushReplacement(
+    if (result is bool) {
+      if (result) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ResetPasswordView(
+              email: _email.text,
+            ),
+          ),
+        );
+      }
+    } else if (result is String) {
+      await PanaraInfoDialog.showAnimatedGrow(
         context,
-        MaterialPageRoute(
-          builder: (_) => const LoginView(),
-        ),
+        title: "Forgot Password Failed",
+        message: result,
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
       );
+      return;
     } else {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Verification Failed",
-        message: "Invalid Verification Code.",
+        title: "Forgot Password Failed",
+        message: "Oops! Something went wrong.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
         panaraDialogType: PanaraDialogType.error,

@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/authentication_controller.dart';
+import '../../../models/register_response_model.dart';
 import '../../login/views/login_view.dart';
 import 'verify_view.dart';
 
@@ -607,7 +608,7 @@ class _RegisterViewState extends State<RegisterView> {
       return;
     }
 
-    bool result = await showDialog(
+    final result = await showDialog(
       context: context,
       builder: (context) => FutureProgressDialog(
         context.read<AuthenticationController>().register(
@@ -622,7 +623,7 @@ class _RegisterViewState extends State<RegisterView> {
     );
     log(result.toString());
 
-    if (result) {
+    if (result is RegisterResponseData) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -633,17 +634,27 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
       );
-    } else {
+    } else if (result is String) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
         title: "Register Failed",
-        message: "Email already used, try different email.",
+        message: result,
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
         panaraDialogType: PanaraDialogType.error,
         barrierDismissible: true,
       );
       return;
+    } else {
+      await PanaraInfoDialog.showAnimatedGrow(
+        context,
+        title: "Register Failed",
+        message: "Oops! Something went wrong.",
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
+      );
     }
   }
 }

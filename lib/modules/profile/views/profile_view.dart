@@ -8,9 +8,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:open_file/open_file.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
+import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
 import '../../../controllers/authentication_controller.dart';
 import '../../../controllers/profile_controller.dart';
@@ -19,6 +19,7 @@ import '../../applied/views/applied_view.dart';
 import '../../cv/views/my_cv_view.dart';
 import '../../login/views/login_view.dart';
 import '../../register/views/register_view.dart';
+import '../../test/views/test_categories_view.dart';
 import 'change_password_view.dart';
 import 'profile_update_view.dart';
 
@@ -559,36 +560,43 @@ class _ProfileViewState extends State<ProfileView> {
                 ],
               ),
             ),
-            // const SizedBox(height: 10.0),
-            // MaterialButton(
-            //   onPressed: () {},
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text(
-            //         'Test Yourself',
-            //         style: TextStyle(
-            //           color: AppColors.white,
-            //           fontSize: 18.0,
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //       ),
-            //       Icon(
-            //         Ionicons.arrow_forward_circle,
-            //         size: 32.0,
-            //         color: AppColors.white,
-            //       ),
-            //     ],
-            //   ),
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(10.0),
-            //   ),
-            //   color: AppColors.primary,
-            //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            //   minWidth: double.infinity,
-            //   height: 56.0,
-            //   elevation: 0.0,
-            // ),
+            const SizedBox(height: 10.0),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (cxt) => const TestCategoriesView(),
+                  ),
+                );
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: AppColors.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              minWidth: double.infinity,
+              height: 56.0,
+              elevation: 0.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Test Yourself',
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Icon(
+                    Ionicons.arrow_forward_circle,
+                    size: 32.0,
+                    color: AppColors.white,
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 10.0),
             MaterialButton(
               onPressed: () {
@@ -659,6 +667,7 @@ class _ProfileViewState extends State<ProfileView> {
             const SizedBox(height: 10.0),
             MaterialButton(
               onPressed: () {
+                profile.getAppliedJobs();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
