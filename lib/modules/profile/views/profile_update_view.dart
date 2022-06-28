@@ -172,7 +172,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                       initialDate: _dob.text == ''
                           ? DateTime.now()
                           : DateFormat('yyyy-MM-dd').parse(_dob.text),
-                      firstDate: DateTime(1990),
+                      firstDate: DateTime(1900),
                       lastDate: DateTime(2100),
                     );
 

@@ -47,6 +47,19 @@ class JobSuccessView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10.0),
+                    Text(
+                      model.onlineExam == 'yes'
+                          ? 'Please use a web browser to attempt an Online '
+                              'Job Interview for your applied job.'
+                          : 'Please check more detail in your email.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
                     MaterialButton(
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(

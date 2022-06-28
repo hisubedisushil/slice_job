@@ -177,7 +177,7 @@ class AuthenticationController with ChangeNotifier {
     return result;
   }
 
-  Future<bool> verify({
+  Future<dynamic> verify({
     required String email,
     required String phone,
     required String pin,
@@ -194,14 +194,14 @@ class AuthenticationController with ChangeNotifier {
       return false;
     }
 
-    bool b = await _authenticationService.registerVerify(
+    final result = await _authenticationService.registerVerify(
       dio: _dioController!,
       email: email,
       phone: phone,
       code: pin,
     );
 
-    return b;
+    return result;
   }
 
   Future<bool> logOut() async {

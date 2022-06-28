@@ -55,7 +55,7 @@ class AuthenticationService {
     }
   }
 
-  Future<bool> registerVerify({
+  Future<dynamic> registerVerify({
     required DioController dio,
     required String email,
     required String phone,
@@ -73,7 +73,7 @@ class AuthenticationService {
       if (response.statusCode == 200) {
         return true;
       } else {
-        return false;
+        return null;
       }
     } on DioError catch (e, s) {
       log('Register Verify DioError!', stackTrace: s, error: e);
@@ -82,11 +82,12 @@ class AuthenticationService {
           prettyJson(e.response?.data),
           name: 'Register Verify Error Response',
         );
+        return e.response?.data['message'];
       }
-      return false;
+      return null;
     } on Exception catch (e, s) {
       log('Register Verify Error!', stackTrace: s, error: e);
-      return false;
+      return null;
     }
   }
 

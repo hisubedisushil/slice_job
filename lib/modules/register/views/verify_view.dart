@@ -161,7 +161,7 @@ class _VerifyViewState extends State<VerifyView> {
       return;
     }
 
-    bool? result = await showDialog(
+    final result = await showDialog(
       context: context,
       builder: (context) => FutureProgressDialog(
         context.read<AuthenticationController>().verify(
@@ -173,18 +173,41 @@ class _VerifyViewState extends State<VerifyView> {
     );
     log(result.toString());
 
-    if (!(result ?? false)) {
-      Navigator.pushReplacement(
+    if (result is bool) {
+      if (result) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const LoginView(),
+          ),
+        );
+      } else {
+        await PanaraInfoDialog.showAnimatedGrow(
+          context,
+          title: "Verification Failed",
+          message: "Oops! Something went wrong.",
+          buttonText: 'Okay',
+          onTapDismiss: () => Navigator.pop(context),
+          panaraDialogType: PanaraDialogType.error,
+          barrierDismissible: true,
+        );
+      }
+    } else if (result is String) {
+      await PanaraInfoDialog.showAnimatedGrow(
         context,
-        MaterialPageRoute(
-          builder: (_) => const LoginView(),
-        ),
+        title: "Verification Failed",
+        message: result,
+        buttonText: 'Okay',
+        onTapDismiss: () => Navigator.pop(context),
+        panaraDialogType: PanaraDialogType.error,
+        barrierDismissible: true,
       );
+      return;
     } else {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
         title: "Verification Failed",
-        message: "Invalid Verification Code.",
+        message: "Oops! Something went wrong.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),
         panaraDialogType: PanaraDialogType.error,

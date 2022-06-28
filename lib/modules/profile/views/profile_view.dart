@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
@@ -144,10 +143,10 @@ class _ProfileViewState extends State<ProfileView> {
                   CircleAvatar(
                     radius: width / 4.0,
                     backgroundColor: AppColors.primary.withOpacity(0.2),
-                    backgroundImage: CachedNetworkImageProvider(
+                    backgroundImage: NetworkImage(
                       profile.profile?.photo ?? '',
                     ),
-                    foregroundImage: CachedNetworkImageProvider(
+                    foregroundImage: NetworkImage(
                       profile.profile?.photo ?? '',
                     ),
                   ),

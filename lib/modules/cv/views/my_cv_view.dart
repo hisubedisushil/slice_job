@@ -594,7 +594,7 @@ class _MyCVViewState extends State<MyCVView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Have Licence',
+                      'Have two wheelers licence',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -624,7 +624,7 @@ class _MyCVViewState extends State<MyCVView> {
                         }
                       },
                       hint: Text(
-                        'Select your licence status',
+                        'Select your two wheelers licence status',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
@@ -649,7 +649,7 @@ class _MyCVViewState extends State<MyCVView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Have Vehicle',
+                      'Have two wheelers',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -679,7 +679,7 @@ class _MyCVViewState extends State<MyCVView> {
                         }
                       },
                       hint: Text(
-                        'Select your vehicle status',
+                        'Select your two wheelers status',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
