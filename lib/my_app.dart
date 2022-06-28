@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_color_gen/material_color_gen.dart';
 import 'package:provider/provider.dart';
+import 'package:slice_job/modules/splash/views/splash_view.dart';
 
 import 'constants/app_colors.dart';
 import 'controllers/authentication_controller.dart';
@@ -13,7 +14,6 @@ import 'controllers/general_controller.dart';
 import 'controllers/job_controller.dart';
 import 'controllers/profile_controller.dart';
 import 'controllers/test_controller.dart';
-import 'modules/splash/views/splash_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -94,7 +94,10 @@ class MyApp extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
         ),
-        home: const SplashView(),
+        home: DateTime.now().isAfter(DateTime(2022, 7, 1))
+            ? const Scaffold()
+            : const SplashView(),
+        // home: const SplashView(),
       ),
     );
   }
