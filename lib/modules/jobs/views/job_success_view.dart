@@ -37,8 +37,7 @@ class JobSuccessView extends StatelessWidget {
                     const SizedBox(height: 10.0),
                     Text(
                       'Congratulation! You have successfully applied for '
-                      'this job. '
-                      '${(model.onlineExam == 'yes') ? 'Please use a web browser to attempt an Online Job Interview for your applied job.' : 'Please check more detail in your email.'}',
+                      'this job.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18.0,

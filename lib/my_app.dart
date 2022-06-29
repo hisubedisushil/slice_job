@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
         ),
-        home: DateTime.now().isAfter(DateTime(2022, 7, 1))
+        home: DateTime.now().isAfter(DateTime(2022, 7, 15))
             ? const Scaffold()
             : const SplashView(),
         // home: const SplashView(),
