@@ -584,7 +584,7 @@ class _TestViewState extends State<TestView> {
                                 groupValue: _optionSelected,
                                 onChanged: (value) {
                                   _optionSelected = value as int;
-                                  _selectedOption = '2';
+                                  _selectedOption = '0';
                                   setState(() {});
                                 },
                               ),

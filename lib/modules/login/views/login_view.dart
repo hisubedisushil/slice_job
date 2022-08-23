@@ -71,7 +71,6 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       filled: true,
                     ),
-                    keyboardType: TextInputType.emailAddress,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       bool b = RegExp(
@@ -264,7 +263,7 @@ class _LoginViewState extends State<LoginView> {
     if (!b) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Invalid Email",
+        title: "Invalid Email Or Phone",
         message: "Please enter valid email or mobile number.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),

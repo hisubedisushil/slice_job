@@ -52,7 +52,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   TextFormField(
                     decoration: InputDecoration(
                       label: const Text(
-                        'Email',
+                        'Email or Phone',
                       ),
                       labelStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -67,15 +67,18 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       ),
                       filled: true,
                     ),
-                    keyboardType: TextInputType.emailAddress,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       bool b = RegExp(
                               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                           .hasMatch(value ?? '');
+                      if (!b) {
+                        final phone = int.tryParse((value ?? '').trim());
+                        b = (phone != null && (value ?? '').length == 10);
+                      }
 
                       if (!b) {
-                        return 'Please enter valid email address';
+                        return 'Please enter valid email or mobile number';
                       }
                       return null;
                     },
@@ -139,11 +142,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     bool b = RegExp(
             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(_email.text);
+    if (!b) {
+      final phone = int.tryParse(_email.text.trim());
+      b = (phone != null && _email.text.length == 10);
+    }
 
     if (!b) {
       await PanaraInfoDialog.showAnimatedGrow(
         context,
-        title: "Invalid Email",
+        title: "Invalid Email Or Phone",
         message: "Please enter valid email or mobile number.",
         buttonText: 'Okay',
         onTapDismiss: () => Navigator.pop(context),

@@ -285,14 +285,16 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
 
     if (result is bool) {
       if (result) {
-        Navigator.pop(context);
         await PanaraInfoDialog.showAnimatedGrow(
           context,
           title: "Reset Password Success",
           message: 'You have successfully reset password. '
               'Please login using new password.',
           buttonText: 'Okay',
-          onTapDismiss: () => Navigator.pop(context),
+          onTapDismiss: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
           panaraDialogType: PanaraDialogType.success,
           barrierDismissible: true,
         );
