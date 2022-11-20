@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '/constants/app_colors.dart';
 import '/controllers/authentication_controller.dart';
@@ -10,8 +12,6 @@ import '/modules/navbar/controllers/nav_bar_controller.dart';
 import '/modules/pages/about_us_view.dart';
 import '/modules/pages/contact_view.dart';
 import '/modules/pages/faq_view.dart';
-import '/modules/pages/privacy_view.dart';
-import '/modules/pages/term_view.dart';
 import '/modules/register/views/register_view.dart';
 import '/modules/test/views/test_categories_view.dart';
 
@@ -363,10 +363,15 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const TermView(),
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (_) => const TermView(),
+              //   ),
+              // );
+              launchUrl(
+                Uri.parse(
+                  'https://www.slicejob.com/company/terms',
                 ),
               );
             },
@@ -400,10 +405,15 @@ class MenuSheet extends StatelessWidget {
           child: ListTile(
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const PrivacyView(),
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (_) => const PrivacyView(),
+              //   ),
+              // );
+              launchUrl(
+                Uri.parse(
+                  'https://www.slicejob.com/company/policy',
                 ),
               );
             },
@@ -427,6 +437,44 @@ class MenuSheet extends StatelessWidget {
             ),
           ),
         ),
+        const Divider(
+          height: 0.0,
+          indent: 20.0,
+          endIndent: 20.0,
+        ),
+        if (authentication.isLoggedIn)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RemoveAccountView(),
+                  ),
+                );
+              },
+              leading: Icon(
+                Ionicons.close,
+                color: AppColors.red,
+                size: 24.0,
+              ),
+              title: Text(
+                'Remove Account',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.red,
+                ),
+              ),
+              horizontalTitleGap: 0.0,
+              dense: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ),
         SizedBox(
           height: MediaQuery.of(context).padding.bottom + 20.0,
         )

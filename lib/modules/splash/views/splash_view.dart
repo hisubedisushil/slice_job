@@ -74,7 +74,7 @@ class _SplashViewState extends State<SplashView> {
                       ),
                     ),
                     Text(
-                      'v1.0.1',
+                      'v1.0.0',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.grey,

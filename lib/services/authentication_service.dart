@@ -125,6 +125,47 @@ class AuthenticationService {
     }
   }
 
+  Future<dynamic> removeAccount({
+    required DioController dio,
+    required String password,
+  }) async {
+    try {
+      Response response = await dio.dioClient.post(
+        'account_remove',
+        data: {
+          "password": password,
+        },
+      );
+      log(prettyJson(response.data), name: 'removeAccount Response');
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return null;
+      }
+    } on DioError catch (e, s) {
+      log(
+        prettyJson(e.response?.requestOptions.uri.toString()),
+        name: 'removeAccount Request url',
+      );
+      log(
+        prettyJson(e.response?.requestOptions.data),
+        name: 'removeAccount Request Data',
+      );
+      log('removeAccount DioError!', stackTrace: s, error: e);
+      if (e.response?.statusCode == 404) {
+        log(
+          prettyJson(e.response?.data),
+          name: 'removeAccount Error Response',
+        );
+        return e.response?.data['message'];
+      }
+      return null;
+    } on Exception catch (e, s) {
+      log('removeAccount Error!', stackTrace: s, error: e);
+      return null;
+    }
+  }
+
   Future<dynamic> passwordForgot({
     required DioController dio,
     required String email,

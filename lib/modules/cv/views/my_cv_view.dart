@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:open_file/open_file.dart';
+// import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
 import '/packages/panara_dialogs/panara_dialogs.dart';
@@ -2340,7 +2340,7 @@ class _MyCVViewState extends State<MyCVView> {
         buttonText: 'Open CV',
         onTapDismiss: () {
           Navigator.pop(context);
-          OpenFile.open(result);
+          // OpenFile.open(result);
         },
         panaraDialogType: PanaraDialogType.success,
         barrierDismissible: true,

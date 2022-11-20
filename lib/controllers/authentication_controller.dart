@@ -129,6 +129,27 @@ class AuthenticationController with ChangeNotifier {
     return true;
   }
 
+  Future<dynamic> removeAccount({required String password}) async {
+    if (_connectivityController == null) {
+      return false;
+    }
+
+    if (_dioController == null) {
+      return false;
+    }
+
+    if (!(_connectivityController?.hasInternet ?? false)) {
+      return false;
+    }
+
+    final result = await _authenticationService.removeAccount(
+      dio: _dioController!,
+      password: password,
+    );
+
+    return result;
+  }
+
   Future<dynamic> forgotPassword({required String email}) async {
     if (_connectivityController == null) {
       return false;

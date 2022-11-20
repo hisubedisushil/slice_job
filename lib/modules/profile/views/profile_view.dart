@@ -6,7 +6,7 @@ import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:open_file/open_file.dart';
+// import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
 import '/packages/panara_dialogs/panara_dialogs.dart';
@@ -840,7 +840,7 @@ class _ProfileViewState extends State<ProfileView> {
         buttonText: 'Open CV',
         onTapDismiss: () {
           Navigator.pop(context);
-          OpenFile.open(result);
+          // OpenFile.open(result);
         },
         panaraDialogType: PanaraDialogType.success,
         barrierDismissible: true,
