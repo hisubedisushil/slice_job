@@ -21,7 +21,10 @@ dependencies:
   social_login_buttons: ^1.0.6+2
   pretty_json: ^2.0.0
   future_progress_dialog: ^0.2.0
-  pinput: ^2.2.12
+  pinput:
+    git:
+      url: https://github.com/Tkko/Flutter_Pinput
+      ref: dev 
   file_picker: ^4.6.1
   intl: ^0.17.0
   path_provider: ^2.0.11
@@ -31,7 +34,7 @@ dependencies:
   shared_preferences: ^2.0.15
   url_launcher: ^6.1.5
   jiffy: ^5.0.0
-  flutter_widget_from_html_core: ^0.8.5+3
+  flutter_widget_from_html_core: ^0.9.0+2
   image_cropper: ^3.0.0
   webview_flutter_plus: ^0.3.0+2
 #  open_file: ^3.2.1
