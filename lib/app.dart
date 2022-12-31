@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_color_gen/material_color_gen.dart';
@@ -23,15 +24,14 @@ class App extends StatelessWidget {
   }
 }
 
-class AppView extends StatefulWidget {
+class AppView extends ConsumerStatefulWidget {
   const AppView({Key? key}) : super(key: key);
 
   @override
-  State<AppView> createState() => _AppViewState();
+  ConsumerState<AppView> createState() => _AppViewState();
 }
 
-class _AppViewState extends State<AppView> {
-  String? version;
+class _AppViewState extends ConsumerState<AppView> {
   @override
   void initState() {
     super.initState();
@@ -39,6 +39,7 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    final router = ref.read(goRouterRef);
     return MaterialApp.router(
       routerConfig: router,
       theme: ThemeData(

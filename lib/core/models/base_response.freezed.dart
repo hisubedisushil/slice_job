@@ -189,6 +189,223 @@ abstract class BaseResponse<T> implements ApiResponse<T> {
       throw _privateConstructorUsedError;
 }
 
+ApiResponsePaginated<T> _$ApiResponsePaginatedFromJson<T>(
+    Map<String, dynamic> json, T Function(Object?) fromJsonT) {
+  return BaseResponsePaginated<T>.fromJson(json, fromJsonT);
+}
+
+/// @nodoc
+mixin _$ApiResponsePaginated<T> {
+  bool get status => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
+  String get total => throw _privateConstructorUsedError;
+  String get page => throw _privateConstructorUsedError;
+  T get data => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
+      throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ApiResponsePaginatedCopyWith<T, ApiResponsePaginated<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ApiResponsePaginatedCopyWith<T, $Res> {
+  factory $ApiResponsePaginatedCopyWith(ApiResponsePaginated<T> value,
+          $Res Function(ApiResponsePaginated<T>) then) =
+      _$ApiResponsePaginatedCopyWithImpl<T, $Res, ApiResponsePaginated<T>>;
+  @useResult
+  $Res call({bool status, String message, String total, String page, T data});
+}
+
+/// @nodoc
+class _$ApiResponsePaginatedCopyWithImpl<T, $Res,
+        $Val extends ApiResponsePaginated<T>>
+    implements $ApiResponsePaginatedCopyWith<T, $Res> {
+  _$ApiResponsePaginatedCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+    Object? message = null,
+    Object? total = null,
+    Object? page = null,
+    Object? data = freezed,
+  }) {
+    return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as bool,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as String,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BaseResponsePaginatedCopyWith<T, $Res>
+    implements $ApiResponsePaginatedCopyWith<T, $Res> {
+  factory _$$BaseResponsePaginatedCopyWith(_$BaseResponsePaginated<T> value,
+          $Res Function(_$BaseResponsePaginated<T>) then) =
+      __$$BaseResponsePaginatedCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({bool status, String message, String total, String page, T data});
+}
+
+/// @nodoc
+class __$$BaseResponsePaginatedCopyWithImpl<T, $Res>
+    extends _$ApiResponsePaginatedCopyWithImpl<T, $Res,
+        _$BaseResponsePaginated<T>>
+    implements _$$BaseResponsePaginatedCopyWith<T, $Res> {
+  __$$BaseResponsePaginatedCopyWithImpl(_$BaseResponsePaginated<T> _value,
+      $Res Function(_$BaseResponsePaginated<T>) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+    Object? message = null,
+    Object? total = null,
+    Object? page = null,
+    Object? data = freezed,
+  }) {
+    return _then(_$BaseResponsePaginated<T>(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as bool,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as String,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable(genericArgumentFactories: true)
+class _$BaseResponsePaginated<T> implements BaseResponsePaginated<T> {
+  const _$BaseResponsePaginated(
+      {required this.status,
+      required this.message,
+      required this.total,
+      required this.page,
+      required this.data});
+
+  factory _$BaseResponsePaginated.fromJson(
+          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
+      _$$BaseResponsePaginatedFromJson(json, fromJsonT);
+
+  @override
+  final bool status;
+  @override
+  final String message;
+  @override
+  final String total;
+  @override
+  final String page;
+  @override
+  final T data;
+
+  @override
+  String toString() {
+    return 'ApiResponsePaginated<$T>(status: $status, message: $message, total: $total, page: $page, data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BaseResponsePaginated<T> &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.page, page) || other.page == page) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, status, message, total, page,
+      const DeepCollectionEquality().hash(data));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BaseResponsePaginatedCopyWith<T, _$BaseResponsePaginated<T>>
+      get copyWith =>
+          __$$BaseResponsePaginatedCopyWithImpl<T, _$BaseResponsePaginated<T>>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
+    return _$$BaseResponsePaginatedToJson<T>(this, toJsonT);
+  }
+}
+
+abstract class BaseResponsePaginated<T> implements ApiResponsePaginated<T> {
+  const factory BaseResponsePaginated(
+      {required final bool status,
+      required final String message,
+      required final String total,
+      required final String page,
+      required final T data}) = _$BaseResponsePaginated<T>;
+
+  factory BaseResponsePaginated.fromJson(
+          Map<String, dynamic> json, T Function(Object?) fromJsonT) =
+      _$BaseResponsePaginated<T>.fromJson;
+
+  @override
+  bool get status;
+  @override
+  String get message;
+  @override
+  String get total;
+  @override
+  String get page;
+  @override
+  T get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$BaseResponsePaginatedCopyWith<T, _$BaseResponsePaginated<T>>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 ResponseData<T> _$ResponseDataFromJson<T>(
     Map<String, dynamic> json, T Function(Object?) fromJsonT) {
   switch (json['runtimeType']) {

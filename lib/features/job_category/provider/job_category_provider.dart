@@ -22,25 +22,4 @@ class JobCategoryProvider extends StateNotifier<BaseState> {
       state = BaseState.error(result.data as Failure);
     }
   }
-
-  // Future<bool> completeQrPayment({
-  //   required String qrString,
-  //   required String transactionAmount,
-  // }) async {
-  //   state = const DataState.loading();
-  //   final result = await _qrRepository.completeQrPayment(
-  //     qrString: qrString,
-  //     transactionAmount: transactionAmount,
-  //   );
-  //   return result.when(
-  //     (failure) {
-  //       state = DataState.error(failure.message);
-  //       return false;
-  //     },
-  //     (success) {
-  //       state = const DataState.success();
-  //       return true;
-  //     },
-  //   );
-  // }
 }

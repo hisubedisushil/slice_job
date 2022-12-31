@@ -16,5 +16,6 @@ class BaseState<T> with _$BaseState<T> {
   const factory BaseState.error(Failure failure) = BaseError;
 
   /// Auth success state
-  const factory BaseState.success({T? data, Map<String, dynamic>? extraData}) = BaseSuccess;
+  const factory BaseState.success({T? data, Map<String, dynamic>? extraData}) =
+      BaseSuccess;
 }
