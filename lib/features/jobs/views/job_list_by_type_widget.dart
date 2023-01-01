@@ -30,7 +30,7 @@ class JobListByTypeWidget extends ConsumerWidget {
             final company = jobsData[index];
             return FeaturedJobListItem(
               company: company,
-            ).pXY(10.h, 10.h);
+            ).pXY(10.h, 5.h);
           },
           childCount: data.length,
         ),
@@ -43,7 +43,7 @@ class JobListByTypeWidget extends ConsumerWidget {
             final job = jobsData[index];
             return RecentJobListItem(
               job: job,
-            ).pXY(10.h, 10.h);
+            ).pXY(10.h, 5.h);
           },
           childCount: data.length,
         ),

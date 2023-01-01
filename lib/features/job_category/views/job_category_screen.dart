@@ -54,9 +54,6 @@ class _JobCategoryScreenState extends ConsumerState<JobCategoryScreen> {
             );
       });
     });
-    _pagingController.addStatusListener((status) {
-      log('st: $status');
-    });
   }
 
   void _updateData(List<Job> newJobs, int currentPage) {

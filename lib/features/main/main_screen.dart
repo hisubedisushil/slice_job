@@ -3,8 +3,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
+import 'package:slice_job/features/blogs/views/blogs_screen.dart';
 import 'package:slice_job/features/home/home_screen.dart';
 import 'package:slice_job/features/main/controller/bottom_nav_bar_controller.dart';
+import 'package:slice_job/features/profile/views/profile_screen.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 
 final navBarController =
@@ -71,12 +73,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           Container(
             color: Colors.red,
           ),
-          Container(
-            color: Colors.blue,
-          ),
-          Container(
-            color: Colors.amber,
-          ),
+          const BlogsScreen(),
+          const ProfileScreen(),
         ],
       ),
     );

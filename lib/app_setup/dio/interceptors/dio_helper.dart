@@ -71,9 +71,6 @@ class DioHelper {
         ),
       );
       final json = response.data! as R;
-      // (response.data is List) ?
-      //   response.data as List<dynamic>:
-
       return Left(json);
     } on DioError catch (e) {
       return Right(e.toFailure);
@@ -81,44 +78,4 @@ class DioHelper {
       return Right(Failure.fromException(e));
     }
   }
-
-  // Future<Either<PaginatedResponse<R>, Failure>> paginatedRequest<R>({
-  //   required DIO_METHOD reqType,
-  //   required String endpoint,
-  //   required AuthType authType,
-  //   Map<String, dynamic>? reqBody,
-  //   CancelToken? cancelToken,
-  //   required Map<String, dynamic> queryParam,
-  // }) async {
-  //   try {
-  //     final method = describeEnum(reqType);
-  //     final data = <String, dynamic>{};
-  //     if (reqBody != null) {
-  //       data.addAll(reqBody);
-  //     }
-  //     var response = await _dio.request(
-  //       endpoint,
-  //       queryParameters: queryParam,
-  //       data: data,
-  //       options: Options(
-  //         method: method,
-  //         contentType: Headers.jsonContentType,
-  //         extra: {
-  //           authToken: authType,
-  //         },
-  //       ),
-  //     );
-  //     final next = int.tryParse(response.headers["x-wp-totalpages"]?[0] ?? "");
-  //     final page = queryParam["page"];
-
-  //     final res = PaginatedResponse(
-  //         next: page < next ? page + 1 : null, data: response.data as R);
-
-  //     return Left(res);
-  //   } on DioError catch (e) {
-  //     return Right(e.toFailure);
-  //   } catch (e) {
-  //     return Right(Failure.fromException(e));
-  //   }
-  // }
 }

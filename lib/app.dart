@@ -3,8 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_color_gen/material_color_gen.dart';
+import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
+import 'package:slice_job/features/auth/provider/auth_provider.dart';
+
+final authRef =
+    StateNotifierProvider<AuthProvider, AuthState>((ref) {
+  return AuthProvider(ref: ref);
+});
 
 class App extends StatelessWidget {
   const App({
@@ -13,8 +20,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // todo: move provider scope to routes? (needs research)
-
     return ScreenUtilInit(
       designSize: const Size(378, 806),
       builder: (BuildContext context, child) {

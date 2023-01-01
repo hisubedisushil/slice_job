@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/constants/app_colors.dart';
+import 'package:slice_job/core/widgets/home_screen_header.dart';
 import 'package:slice_job/features/employer/provider/employer_provider.dart';
 import 'package:slice_job/features/employer/view/top_employer_list_widget.dart';
 import 'package:slice_job/features/job_category/provider/job_category_provider.dart';
@@ -14,7 +15,6 @@ import 'package:slice_job/features/jobs/views/job_list_by_type_widget.dart';
 import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/helpers/enums/job_enums.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
-import 'package:slice_job/widgets/header_widget.dart';
 
 final featuredJobCategoryRef =
     StateNotifierProvider.autoDispose<JobCategoryProvider, BaseState>((ref) {
@@ -66,7 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             floating: true,
             pinned: false,
             snap: true,
-            title: const HeaderWidget(),
+            title: const HomeScreenHeaderWidget(),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(87.0),
               child: Column(

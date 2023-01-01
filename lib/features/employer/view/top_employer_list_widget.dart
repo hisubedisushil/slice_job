@@ -16,9 +16,8 @@ class TopEmployerListWidget extends ConsumerWidget {
     final width = (ScreenUtil().screenWidth - 30.w) / 2;
     final gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      mainAxisSpacing: 10.h,
-      crossAxisSpacing: 10.h,
-      // childAspectRatio: 2.0,
+      mainAxisSpacing: 0,
+      crossAxisSpacing: 0,
       mainAxisExtent: width,
     );
     return ref.watch(topEmployerRef).maybeWhen(
