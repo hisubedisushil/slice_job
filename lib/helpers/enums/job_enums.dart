@@ -1,4 +1,4 @@
-enum JobType {
+enum JobTypeEnum {
   featured,
   recent,
 }

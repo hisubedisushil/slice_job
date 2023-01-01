@@ -11,7 +11,7 @@ import 'package:slice_job/features/employer/view/top_employer_list_widget.dart';
 import 'package:slice_job/features/job_category/provider/job_category_provider.dart';
 import 'package:slice_job/features/job_category/widgets/featured_job_category_list_widget.dart';
 import 'package:slice_job/features/jobs/provider/job_provider.dart';
-import 'package:slice_job/features/jobs/views/job_list_by_type_widget.dart';
+import 'package:slice_job/features/jobs/widgets/job_list_by_type_widget.dart';
 import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/helpers/enums/job_enums.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
@@ -136,14 +136,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           JobListByTypeWidget(
             provider: featuredJobsRef,
-            type: JobType.featured,
+            type: JobTypeEnum.featured,
           ),
           SliverPersistentHeader(
             delegate: Delegate('Recent Jobs'),
           ),
           JobListByTypeWidget(
             provider: recentJobsRef,
-            type: JobType.recent,
+            type: JobTypeEnum.recent,
           ),
           SliverPersistentHeader(
             delegate: Delegate('Top Employers'),

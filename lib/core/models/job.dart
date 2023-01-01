@@ -22,3 +22,15 @@ class Job with _$Job {
 
   factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
 }
+
+@freezed
+class JobType with _$JobType {
+  const factory JobType({
+    required final String id,
+    required final String name,
+    final String? status,
+  }) = _JobType;
+
+  factory JobType.fromJson(Map<String, dynamic> json) =>
+      _$JobTypeFromJson(json);
+}

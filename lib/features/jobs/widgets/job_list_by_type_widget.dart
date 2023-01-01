@@ -18,10 +18,10 @@ class JobListByTypeWidget extends ConsumerWidget {
   });
 
   final AutoDisposeStateNotifierProvider<JobProvider, BaseState> provider;
-  final JobType type;
+  final JobTypeEnum type;
 
   SliverList makeDelegate(dynamic data) {
-    if (type == JobType.featured) {
+    if (type == JobTypeEnum.featured) {
       final jobsData = data as List<Company>;
 
       return SliverList(
@@ -58,7 +58,7 @@ class JobListByTypeWidget extends ConsumerWidget {
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return type == JobType.featured
+              return type == JobTypeEnum.featured
                   ? const FeaturedJobListShimmerItem().pXY(10.h, 10.h)
                   : const RecentJobListShimmerItem().pXY(10.h, 10.h);
             },

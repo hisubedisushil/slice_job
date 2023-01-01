@@ -198,7 +198,7 @@ ApiResponsePaginated<T> _$ApiResponsePaginatedFromJson<T>(
 mixin _$ApiResponsePaginated<T> {
   bool get status => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  String get total => throw _privateConstructorUsedError;
+  dynamic get total => throw _privateConstructorUsedError;
   String get page => throw _privateConstructorUsedError;
   T get data => throw _privateConstructorUsedError;
 
@@ -215,7 +215,7 @@ abstract class $ApiResponsePaginatedCopyWith<T, $Res> {
           $Res Function(ApiResponsePaginated<T>) then) =
       _$ApiResponsePaginatedCopyWithImpl<T, $Res, ApiResponsePaginated<T>>;
   @useResult
-  $Res call({bool status, String message, String total, String page, T data});
+  $Res call({bool status, String message, dynamic total, String page, T data});
 }
 
 /// @nodoc
@@ -234,7 +234,7 @@ class _$ApiResponsePaginatedCopyWithImpl<T, $Res,
   $Res call({
     Object? status = null,
     Object? message = null,
-    Object? total = null,
+    Object? total = freezed,
     Object? page = null,
     Object? data = freezed,
   }) {
@@ -247,10 +247,10 @@ class _$ApiResponsePaginatedCopyWithImpl<T, $Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      total: null == total
+      total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as String,
+              as dynamic,
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -271,7 +271,7 @@ abstract class _$$BaseResponsePaginatedCopyWith<T, $Res>
       __$$BaseResponsePaginatedCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call({bool status, String message, String total, String page, T data});
+  $Res call({bool status, String message, dynamic total, String page, T data});
 }
 
 /// @nodoc
@@ -288,7 +288,7 @@ class __$$BaseResponsePaginatedCopyWithImpl<T, $Res>
   $Res call({
     Object? status = null,
     Object? message = null,
-    Object? total = null,
+    Object? total = freezed,
     Object? page = null,
     Object? data = freezed,
   }) {
@@ -301,10 +301,10 @@ class __$$BaseResponsePaginatedCopyWithImpl<T, $Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      total: null == total
+      total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as String,
+              as dynamic,
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -336,7 +336,7 @@ class _$BaseResponsePaginated<T> implements BaseResponsePaginated<T> {
   @override
   final String message;
   @override
-  final String total;
+  final dynamic total;
   @override
   final String page;
   @override
@@ -354,14 +354,19 @@ class _$BaseResponsePaginated<T> implements BaseResponsePaginated<T> {
             other is _$BaseResponsePaginated<T> &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.total, total) || other.total == total) &&
+            const DeepCollectionEquality().equals(other.total, total) &&
             (identical(other.page, page) || other.page == page) &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, message, total, page,
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      message,
+      const DeepCollectionEquality().hash(total),
+      page,
       const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
@@ -382,7 +387,7 @@ abstract class BaseResponsePaginated<T> implements ApiResponsePaginated<T> {
   const factory BaseResponsePaginated(
       {required final bool status,
       required final String message,
-      required final String total,
+      required final dynamic total,
       required final String page,
       required final T data}) = _$BaseResponsePaginated<T>;
 
@@ -395,7 +400,7 @@ abstract class BaseResponsePaginated<T> implements ApiResponsePaginated<T> {
   @override
   String get message;
   @override
-  String get total;
+  dynamic get total;
   @override
   String get page;
   @override

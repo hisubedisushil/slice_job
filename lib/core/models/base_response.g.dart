@@ -33,7 +33,7 @@ _$BaseResponsePaginated<T> _$$BaseResponsePaginatedFromJson<T>(
     _$BaseResponsePaginated<T>(
       status: json['status'] as bool,
       message: json['message'] as String,
-      total: json['total'] as String,
+      total: json['total'],
       page: json['page'] as String,
       data: fromJsonT(json['data']),
     );
@@ -41,14 +41,23 @@ _$BaseResponsePaginated<T> _$$BaseResponsePaginatedFromJson<T>(
 Map<String, dynamic> _$$BaseResponsePaginatedToJson<T>(
   _$BaseResponsePaginated<T> instance,
   Object? Function(T value) toJsonT,
-) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'total': instance.total,
-      'page': instance.page,
-      'data': toJsonT(instance.data),
-    };
+) {
+  final val = <String, dynamic>{
+    'status': instance.status,
+    'message': instance.message,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('total', instance.total);
+  val['page'] = instance.page;
+  val['data'] = toJsonT(instance.data);
+  return val;
+}
 
 _$ResponseDataList<T> _$$ResponseDataListFromJson<T>(
   Map<String, dynamic> json,

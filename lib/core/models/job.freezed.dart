@@ -295,3 +295,169 @@ abstract class _Job implements Job {
   @JsonKey(ignore: true)
   _$$_JobCopyWith<_$_Job> get copyWith => throw _privateConstructorUsedError;
 }
+
+JobType _$JobTypeFromJson(Map<String, dynamic> json) {
+  return _JobType.fromJson(json);
+}
+
+/// @nodoc
+mixin _$JobType {
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $JobTypeCopyWith<JobType> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $JobTypeCopyWith<$Res> {
+  factory $JobTypeCopyWith(JobType value, $Res Function(JobType) then) =
+      _$JobTypeCopyWithImpl<$Res, JobType>;
+  @useResult
+  $Res call({String id, String name, String? status});
+}
+
+/// @nodoc
+class _$JobTypeCopyWithImpl<$Res, $Val extends JobType>
+    implements $JobTypeCopyWith<$Res> {
+  _$JobTypeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? status = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_JobTypeCopyWith<$Res> implements $JobTypeCopyWith<$Res> {
+  factory _$$_JobTypeCopyWith(
+          _$_JobType value, $Res Function(_$_JobType) then) =
+      __$$_JobTypeCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String name, String? status});
+}
+
+/// @nodoc
+class __$$_JobTypeCopyWithImpl<$Res>
+    extends _$JobTypeCopyWithImpl<$Res, _$_JobType>
+    implements _$$_JobTypeCopyWith<$Res> {
+  __$$_JobTypeCopyWithImpl(_$_JobType _value, $Res Function(_$_JobType) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? status = freezed,
+  }) {
+    return _then(_$_JobType(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_JobType implements _JobType {
+  const _$_JobType({required this.id, required this.name, this.status});
+
+  factory _$_JobType.fromJson(Map<String, dynamic> json) =>
+      _$$_JobTypeFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String name;
+  @override
+  final String? status;
+
+  @override
+  String toString() {
+    return 'JobType(id: $id, name: $name, status: $status)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_JobType &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, status);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_JobTypeCopyWith<_$_JobType> get copyWith =>
+      __$$_JobTypeCopyWithImpl<_$_JobType>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_JobTypeToJson(
+      this,
+    );
+  }
+}
+
+abstract class _JobType implements JobType {
+  const factory _JobType(
+      {required final String id,
+      required final String name,
+      final String? status}) = _$_JobType;
+
+  factory _JobType.fromJson(Map<String, dynamic> json) = _$_JobType.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get name;
+  @override
+  String? get status;
+  @override
+  @JsonKey(ignore: true)
+  _$$_JobTypeCopyWith<_$_JobType> get copyWith =>
+      throw _privateConstructorUsedError;
+}

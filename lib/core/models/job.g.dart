@@ -37,3 +37,25 @@ Map<String, dynamic> _$$_JobToJson(_$_Job instance) {
   writeNotNull('company', Company.toJson(instance.company));
   return val;
 }
+
+_$_JobType _$$_JobTypeFromJson(Map<String, dynamic> json) => _$_JobType(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: json['status'] as String?,
+    );
+
+Map<String, dynamic> _$$_JobTypeToJson(_$_JobType instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('status', instance.status);
+  return val;
+}

@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/features/blogs/views/blogs_screen.dart';
 import 'package:slice_job/features/home/home_screen.dart';
+import 'package:slice_job/features/jobs/views/job_search_screen.dart';
 import 'package:slice_job/features/main/controller/bottom_nav_bar_controller.dart';
 import 'package:slice_job/features/profile/views/profile_screen.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
@@ -61,20 +62,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: navRef.pageController,
-        children: [
-          // const JobView(),
-          // JobFilterView(
-          //   searchText: widget.searchText,
-          //   category: widget.category,
-          // ),
-          // const BlogsView(),
-          // const ProfileView(),
-          const HomeScreen(),
-          Container(
-            color: Colors.red,
-          ),
-          const BlogsScreen(),
-          const ProfileScreen(),
+        children: const [
+          HomeScreen(),
+          JobSearchScreen(),
+          BlogsScreen(),
+          ProfileScreen(),
         ],
       ),
     );

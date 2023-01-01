@@ -19,4 +19,11 @@ const String getAllBlogsEndpoint = 'all-blogs';
 const String blogDetailEndpoint = 'blog-detail';
 const String blogCategoryEndpoint = 'blog-category';
 const String getBlogsByCategoryEndpoint = 'category-blogs';
+const String searchJobsEndpoint = 'search-jobs';
+const String jobTypesEndpoint = 'job-types';
+const String getJobCareerLevelsEndpoint = 'job-career-level';
+const String getJobSalariesEndpoint = 'job-salary';
+const String getJobEducationLevelsEndpoint = 'job-education-level';
+const String getJobExperienceLevelsEndpoint = 'job-experience-level';
+
 

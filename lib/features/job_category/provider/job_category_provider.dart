@@ -7,15 +7,27 @@ import 'package:slice_job/features/job_category/repository/job_category_reposito
 
 class JobCategoryProvider extends StateNotifier<BaseState> {
   JobCategoryProvider({
-    required Ref ref,
+    required this.ref,
   })  : _repository = ref.read(jobCategoryRepositoryRef),
         super(const BaseState.initial());
+
+  final Ref ref;
 
   final JobCategoryRepository _repository;
 
   Future<void> getFeaturedJobCategories() async {
     state = const BaseState.loading();
     final result = await _repository.getFeaturedJobCategories();
+    if (result is BaseResponse<List<JobCategory>>) {
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
+
+  Future<void> getJobCategories() async {
+    state = const BaseState.loading();
+    final result = await _repository.getJobCategories();
     if (result is BaseResponse<List<JobCategory>>) {
       state = BaseState.success(data: result.data);
     } else {

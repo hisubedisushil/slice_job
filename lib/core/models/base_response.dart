@@ -21,7 +21,7 @@ class ApiResponsePaginated<T> with _$ApiResponsePaginated<T> {
   const factory ApiResponsePaginated({
     required final bool status,
     required final String message,
-    required final String total,
+    required final dynamic total,
     required final String page,
     required final T data,
   }) = BaseResponsePaginated;

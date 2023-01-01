@@ -4,16 +4,42 @@ import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/core/models/base_response.dart';
 import 'package:slice_job/core/models/company.dart';
 import 'package:slice_job/core/models/job.dart';
+import 'package:slice_job/core/models/job_category.dart';
 import 'package:slice_job/core/models/job_detail.dart';
+import 'package:slice_job/features/job_category/repository/job_category_repository.dart';
+import 'package:slice_job/features/jobs/models/job_search.dart';
 import 'package:slice_job/features/jobs/repository/job_repository.dart';
+
+final jobTypesRef = StateProvider<List<JobType>>((ref) {
+  return [];
+});
+final jobCareerLevelsRef = StateProvider<List<JobType>>((ref) {
+  return [];
+});
+final jobSalariesRef = StateProvider<List<JobType>>((ref) {
+  return [];
+});
+final jobEducationLevelsRef = StateProvider<List<JobType>>((ref) {
+  return [];
+});
+final jobExperienceLevelsRef = StateProvider<List<JobType>>((ref) {
+  return [];
+});
+final allCategoriesRef = StateProvider<List<JobCategory>>((ref) {
+  return [];
+});
 
 class JobProvider extends StateNotifier<BaseState> {
   JobProvider({
-    required Ref ref,
+    required this.ref,
   })  : _repository = ref.read(jobRepositoryRef),
+        _jobCategoryrepository = ref.read(jobCategoryRepositoryRef),
         super(const BaseState.initial());
 
+  final Ref ref;
+
   final JobRepository _repository;
+  final JobCategoryRepository _jobCategoryrepository;
 
   Future<void> getFeaturedJobs() async {
     state = const BaseState.loading();
@@ -49,7 +75,7 @@ class JobProvider extends StateNotifier<BaseState> {
 
   Future<void> getJobsByCategory({
     required String jobCategoryId,
-    int page = 0,
+    int page = 1,
   }) async {
     state = const BaseState.loading();
     final result = await _repository.getJobsByCategory(
@@ -61,5 +87,69 @@ class JobProvider extends StateNotifier<BaseState> {
     } else {
       state = BaseState.error(result.data as Failure);
     }
+  }
+
+  Future<void> searchJobs({
+    int page = 1,
+    required JobSearch search,
+  }) async {
+    state = const BaseState.loading();
+    final result = await _repository.searchJobs(
+      page: page,
+      search: search,
+    );
+    if (result is BaseResponsePaginated<List<Job>>) {
+      state = BaseState.success(data: result);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
+
+  Future<void> getJobTypes() async {
+    state = const BaseState.loading();
+    final result = await _repository.getJobTypes();
+    if (result is BaseResponse<List<JobType>>) {
+      ref.read(jobTypesRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getJobCareerLevels() async {
+    state = const BaseState.loading();
+    final result = await _repository.getJobCareerLevels();
+    if (result is BaseResponse<List<JobType>>) {
+      ref.read(jobCareerLevelsRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getJobSalaries() async {
+    state = const BaseState.loading();
+    final result = await _repository.getJobSalaries();
+    if (result is BaseResponse<List<JobType>>) {
+      ref.read(jobSalariesRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getJobEducationLevels() async {
+    state = const BaseState.loading();
+    final result = await _repository.getJobEducationLevels();
+    if (result is BaseResponse<List<JobType>>) {
+      ref.read(jobEducationLevelsRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getJobExperienceLevels() async {
+    state = const BaseState.loading();
+    final result = await _repository.getJobExperienceLevels();
+    if (result is BaseResponse<List<JobType>>) {
+      ref.read(jobExperienceLevelsRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getJobCategories() async {
+    state = const BaseState.loading();
+    final result = await _jobCategoryrepository.getJobCategories();
+    if (result is BaseResponse<List<JobCategory>>) {
+      ref.read(allCategoriesRef).addAll(result.data);
+    } else {}
   }
 }
