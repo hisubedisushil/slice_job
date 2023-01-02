@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,86 +14,49 @@ import 'package:slice_job/features/jobs/provider/job_provider.dart';
 final authRef = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider(ref: ref);
 });
-
-final getJobCategoriesRef =
+final getFilterPropertiesRef =
     StateNotifierProvider.autoDispose<JobProvider, BaseState>((ref) {
   return JobProvider(ref: ref);
 });
-final getJobTypesRef = StateNotifierProvider<JobProvider, BaseState>((ref) {
-  return JobProvider(ref: ref);
-});
-final getJobCareerLevelsRef =
-    StateNotifierProvider<JobProvider, BaseState>((ref) {
-  return JobProvider(ref: ref);
-});
-final getJobSalariesRef = StateNotifierProvider<JobProvider, BaseState>((ref) {
-  return JobProvider(ref: ref);
-});
-final getJobEducationLevelsRef =
-    StateNotifierProvider<JobProvider, BaseState>((ref) {
-  return JobProvider(ref: ref);
-});
-final getJobExperienceLevelsRef =
-    StateNotifierProvider<JobProvider, BaseState>((ref) {
-  return JobProvider(ref: ref);
-});
 
-class App extends StatelessWidget {
+class App extends ConsumerStatefulWidget {
   const App({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(378, 806),
-      builder: (BuildContext context, child) {
-        return const AppView();
-      },
-    );
-  }
+  ConsumerState<App> createState() => _AppState();
 }
 
-class AppView extends ConsumerStatefulWidget {
-  const AppView({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<AppView> createState() => _AppViewState();
-}
-
-class _AppViewState extends ConsumerState<AppView> {
+class _AppState extends ConsumerState<App> {
   @override
   void initState() {
     super.initState();
     initialFetchCalls();
   }
 
-  initialFetchCalls() {
-// need to fetch some data before-hand here
-    // all categories -> ref.read(jobCategoryRef.notifier).getJobCategories();
-    //  all job types ->
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      ref.read(getJobCategoriesRef.notifier).getJobCategories();
-      ref.read(getJobTypesRef.notifier).getJobTypes();
-      ref.read(getJobCareerLevelsRef.notifier).getJobCareerLevels();
-      ref.read(getJobSalariesRef.notifier).getJobSalaries();
-      ref.read(getJobEducationLevelsRef.notifier).getJobEducationLevels();
-      ref.read(getJobExperienceLevelsRef.notifier).getJobExperienceLevels();
-    });
+  initialFetchCalls() async {
+    await ref.read(getFilterPropertiesRef.notifier).getFilterProperties();
+    FlutterNativeSplash.remove();
   }
 
   @override
   Widget build(BuildContext context) {
     final router = ref.read(goRouterRef);
-    return MaterialApp.router(
-      routerConfig: router,
-      theme: ThemeData(
-        primarySwatch: AppColors.primary.toMaterialColor(),
-        textTheme: GoogleFonts.alegreyaSansTextTheme(
-          Theme.of(context).textTheme,
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
+    return ScreenUtilInit(
+      designSize: const Size(378, 806),
+      builder: (BuildContext context, child) {
+        return MaterialApp.router(
+          routerConfig: router,
+          theme: ThemeData(
+            primarySwatch: AppColors.primary.toMaterialColor(),
+            textTheme: GoogleFonts.alegreyaSansTextTheme(
+              Theme.of(context).textTheme,
+            ),
+          ),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }

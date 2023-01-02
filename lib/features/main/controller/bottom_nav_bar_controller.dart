@@ -9,13 +9,15 @@ class BottomNavigationBarController extends StateNotifier<int> {
   BottomNavigationBarController(super.state);
 
   void setSelectedIndex(int index) {
-    _pageController.animateToPage(
+    _pageController.jumpToPage(
       index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOutQuad,
+      // duration: const Duration(milliseconds: 300),
+      // curve: Curves.easeOutQuad,
     );
     state = index;
   }
+
+  int get currentIndex => state;
 
   PageController get pageController => _pageController;
 }

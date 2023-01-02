@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
@@ -22,10 +21,15 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
+  final pages = [
+    const HomeScreen(),
+    const JobSearchScreen(),
+    const BlogsScreen(),
+    const ProfileScreen(),
+  ];
   @override
   void initState() {
     super.initState();
-    FlutterNativeSplash.remove();
   }
 
   @override
@@ -59,15 +63,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           ),
         ],
       ),
-      body: PageView(
+      body: PageView.builder(
         physics: const NeverScrollableScrollPhysics(),
         controller: navRef.pageController,
-        children: const [
-          HomeScreen(),
-          JobSearchScreen(),
-          BlogsScreen(),
-          ProfileScreen(),
-        ],
+        itemBuilder: (context, index) {
+          return pages[index];
+        },
+        itemCount: pages.length,
       ),
     );
   }

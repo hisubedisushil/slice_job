@@ -48,108 +48,120 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      ref.read(featuredJobCategoryRef.notifier).getFeaturedJobCategories();
-      ref.read(featuredJobsRef.notifier).getFeaturedJobs();
-      ref.read(recentJobsRef.notifier).getRecentJobs();
-      ref.read(topEmployerRef.notifier).getTopEmployers();
+      _onRefresh();
     });
+  }
+
+  _onRefresh() {
+    ref.read(featuredJobCategoryRef.notifier).getFeaturedJobCategories();
+    ref.read(featuredJobsRef.notifier).getFeaturedJobs();
+    ref.read(recentJobsRef.notifier).getRecentJobs();
+    ref.read(topEmployerRef.notifier).getTopEmployers();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.white,
-            floating: true,
-            pinned: false,
-            snap: true,
-            title: const HomeScreenHeaderWidget(),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(87.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Row(
-                      children: [
-                        Material(
-                          borderRadius: const BorderRadius.horizontal(
-                            left: Radius.circular(24.0),
-                          ),
-                          color: AppColors.primary.withOpacity(0.2),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.5),
-                            child: Icon(
-                              Ionicons.search_outline,
-                              color: AppColors.primary,
-                              size: 24.0,
+      child: RefreshIndicator(
+        onRefresh: () {
+          _onRefresh();
+          return Future(() => null);
+        },
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.white,
+              floating: true,
+              pinned: false,
+              snap: true,
+              title: const HomeScreenHeaderWidget(),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(87.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        children: [
+                          Material(
+                            borderRadius: const BorderRadius.horizontal(
+                              left: Radius.circular(24.0),
+                            ),
+                            color: AppColors.primary.withOpacity(0.2),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.5),
+                              child: Icon(
+                                Ionicons.search_outline,
+                                color: AppColors.primary,
+                                size: 24.0,
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              ref
-                                  .read(navBarController.notifier)
-                                  .setSelectedIndex(1);
-                            },
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(24.0),
-                              ),
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  disabledBorder: InputBorder.none,
-                                  border: InputBorder.none,
-                                  fillColor: AppColors.primary.withOpacity(0.2),
-                                  hintText: 'Search jobs here...',
-                                  hintStyle: TextStyle(
-                                    color: AppColors.grey,
-                                    fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                ref
+                                    .read(navBarController.notifier)
+                                    .setSelectedIndex(1);
+                              },
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.horizontal(
+                                  right: Radius.circular(24.0),
+                                ),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    disabledBorder: InputBorder.none,
+                                    border: InputBorder.none,
+                                    fillColor:
+                                        AppColors.primary.withOpacity(0.2),
+                                    hintText: 'Search jobs here...',
+                                    hintStyle: TextStyle(
+                                      color: AppColors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    filled: true,
+                                    isDense: true,
+                                    enabled: false,
                                   ),
-                                  filled: true,
-                                  isDense: true,
                                   enabled: false,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  const FeaturedJobCategoryListWidget(),
-                  const SizedBox(height: 10.0),
-                ],
+                    const SizedBox(height: 10.0),
+                    const FeaturedJobCategoryListWidget(),
+                    const SizedBox(height: 10.0),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          // body begins here
-          SliverPersistentHeader(
-            delegate: Delegate('Featured Jobs'),
-          ),
-          JobListByTypeWidget(
-            provider: featuredJobsRef,
-            type: JobTypeEnum.featured,
-          ),
-          SliverPersistentHeader(
-            delegate: Delegate('Recent Jobs'),
-          ),
-          JobListByTypeWidget(
-            provider: recentJobsRef,
-            type: JobTypeEnum.recent,
-          ),
-          SliverPersistentHeader(
-            delegate: Delegate('Top Employers'),
-          ),
-          const TopEmployerListWidget(),
-        ],
+            // body begins here
+            SliverPersistentHeader(
+              delegate: Delegate('Featured Jobs'),
+            ),
+            JobListByTypeWidget(
+              provider: featuredJobsRef,
+              type: JobTypeEnum.featured,
+            ),
+            SliverPersistentHeader(
+              delegate: Delegate('Recent Jobs'),
+            ),
+            JobListByTypeWidget(
+              provider: recentJobsRef,
+              type: JobTypeEnum.recent,
+            ),
+            SliverPersistentHeader(
+              delegate: Delegate('Top Employers'),
+            ),
+            const TopEmployerListWidget(),
+          ],
+        ),
       ),
     );
   }

@@ -101,12 +101,11 @@ class JobProvider extends StateNotifier<BaseState> {
     if (result is BaseResponsePaginated<List<Job>>) {
       state = BaseState.success(data: result);
     } else {
-      state = BaseState.error(result.data as Failure);
+      state = BaseState.error(result);
     }
   }
 
   Future<void> getJobTypes() async {
-    state = const BaseState.loading();
     final result = await _repository.getJobTypes();
     if (result is BaseResponse<List<JobType>>) {
       ref.read(jobTypesRef).addAll(result.data);
@@ -114,7 +113,6 @@ class JobProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> getJobCareerLevels() async {
-    state = const BaseState.loading();
     final result = await _repository.getJobCareerLevels();
     if (result is BaseResponse<List<JobType>>) {
       ref.read(jobCareerLevelsRef).addAll(result.data);
@@ -122,7 +120,6 @@ class JobProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> getJobSalaries() async {
-    state = const BaseState.loading();
     final result = await _repository.getJobSalaries();
     if (result is BaseResponse<List<JobType>>) {
       ref.read(jobSalariesRef).addAll(result.data);
@@ -130,7 +127,6 @@ class JobProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> getJobEducationLevels() async {
-    state = const BaseState.loading();
     final result = await _repository.getJobEducationLevels();
     if (result is BaseResponse<List<JobType>>) {
       ref.read(jobEducationLevelsRef).addAll(result.data);
@@ -138,7 +134,6 @@ class JobProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> getJobExperienceLevels() async {
-    state = const BaseState.loading();
     final result = await _repository.getJobExperienceLevels();
     if (result is BaseResponse<List<JobType>>) {
       ref.read(jobExperienceLevelsRef).addAll(result.data);
@@ -146,10 +141,20 @@ class JobProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> getJobCategories() async {
-    state = const BaseState.loading();
     final result = await _jobCategoryrepository.getJobCategories();
     if (result is BaseResponse<List<JobCategory>>) {
       ref.read(allCategoriesRef).addAll(result.data);
     } else {}
+  }
+
+  Future<void> getFilterProperties() async {
+    await Future.wait([
+      getJobCategories(),
+      getJobTypes(),
+      getJobCareerLevels(),
+      getJobSalaries(),
+      getJobEducationLevels(),
+      getJobExperienceLevels(),
+    ]);
   }
 }

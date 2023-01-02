@@ -29,4 +29,15 @@ extension JobSearchX on JobSearch {
         .length;
     return filterPropertyCount;
   }
+
+  Map<String, dynamic> toMap() {
+    final map = <String, dynamic>{};
+    map.putIfAbsent('job_category', () => jobCategory);
+    map.putIfAbsent('job_type', () => jobType);
+    map.putIfAbsent('career_level', () => careerLevel);
+    map.putIfAbsent('job_salary', () => jobSalary);
+    map.putIfAbsent('education_level', () => educationLevel);
+    map.putIfAbsent('experience', () => experience);
+    return map;
+  }
 }

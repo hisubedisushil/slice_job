@@ -12,6 +12,7 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/base_response.dart';
 import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
+import 'package:slice_job/core/widgets/paginated_screen_error_widgets.dart';
 import 'package:slice_job/features/blogs/provider/blogs_provider.dart';
 import 'package:slice_job/features/blogs/widgets/blog_list_item_widget.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
@@ -113,46 +114,14 @@ class _BlogCategoryScreenState extends ConsumerState<BlogCategoryScreen> {
             separatorBuilder: (context, index) => verticalSpacer(10.h),
             builderDelegate: PagedChildBuilderDelegate<Blog>(
               firstPageErrorIndicatorBuilder: (context) {
-                return Column(
-                  children: [
-                    verticalSpacer(50.h),
-                    Icon(
-                      Ionicons.sad_outline,
-                      color: AppColors.grey,
-                      size: 40.w,
-                    ),
-                    verticalSpacer(10.h),
-                    Text(
-                      'Error Fetching blog by category at this time!',
-                      style: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ],
-                ).pXY(10.h, 10.h);
+                return const FirstPageError(
+                  message: 'Error Fetching blog by category at this time!',
+                );
               },
               newPageErrorIndicatorBuilder: (context) {
-                return Column(
-                  children: [
-                    verticalSpacer(10.h),
-                    Icon(
-                      Ionicons.sad_outline,
-                      color: AppColors.grey,
-                      size: 40.w,
-                    ),
-                    verticalSpacer(10.h),
-                    Text(
-                      'Error Fetching new blog items at this time!',
-                      style: TextStyle(
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ],
-                ).pXY(10.h, 10.h);
+                return const NewPageError(
+                  message: 'Error Fetching new blog items at this time!',
+                );
               },
               itemBuilder: (context, item, index) {
                 return BlogListItemWidget(

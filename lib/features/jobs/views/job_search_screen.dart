@@ -11,6 +11,7 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/base_response.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/widgets/home_screen_header.dart';
+import 'package:slice_job/core/widgets/paginated_screen_error_widgets.dart';
 import 'package:slice_job/features/job_category/provider/job_category_provider.dart';
 import 'package:slice_job/features/jobs/models/job_search.dart';
 import 'package:slice_job/features/jobs/provider/job_provider.dart';
@@ -97,6 +98,12 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
         log('itemCount: ${data.length}');
         _updateData(data, currentPage);
       }
+      if (next is BaseError) {
+        final paginatedData = next.data;
+        final currentPage = int.parse(paginatedData.page);
+        _pagingController.error = 'first Page error';
+        log('error:');
+      }
     });
     return RefreshIndicator(
       onRefresh: _onRefresh,
@@ -177,11 +184,9 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
                                     child: SearchFilterSheet(
                                       filterData: searchData.value,
                                       onFilter: (filteredSearchData) {
-                                        if (mounted) {
-                                          setState(() {});
-                                        }
                                         Navigator.pop(context);
-                                        // _initSearch();
+                                        searchData.value = filteredSearchData;
+                                        _onRefresh();
                                       },
                                     ),
                                   ),
@@ -245,6 +250,16 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
                     const RecentJobListShimmerItem(),
                   ],
                 ).pX(10.h);
+              },
+              firstPageErrorIndicatorBuilder: (context) {
+                return const FirstPageError(
+                  message: 'Error Fetching jobs at this time!',
+                );
+              },
+              newPageErrorIndicatorBuilder: (context) {
+                return const NewPageError(
+                  message: 'Error Fetching new jobs at this time!',
+                );
               },
               noMoreItemsIndicatorBuilder: (context) {
                 return Row(
