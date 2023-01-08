@@ -22,10 +22,10 @@ dependencies:
   pretty_json: ^2.0.0
   future_progress_dialog: ^0.2.0
   # pinput: ^2.2.20
-  pinput:
-   git:
-    url: https://github.com/Tkko/Flutter_Pinput
-    ref: dev 
+  # pinput:
+  #  git:
+  #   url: https://github.com/Tkko/Flutter_Pinput
+  #   ref: dev 
   file_picker: ^4.6.1
   intl: ^0.17.0
   path_provider: ^2.0.11

@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:provider/provider.dart';
+
+// import 'package:provider/provider.dart';
 
 import '/packages/panara_dialogs/panara_dialogs.dart';
 import '../../../constants/app_colors.dart';
-import '../../../controllers/profile_controller.dart';
 
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({Key? key}) : super(key: key);
@@ -176,14 +173,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 const SizedBox(height: 10.0),
                 MaterialButton(
                   onPressed: _update,
-                  child: Text(
-                    'Change',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -192,6 +181,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   minWidth: double.infinity,
                   height: 56.0,
                   elevation: 0.0,
+                  child: Text(
+                    'Change',
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 60.0),
               ],
@@ -244,39 +241,39 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       return;
     }
 
-    String result = await showDialog(
-      context: context,
-      builder: (context) => FutureProgressDialog(
-        context.read<ProfileController>().changePassword(
-              oldPassword: _oldPassword.text,
-              newPassword: _password.text,
-            ),
-      ),
-    );
-    log(result.toString());
+    // String result = await showDialog(
+    //   context: context,
+    //   builder: (context) => FutureProgressDialog(
+    //     context.read<ProfileController>().changePassword(
+    //           oldPassword: _oldPassword.text,
+    //           newPassword: _password.text,
+    //         ),
+    //   ),
+    // );
+    // log(result.toString());
 
-    if (result.isEmpty) {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Your password is successfully updated.',
-            textAlign: TextAlign.center,
-          ),
-          backgroundColor: AppColors.green,
-        ),
-      );
-    } else {
-      await PanaraInfoDialog.showAnimatedGrow(
-        context,
-        title: "Change Password Failed",
-        message: result,
-        buttonText: 'Okay',
-        onTapDismiss: () => Navigator.pop(context),
-        panaraDialogType: PanaraDialogType.error,
-        barrierDismissible: true,
-      );
-      return;
-    }
+    // if (result.isEmpty) {
+    //   Navigator.pop(context);
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: const Text(
+    //         'Your password is successfully updated.',
+    //         textAlign: TextAlign.center,
+    //       ),
+    //       backgroundColor: AppColors.green,
+    //     ),
+    //   );
+    // } else {
+    //   await PanaraInfoDialog.showAnimatedGrow(
+    //     context,
+    //     title: "Change Password Failed",
+    //     message: result,
+    //     buttonText: 'Okay',
+    //     onTapDismiss: () => Navigator.pop(context),
+    //     panaraDialogType: PanaraDialogType.error,
+    //     barrierDismissible: true,
+    //   );
+    //   return;
+    // }
   }
 }

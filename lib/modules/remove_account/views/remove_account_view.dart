@@ -1,10 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:provider/provider.dart';
-import 'package:slice_job/controllers/authentication_controller.dart';
 
 import '/constants/app_colors.dart';
 import '/packages/panara_dialogs/panara_dialogs.dart';
@@ -160,14 +155,6 @@ class _RemoveAccountViewState extends State<RemoveAccountView> {
                       Expanded(
                         child: MaterialButton(
                           onPressed: _submit,
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -177,6 +164,14 @@ class _RemoveAccountViewState extends State<RemoveAccountView> {
                           minWidth: double.infinity,
                           height: 56.0,
                           elevation: 0.0,
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -219,16 +214,16 @@ class _RemoveAccountViewState extends State<RemoveAccountView> {
       return;
     }
 
-    final result = await showDialog(
-      context: context,
-      builder: (context) => FutureProgressDialog(
-        context
-            .read<AuthenticationController>()
-            .removeAccount(password: _password.text.trim()),
-      ),
-    );
+    // final result = await showDialog(
+    //   context: context,
+    //   builder: (context) => FutureProgressDialog(
+    //     context
+    //         .read<AuthenticationController>()
+    //         .removeAccount(password: _password.text.trim()),
+    //   ),
+    // );
 
-    log(result.toString());
+    // log(result.toString());
 
     await PreferenceService.service.clearPreferences();
     Navigator.pushAndRemoveUntil(

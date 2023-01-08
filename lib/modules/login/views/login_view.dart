@@ -1,10 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:provider/provider.dart';
-import 'package:slice_job/controllers/authentication_controller.dart';
 import 'package:slice_job/modules/forget_password/views/forgot_password_view.dart';
 
 import '/packages/panara_dialogs/panara_dialogs.dart';
@@ -152,14 +147,6 @@ class _LoginViewState extends State<LoginView> {
                       Expanded(
                         child: MaterialButton(
                           onPressed: _login,
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -169,6 +156,14 @@ class _LoginViewState extends State<LoginView> {
                           minWidth: double.infinity,
                           height: 56.0,
                           elevation: 0.0,
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -286,29 +281,29 @@ class _LoginViewState extends State<LoginView> {
       return;
     }
 
-    bool result = await showDialog(
-      context: context,
-      builder: (context) => FutureProgressDialog(
-        context.read<AuthenticationController>().login(
-              email: _email.text,
-              password: _password.text,
-            ),
-      ),
-    );
-    log(result.toString());
-    if (result) {
-      Navigator.pop(context);
-    } else {
-      await PanaraInfoDialog.showAnimatedGrow(
-        context,
-        title: "Login Failed",
-        message: "Invalid Credential, Please try again.",
-        buttonText: 'Okay',
-        onTapDismiss: () => Navigator.pop(context),
-        panaraDialogType: PanaraDialogType.error,
-        barrierDismissible: true,
-      );
-      return;
-    }
+    // bool result = await showDialog(
+    //   context: context,
+    //   builder: (context) => FutureProgressDialog(
+    //     context.read<AuthenticationController>().login(
+    //           email: _email.text,
+    //           password: _password.text,
+    //         ),
+    //   ),
+    // );
+    // log(result.toString());
+    // if (result) {
+    //   Navigator.pop(context);
+    // } else {
+    //   await PanaraInfoDialog.showAnimatedGrow(
+    //     context,
+    //     title: "Login Failed",
+    //     message: "Invalid Credential, Please try again.",
+    //     buttonText: 'Okay',
+    //     onTapDismiss: () => Navigator.pop(context),
+    //     panaraDialogType: PanaraDialogType.error,
+    //     barrierDismissible: true,
+    //   );
+    //   return;
+    // }
   }
 }

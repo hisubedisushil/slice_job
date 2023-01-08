@@ -15,13 +15,13 @@ import 'package:provider/provider.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
-import 'package:slice_job/controllers/profile_controller.dart';
 import 'package:slice_job/core/widgets/home_screen_header.dart';
 import 'package:slice_job/features/profile/views/profile_unauthenticated_view.dart';
 import 'package:slice_job/features/profile/widgets/profile_detail_button_widget.dart';
 import 'package:slice_job/features/profile/widgets/profile_detail_widget.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
 import 'package:slice_job/helpers/util/util.dart';
+import 'package:slice_job/models/profile_model.dart';
 
 import '/packages/panara_dialogs/panara_dialogs.dart';
 
@@ -73,7 +73,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
     final divider = _divider();
 
-    final profile = context.watch<ProfileController>();
+    // final profile = context.watch<ProfileController>();
+    final profile = ProfileModel();
 
     return Scaffold(
       appBar: AppBar(
@@ -95,10 +96,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     radius: width / 4.0,
                     backgroundColor: AppColors.primary.withOpacity(0.2),
                     backgroundImage: NetworkImage(
-                      profile.profile?.photo ?? '',
+                      profile.photo ?? '',
                     ),
                     foregroundImage: NetworkImage(
-                      profile.profile?.photo ?? '',
+                      profile.photo ?? '',
                     ),
                   ),
                   Positioned(
@@ -124,55 +125,55 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             verticalSpacer(20.h),
             ProfileDetailWidget(
               label: 'Name',
-              value: '${profile.profile?.firstName ?? ''} '
-                  '${profile.profile?.lastName ?? ''}',
+              value: '${profile.firstName ?? ''} '
+                  '${profile.lastName ?? ''}',
             ),
             divider,
             ProfileDetailWidget(
               label: 'Date of Birth',
-              value: Jiffy(profile.profile?.dob ?? '').yMMMd,
+              value: Jiffy(profile.dob ?? '').yMMMd,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Nationality',
-              value: profile.profile?.nationality,
+              value: profile.nationality,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Gender',
-              value: profile.profile?.gender,
+              value: profile.gender,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Current Location',
-              value: '${profile.profile?.currCity ?? ''}'
-                  '${(profile.profile?.currCity ?? '').isEmpty ? '' : ', '}'
-                  '${profile.profile?.currCountry ?? ''}',
+              value: '${profile.currCity ?? ''}'
+                  '${(profile.currCity ?? '').isEmpty ? '' : ', '}'
+                  '${profile.currCountry ?? ''}',
             ),
             divider,
             ProfileDetailWidget(
               label: 'Mobile Number',
-              value: profile.profile?.mobileNumber,
+              value: profile.mobileNumber,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Email Address',
-              value: profile.profile?.email,
+              value: profile.email,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Total Job Experience',
-              value: profile.profile?.experience,
+              value: profile.experience,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Highest Education Achieved',
-              value: profile.profile?.qualification,
+              value: profile.qualification,
             ),
             divider,
             ProfileDetailWidget(
               label: 'Profile Type',
-              value: profile.profile?.userType,
+              value: profile.userType,
             ),
             divider,
             ProfileDetailButton(
@@ -274,86 +275,86 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
 
     if (croppedFile != null) {
-      String result = await showDialog(
-        context: context,
-        builder: (context) => FutureProgressDialog(
-          context
-              .read<ProfileController>()
-              .uploadProfileImage(image: croppedFile?.path ?? ''),
-        ),
-      );
-      log(result.toString());
+      // String result = await showDialog(
+      //   context: context,
+      //   builder: (context) => FutureProgressDialog(
+      //     context
+      //         .read<ProfileController>()
+      //         .uploadProfileImage(image: croppedFile?.path ?? ''),
+      //   ),
+      // );
+      // log(result.toString());
 
-      if (result.isEmpty) {
-        await PanaraInfoDialog.showAnimatedGrow(
-          context,
-          title: "Success",
-          message: "Profile Image Updated Successfully.",
-          buttonText: 'Okay',
-          onTapDismiss: () => Navigator.pop(context),
-          panaraDialogType: PanaraDialogType.success,
-          barrierDismissible: true,
-        );
-        return;
-      } else {
-        await PanaraInfoDialog.showAnimatedGrow(
-          context,
-          title: "Failed",
-          message: result,
-          buttonText: 'Okay',
-          onTapDismiss: () => Navigator.pop(context),
-          panaraDialogType: PanaraDialogType.error,
-          barrierDismissible: true,
-        );
-        return;
-      }
+      // if (result.isEmpty) {
+      //   await PanaraInfoDialog.showAnimatedGrow(
+      //     context,
+      //     title: "Success",
+      //     message: "Profile Image Updated Successfully.",
+      //     buttonText: 'Okay',
+      //     onTapDismiss: () => Navigator.pop(context),
+      //     panaraDialogType: PanaraDialogType.success,
+      //     barrierDismissible: true,
+      //   );
+      //   return;
+      // } else {
+      //   await PanaraInfoDialog.showAnimatedGrow(
+      //     context,
+      //     title: "Failed",
+      //     message: result,
+      //     buttonText: 'Okay',
+      //     onTapDismiss: () => Navigator.pop(context),
+      //     panaraDialogType: PanaraDialogType.error,
+      //     barrierDismissible: true,
+      //   );
+      //   return;
+      // }
     }
   }
 
   _downloadCV() async {
     FocusScope.of(context).requestFocus(FocusNode());
 
-    String result = await showDialog(
-      context: context,
-      builder: (context) => FutureProgressDialog(
-        context.read<ProfileController>().getCVDownloadLink(),
-      ),
-    );
+    // String result = await showDialog(
+    //   context: context,
+    //   builder: (context) => FutureProgressDialog(
+    //     context.read<ProfileController>().getCVDownloadLink(),
+    //   ),
+    // );
 
-    if (result.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'You have successfully downloaded your CV.',
-            textAlign: TextAlign.center,
-          ),
-          backgroundColor: AppColors.green,
-        ),
-      );
-      await PanaraInfoDialog.showAnimatedGrow(
-        context,
-        title: "Success",
-        message: "CV Downloaded Successfully.",
-        buttonText: 'Open CV',
-        onTapDismiss: () {
-          Navigator.pop(context);
-          // OpenFile.open(result);
-        },
-        panaraDialogType: PanaraDialogType.success,
-        barrierDismissible: true,
-      );
-      return;
-    } else {
-      await PanaraInfoDialog.showAnimatedGrow(
-        context,
-        title: "Failed",
-        message: result,
-        buttonText: 'Okay',
-        onTapDismiss: () => Navigator.pop(context),
-        panaraDialogType: PanaraDialogType.error,
-        barrierDismissible: true,
-      );
-      return;
-    }
+    // if (result.isNotEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: const Text(
+    //         'You have successfully downloaded your CV.',
+    //         textAlign: TextAlign.center,
+    //       ),
+    //       backgroundColor: AppColors.green,
+    //     ),
+    //   );
+    //   await PanaraInfoDialog.showAnimatedGrow(
+    //     context,
+    //     title: "Success",
+    //     message: "CV Downloaded Successfully.",
+    //     buttonText: 'Open CV',
+    //     onTapDismiss: () {
+    //       Navigator.pop(context);
+    //       // OpenFile.open(result);
+    //     },
+    //     panaraDialogType: PanaraDialogType.success,
+    //     barrierDismissible: true,
+    //   );
+    //   return;
+    // } else {
+    //   await PanaraInfoDialog.showAnimatedGrow(
+    //     context,
+    //     title: "Failed",
+    //     message: result,
+    //     buttonText: 'Okay',
+    //     onTapDismiss: () => Navigator.pop(context),
+    //     panaraDialogType: PanaraDialogType.error,
+    //     barrierDismissible: true,
+    //   );
+    //   return;
+    // }
   }
 }

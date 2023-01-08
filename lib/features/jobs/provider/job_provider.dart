@@ -148,13 +148,13 @@ class JobProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> getFilterProperties() async {
-    await Future.wait([
-      getJobCategories(),
-      getJobTypes(),
-      getJobCareerLevels(),
-      getJobSalaries(),
-      getJobEducationLevels(),
-      getJobExperienceLevels(),
-    ]);
+    getJobCategories();
+    getJobTypes();
+    getJobCareerLevels();
+    getJobSalaries();
+    getJobEducationLevels();
+    getJobExperienceLevels();
   }
+
+
 }

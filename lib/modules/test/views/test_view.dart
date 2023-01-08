@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '/constants/app_colors.dart';
-import '/controllers/test_controller.dart';
 import '/models/answer_model.dart';
 import '/models/question_model.dart';
 import '/models/test_category_model.dart';
@@ -59,10 +58,10 @@ class _TestViewState extends State<TestView> {
       }
     }
 
-    final test = context.read<TestController>();
-    _startResponseModel = await test.getTestStart(
-      categoryId: widget.category.id ?? '',
-    );
+    // final test = context.read<TestController>();
+    // _startResponseModel = await test.getTestStart(
+    //   categoryId: widget.category.id ?? '',
+    // );
 
     _remainingTime = _startResponseModel?.data?.set?.examDuration ?? 0;
 
@@ -94,12 +93,12 @@ class _TestViewState extends State<TestView> {
       }
     }
 
-    final test = context.read<TestController>();
-    _finishResponseModel = await test.getTestFinish(
-      categoryId: widget.category.id ?? '',
-      entranceSet: _startResponseModel?.data?.set?.id ?? '',
-      answers: _answers,
-    );
+    // final test = context.read<TestController>();
+    // _finishResponseModel = await test.getTestFinish(
+    //   categoryId: widget.category.id ?? '',
+    //   entranceSet: _startResponseModel?.data?.set?.id ?? '',
+    //   answers: _answers,
+    // );
 
     if (_finishResponseModel != null) {
       _finished = true;

@@ -155,7 +155,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
             openUrl(privacyPolicyUrl);
           },
           iconData: Ionicons.lock_closed_outline,
-          label: 'Privacy-Policy',
+          label: 'Privacy Policy',
         ),
         divider,
         if (authState.isAuthenticated)

@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lumberdash/lumberdash.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/bootstrap.dart';
 import 'package:slice_job/helpers/extensions/provider_base_extensions.dart';
@@ -11,11 +10,6 @@ import 'package:slice_job/helpers/extensions/provider_base_extensions.dart';
 Future<void> main() async {
   WidgetsBinding wBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: wBinding);
-
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('google_fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-  });
 
   bootstrap(
     () => ProviderScope(
@@ -35,14 +29,14 @@ class LoggingObserver extends ProviderObserver {
     Object? value,
     ProviderContainer container,
   ) =>
-      logMessage('${provider.nameOrType} was added.');
+      log('EZLOG => ${provider.nameOrType} was added.');
 
   @override
   void didDisposeProvider(
     ProviderBase provider,
     ProviderContainer containers,
   ) =>
-      logMessage('${provider.nameOrType} was disposed.');
+      log('EZLOG => ${provider.nameOrType} was disposed.');
 
   @override
   void didUpdateProvider(
@@ -51,9 +45,8 @@ class LoggingObserver extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) =>
-      logMessage(
-        'Updated ${provider.nameOrType} from:',
-        extras: {'previousValue': '$hashCode', 'newValue': '$newValue'},
+      log(
+        'EZLOG => Updated ${provider.nameOrType} from:\n extras: {previousValue: $hashCode, newValue: $newValue}',
       );
 
   @override
@@ -63,9 +56,9 @@ class LoggingObserver extends ProviderObserver {
     StackTrace stackTrace,
     ProviderContainer container,
   ) =>
-      logError(
-        'The ${provider.nameOrType} failed with: $error',
-        stacktrace: stackTrace,
+      log(
+        'EZLOG => The ${provider.nameOrType} failed with: $error',
+        stackTrace: stackTrace,
       );
 }
 // import 'package:flutter/foundation.dart';

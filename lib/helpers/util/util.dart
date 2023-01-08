@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,4 +19,10 @@ Future<bool> openUrl(String url) async {
     launchUrl(uri);
   }
   return canOpen;
+}
+
+ezConsoleLog(String msg) {
+  print('========================   EZLOG   ======================');
+  print('EZLOG: message => $msg');
+  print('========================   EZLOG   ======================');
 }

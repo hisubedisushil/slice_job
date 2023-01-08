@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:pinput/pinput.dart';
+// import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
@@ -74,26 +74,26 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Pinput(
-                    controller: _otp,
-                    length: 6,
-                    defaultPinTheme: PinTheme(
-                      width: (width - 20) / 6,
-                      height: (width - 20) / 6,
-                      textStyle: TextStyle(
-                        fontSize: 32.0,
-                        color: AppColors.black,
-                        fontWeight: FontWeight.bold,
-                        height: 0.75,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primary),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      padding: EdgeInsets.zero,
-                      margin: EdgeInsets.zero,
-                    ),
-                  ),
+                  // Pinput(
+                  //   controller: _otp,
+                  //   length: 6,
+                  //   defaultPinTheme: PinTheme(
+                  //     width: (width - 20) / 6,
+                  //     height: (width - 20) / 6,
+                  //     textStyle: TextStyle(
+                  //       fontSize: 32.0,
+                  //       color: AppColors.black,
+                  //       fontWeight: FontWeight.bold,
+                  //       height: 0.75,
+                  //     ),
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(color: AppColors.primary),
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //     padding: EdgeInsets.zero,
+                  //     margin: EdgeInsets.zero,
+                  //   ),
+                  // ),
                   const SizedBox(height: 40.0),
                   TextFormField(
                     obscureText: !_showPassword,

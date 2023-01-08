@@ -29,22 +29,22 @@ class Company {
 
   static Company? fromJson(Map<String, dynamic>? json) {
     if (json == null) return null;
-    final logo = (json['photo'] ?? json['image']) as String;
+    final logo = (json['photo'] ?? json['image']) as String?;
     return Company(
       id: json['id'] as String,
-      name: json['name'] as String,
-      address: json['address'] as String,
+      name: json['name'] as String?,
+      address: json['address'] as String?,
       logo: logo,
       jobs: (json['jobs'] as List<dynamic>?)
               ?.map((e) => Job.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      phone: json['phone'] as String,
-      email: json['email'] as String,
-      website: json['website'] as String,
-      description: json['description'] as String,
-      shortDesc: json['shortDesc'] as String,
-      info: json['info'] as String,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
+      website: json['website'] as String?,
+      description: json['description'] as String?,
+      shortDesc: json['shortDesc'] as String?,
+      info: json['info'] as String?,
     );
   }
 

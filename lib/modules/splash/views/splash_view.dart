@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+// import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
-import '../../../controllers/blog_controller.dart';
-import '../../../controllers/general_controller.dart';
-import '../../../controllers/job_controller.dart';
-import '../../../controllers/profile_controller.dart';
 import '../../navbar/views/nav_bar_view.dart';
 
 class SplashView extends StatefulWidget {
@@ -35,10 +32,10 @@ class _SplashViewState extends State<SplashView> {
       },
     );
     // context.read<AuthenticationController>();
-    context.read<JobController>();
-    context.read<ProfileController>();
-    context.read<GeneralController>();
-    context.read<BlogController>();
+    // context.read<JobController>();
+    // context.read<ProfileController>();
+    // context.read<GeneralController>();
+    // context.read<BlogController>();
   }
 
   @override

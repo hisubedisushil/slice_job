@@ -140,7 +140,7 @@ packages:
       name: checked_yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   cli_util:
     dependency: transitive
     description:
@@ -449,7 +449,7 @@ packages:
       name: go_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.1"
   google_fonts:
     dependency: "direct main"
     description:
@@ -463,7 +463,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
   google_maps_flutter_android:
     dependency: transitive
     description:
@@ -547,7 +547,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.2"
+    version: "3.3.0"
   image_cropper:
     dependency: "direct main"
     description:
@@ -666,7 +666,7 @@ packages:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.1.5"
   meta:
     dependency: transitive
     description:
@@ -779,15 +779,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
-  pinput:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: dev
-      resolved-ref: "2c198e46e1fa18a15d4667aa2d939bcbb04c7c39"
-      url: "https://github.com/Tkko/Flutter_Pinput"
-    source: git
-    version: "2.2.12"
   platform:
     dependency: transitive
     description:
@@ -948,7 +939,7 @@ packages:
       name: shared_preferences_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
@@ -1010,13 +1001,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.8"
-  smart_auth:
-    dependency: transitive
-    description:
-      name: smart_auth
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.8"
   social_login_buttons:
     dependency: "direct main"
     description:
@@ -1044,7 +1028,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.1"
+    version: "1.9.0"
   sqflite:
     dependency: transitive
     description:
@@ -1114,7 +1098,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.13"
+    version: "0.4.12"
   timing:
     dependency: transitive
     description:
@@ -1205,7 +1189,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.2"
   watcher:
     dependency: transitive
     description:

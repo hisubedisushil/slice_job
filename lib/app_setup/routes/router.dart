@@ -11,17 +11,14 @@ import 'package:slice_job/features/blogs/views/blog_detail_screen.dart';
 import 'package:slice_job/features/job_category/views/job_category_screen.dart';
 import 'package:slice_job/features/jobs/views/job_detail_screen.dart';
 import 'package:slice_job/features/main/main_screen.dart';
+import 'package:slice_job/features/others/views/about_us_screen.dart';
+import 'package:slice_job/features/others/views/contact_us_screen.dart';
+import 'package:slice_job/features/others/views/faqs_screen.dart';
 import 'package:slice_job/modules/applied/views/applied_view.dart';
-import 'package:slice_job/modules/cv/views/my_cv_view.dart';
 import 'package:slice_job/modules/login/views/login_view.dart';
-import 'package:slice_job/modules/pages/about_us_view.dart';
-import 'package:slice_job/modules/pages/contact_view.dart';
-import 'package:slice_job/modules/pages/faq_view.dart';
 import 'package:slice_job/modules/profile/views/change_password_view.dart';
-import 'package:slice_job/modules/profile/views/profile_update_view.dart';
 import 'package:slice_job/modules/register/views/register_view.dart';
 import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
-import 'package:slice_job/modules/test/views/test_categories_view.dart';
 
 final goRouterRef = Provider<GoRouter>(
   (ref) {
@@ -72,21 +69,21 @@ final goRouterRef = Provider<GoRouter>(
           path: RoutePaths.aboutUsRoute.path,
           name: RoutePaths.aboutUsRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const AboutUsView();
+            return const AboutUsScreen();
           },
         ),
         GoRoute(
           path: RoutePaths.contactUsRoute.path,
           name: RoutePaths.contactUsRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const ContactView();
+            return const ContactUsScreen();
           },
         ),
         GoRoute(
           path: RoutePaths.faqsRoute.path,
           name: RoutePaths.faqsRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const FAQView();
+            return const FaqsScreen();
           },
         ),
         GoRoute(
@@ -100,7 +97,8 @@ final goRouterRef = Provider<GoRouter>(
           path: RoutePaths.profileUpdateRoute.path,
           name: RoutePaths.profileUpdateRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const ProfileUpdateView();
+            // return const ProfileUpdateView();
+            return const SizedBox();
           },
         ),
         GoRoute(
@@ -114,14 +112,16 @@ final goRouterRef = Provider<GoRouter>(
           path: RoutePaths.testCategoriesRoute.path,
           name: RoutePaths.testCategoriesRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const TestCategoriesView();
+            // return const TestCategoriesView();
+            return const SizedBox();
           },
         ),
         GoRoute(
           path: RoutePaths.myCVRoute.path,
           name: RoutePaths.myCVRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {
-            return const MyCVView();
+            // return const MyCVView();
+            return const SizedBox();
           },
         ),
         GoRoute(
@@ -141,7 +141,7 @@ final goRouterRef = Provider<GoRouter>(
             );
           },
         ),
-         GoRoute(
+        GoRoute(
           path: RoutePaths.blogCategoryRoute.path,
           name: RoutePaths.blogCategoryRoute.routeName,
           builder: (BuildContext context, GoRouterState state) {

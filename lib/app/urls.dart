@@ -25,5 +25,10 @@ const String getJobCareerLevelsEndpoint = 'job-career-level';
 const String getJobSalariesEndpoint = 'job-salary';
 const String getJobEducationLevelsEndpoint = 'job-education-level';
 const String getJobExperienceLevelsEndpoint = 'job-experience-level';
+const String policyEndpoint = 'page-policy';
+const String contactUsEndpoint = 'page-contact';
+const String faqsEndpoint = 'page-faqs';
+const String termsEndpoint = 'page-terms';
+const String aboutEndpoint = 'page-about';
 
 
