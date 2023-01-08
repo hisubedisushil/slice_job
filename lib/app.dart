@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,6 +44,13 @@ class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext context) {
     final router = ref.read(goRouterRef);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        statusBarIconBrightness: Brightness.light,
+        statusBarColor: AppColors.primary.withOpacity(0.75),
+        statusBarBrightness: Brightness.light,
+      ),
+    );
     return ScreenUtilInit(
       designSize: const Size(378, 806),
       builder: (BuildContext context, child) {

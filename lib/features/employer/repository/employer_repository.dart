@@ -36,7 +36,15 @@ class EmployerRepositoryImpl implements EmployerRepository {
           s,
           (p0) {
             final json = p0 as List<dynamic>;
-            final jobList = json.map((e) => Company.fromJson(e)).toList();
+            final jobList = <Company>[];
+            for (var compnayJson in json) {
+              if (compnayJson['id'] != null) {
+                final parsedCompanyJson = Company.fromJson(compnayJson);
+                if (parsedCompanyJson != null) {
+                  jobList.add(parsedCompanyJson);
+                }
+              }
+            }
             return jobList;
           },
         );

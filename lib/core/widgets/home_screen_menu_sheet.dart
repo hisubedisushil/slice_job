@@ -8,7 +8,7 @@ import 'package:slice_job/app/urls.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
-import 'package:slice_job/helpers/util/util.dart';
+import 'package:slice_job/helpers/util/inapp_webview.dart';
 
 import '/constants/app_colors.dart';
 
@@ -32,6 +32,8 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         indent: 20.w,
         endIndent: 20.w,
       );
+
+  final inAppBrowser = SliceJobAppBrowser();
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +145,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
-            openUrl(termsAndConditionsUrl);
+            inAppBrowser.openUrl(termsAndConditionsUrl);
           },
           iconData: Ionicons.reader_outline,
           label: 'Terms & Conditions',
@@ -152,7 +154,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
-            openUrl(privacyPolicyUrl);
+            inAppBrowser.openUrl(privacyPolicyUrl);
           },
           iconData: Ionicons.lock_closed_outline,
           label: 'Privacy Policy',

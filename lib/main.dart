@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,7 @@ import 'package:slice_job/helpers/extensions/provider_base_extensions.dart';
 Future<void> main() async {
   WidgetsBinding wBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: wBinding);
-
+  CachedNetworkImage.logLevel = CacheManagerLogLevel.verbose;
   bootstrap(
     () => ProviderScope(
       observers: [

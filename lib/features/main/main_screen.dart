@@ -36,40 +36,42 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final navRef = ref.read(navBarController.notifier);
     final selectedIndex = ref.watch(navBarController);
-    return Scaffold(
-      bottomNavigationBar: SlidingClippedNavBar(
-        backgroundColor: AppColors.primary,
-        onButtonPressed: navRef.setSelectedIndex,
-        activeColor: AppColors.white,
-        inactiveColor: AppColors.white.withOpacity(0.6),
-        selectedIndex: selectedIndex,
-        iconSize: 24.0,
-        barItems: <BarItem>[
-          BarItem(
-            icon: Ionicons.home_outline,
-            title: 'Home',
-          ),
-          BarItem(
-            icon: Ionicons.briefcase_outline,
-            title: 'Jobs',
-          ),
-          BarItem(
-            icon: Ionicons.chatbox_ellipses_outline,
-            title: 'Blogs',
-          ),
-          BarItem(
-            icon: Ionicons.person_outline,
-            title: 'Profile',
-          ),
-        ],
-      ),
-      body: PageView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: navRef.pageController,
-        itemBuilder: (context, index) {
-          return pages[index];
-        },
-        itemCount: pages.length,
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar: SlidingClippedNavBar(
+          backgroundColor: AppColors.primary,
+          onButtonPressed: navRef.setSelectedIndex,
+          activeColor: AppColors.white,
+          inactiveColor: AppColors.white.withOpacity(0.6),
+          selectedIndex: selectedIndex,
+          iconSize: 24.0,
+          barItems: <BarItem>[
+            BarItem(
+              icon: Ionicons.home_outline,
+              title: 'Home',
+            ),
+            BarItem(
+              icon: Ionicons.briefcase_outline,
+              title: 'Jobs',
+            ),
+            BarItem(
+              icon: Ionicons.chatbox_ellipses_outline,
+              title: 'Blogs',
+            ),
+            BarItem(
+              icon: Ionicons.person_outline,
+              title: 'Profile',
+            ),
+          ],
+        ),
+        body: PageView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: navRef.pageController,
+          itemBuilder: (context, index) {
+            return pages[index];
+          },
+          itemCount: pages.length,
+        ),
       ),
     );
   }
