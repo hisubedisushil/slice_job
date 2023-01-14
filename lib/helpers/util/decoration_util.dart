@@ -4,7 +4,7 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
 final kBoxDecoration = BoxDecoration(
-  borderRadius: BorderRadius.circular(10.0),
+  borderRadius: BorderRadius.circular(10.r),
   color: AppColors.white,
   boxShadow: [
     BoxShadow(

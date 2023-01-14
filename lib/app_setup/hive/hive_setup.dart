@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:slice_job/core/models/authentication/login_response.dart';
-import 'package:slice_job/core/models/authentication/user.dart';
 
 // Boxes
 const String authDataBox = 'AuthDataBox';
@@ -21,16 +21,18 @@ final hiveProvider = Provider<HiveDB>((ref) {
 class HiveDB {
   //
 
-  init(String path) async {
-    await Hive.initFlutter(path);
-    Hive.registerAdapter(AuthDataAdapter());
-    Hive.registerAdapter(UserAdapter());
-  }
+  HiveDB();
+
+   String? path;
 
   Future<LazyBox> openBox(String name) async {
+    if (path == null) {
+      final cachePath = await getApplicationDocumentsDirectory();
+      path = cachePath.path;
+    }
     return Hive.isBoxOpen(name)
         ? Hive.lazyBox<dynamic>(name)
-        : await Hive.openLazyBox(name);
+        : await Hive.openLazyBox(name, path: path);
   }
 
   Future<AuthData?> getSession() async {

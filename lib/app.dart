@@ -38,6 +38,7 @@ class _AppState extends ConsumerState<App> {
 
   initialFetchCalls() async {
     await ref.read(getFilterPropertiesRef.notifier).getFilterProperties();
+    await ref.read(authRef.notifier).getSession();
     FlutterNativeSplash.remove();
   }
 

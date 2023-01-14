@@ -103,6 +103,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
+            _navigate(testCategoriesRoute);
             // _navigate(registerRoute);
             // Navigator.push(
             //   context,

@@ -16,13 +16,13 @@ import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/others/views/about_us_screen.dart';
 import 'package:slice_job/features/others/views/contact_us_screen.dart';
 import 'package:slice_job/features/others/views/faqs_screen.dart';
+import 'package:slice_job/features/test/views/test_category_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
 import 'package:slice_job/modules/applied/views/applied_view.dart';
 import 'package:slice_job/modules/cv/views/my_cv_view.dart';
 import 'package:slice_job/modules/profile/views/change_password_view.dart';
 import 'package:slice_job/modules/profile/views/profile_update_view.dart';
 import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
-import 'package:slice_job/modules/test/views/test_categories_view.dart';
 
 const String mainRoute = 'mainScreen';
 const String splashRoute = 'splashPage';
@@ -106,7 +106,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case testCategoriesRoute:
       return makeRoouteWithSettings(
-        (p0) => const TestCategoriesView(),
+        (p0) => const TestCategoryScreen(),
         routeName,
       );
     case myCVRoute:

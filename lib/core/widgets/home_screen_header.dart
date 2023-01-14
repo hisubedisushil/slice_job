@@ -26,7 +26,6 @@ class HomeScreenHeaderWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 10.0),
         SizedBox(
           height: 35.0,
           width: 35.0,

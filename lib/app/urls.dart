@@ -45,3 +45,8 @@ const String logoutEndpoint = 'logout';
 // =================== Profile Endpoints ================== //
 const String profileEndpoint = 'profile';
 const String updateProfileEndpoint = 'profile-update';
+
+// =================== Test Endpoints ================== //
+const String testCategoriesEndpoint = 'test-category';
+const String startTestEndpoint = 'test-start';
+const String finishTestEndpoint = 'test-finish';
