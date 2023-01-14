@@ -21,7 +21,7 @@ dependencies:
   social_login_buttons: ^1.0.6+2
   pretty_json: ^2.0.0
   future_progress_dialog: ^0.2.0
-  # pinput: ^2.2.20
+  pinput: ^2.2.21
   # pinput:
   #  git:
   #   url: https://github.com/Tkko/Flutter_Pinput
@@ -57,6 +57,7 @@ dependencies:
   path: ^1.8.2
   flutter_cache_manager: ^3.3.0
   flutter_inappwebview: ^5.7.2+3
+  form_builder_validators: ^8.4.0
   
 
 dev_dependencies:

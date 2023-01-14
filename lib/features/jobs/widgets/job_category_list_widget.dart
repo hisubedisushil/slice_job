@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/job_category.dart';
 import 'package:slice_job/features/job_category/widgets/featured_job_category_shimmer_widget.dart';
 import 'package:slice_job/features/jobs/views/job_search_screen.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
 
 class JobCategoryListWidget extends ConsumerWidget {
   const JobCategoryListWidget({super.key});
@@ -40,7 +40,7 @@ class JobCategoryListWidget extends ConsumerWidget {
                 ),
                 onPressed: () {
                   context.pushNamed(
-                    RoutePaths.jobCategoryScreenRoute.routeName,
+                    jobCategoryScreenRoute,
                     extra: jobCategory,
                   );
                 },

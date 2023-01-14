@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/features/blogs/views/blogs_screen.dart';
 import 'package:slice_job/features/job_category/widgets/featured_job_category_shimmer_widget.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
 
 class BlogCategoryListWidget extends ConsumerWidget {
   const BlogCategoryListWidget({super.key});
@@ -40,7 +40,7 @@ class BlogCategoryListWidget extends ConsumerWidget {
                 ),
                 onPressed: () {
                   context.pushNamed(
-                    RoutePaths.blogCategoryRoute.routeName,
+                    blogCategoryRoute,
                     extra: category,
                   );
                 },

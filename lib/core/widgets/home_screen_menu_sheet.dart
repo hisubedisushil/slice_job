@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/app/urls.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/features/main/main_screen.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
 import 'package:slice_job/helpers/util/inapp_webview.dart';
 
@@ -57,7 +57,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         if (!authState.isAuthenticated)
           SheetListTileItem(
             onTap: () {
-              _navigate(RoutePaths.loginRoute.routeName);
+              _navigate(loginRoute);
             },
             iconData: Ionicons.lock_open_outline,
             label: 'Login',
@@ -66,7 +66,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         if (!authState.isAuthenticated)
           SheetListTileItem(
             onTap: () {
-              _navigate(RoutePaths.registerRoute.routeName);
+              _navigate(registerRoute);
             },
             iconData: Ionicons.person_add_outline,
             label: 'Register',
@@ -103,7 +103,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
-            // _navigate(RoutePaths.registerRoute.routeName);
+            // _navigate(registerRoute);
             // Navigator.push(
             //   context,
             //   MaterialPageRoute(
@@ -118,7 +118,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
-            _navigate(RoutePaths.aboutUsRoute.routeName);
+            _navigate(aboutUsRoute);
           },
           iconData: Ionicons.information_outline,
           label: 'About Us',
@@ -127,7 +127,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
-            _navigate(RoutePaths.contactUsRoute.routeName);
+            _navigate(contactUsRoute);
           },
           iconData: Ionicons.call_outline,
           label: 'Contact Us',
@@ -136,7 +136,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
         SheetListTileItem(
           onTap: () {
             context.pop();
-            _navigate(RoutePaths.faqsRoute.routeName);
+            _navigate(faqsRoute);
           },
           iconData: Ionicons.help,
           label: 'FAQs',
@@ -164,7 +164,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
           SheetListTileItem(
             onTap: () {
               context.pop();
-              _navigate(RoutePaths.removeAccountRoute.routeName);
+              _navigate(removeAccountRoute);
             },
             iconData: Ionicons.close,
             label: 'Remove Account',

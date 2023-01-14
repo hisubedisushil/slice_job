@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
+import 'package:slice_job/helpers/extensions/padding_extensions.dart';
 
 class ProfileDetailButton extends StatelessWidget {
   const ProfileDetailButton({
@@ -9,22 +10,29 @@ class ProfileDetailButton extends StatelessWidget {
     required this.onPressed,
     required this.buttonText,
     required this.iconData,
+    this.prefixIconData,
     this.color,
+    this.foregroundColor,
   });
 
   final void Function() onPressed;
   final String buttonText;
   final IoniconsData iconData;
   final Color? color;
+  final Color? foregroundColor;
+  final IoniconsData? prefixIconData;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onPressed,
+      color: color ?? AppColors.primary.withOpacity(0.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.r),
+        borderRadius: BorderRadius.all(Radius.circular(5.r)),
+        side: BorderSide(
+          color: Colors.grey[300]!,
+        ),
       ),
-      color: color ?? AppColors.primary,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       minWidth: double.infinity,
       height: 56.h,
@@ -32,18 +40,26 @@ class ProfileDetailButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            buttonText,
-            style: TextStyle(
-              color: AppColors.white,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
+          if (prefixIconData != null)
+            Icon(
+              prefixIconData,
+              size: 25.w,
+              color: foregroundColor ?? AppColors.black,
+            ).pR(10.w),
+          Expanded(
+            child: Text(
+              buttonText,
+              style: TextStyle(
+                color: foregroundColor ?? AppColors.black,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           Icon(
             iconData,
             size: 32.w,
-            color: AppColors.white,
+            color: foregroundColor ?? AppColors.black,
           ),
         ],
       ),

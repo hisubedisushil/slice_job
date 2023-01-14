@@ -19,6 +19,7 @@ class User with _$User {
     @HiveField(5) final String? emailConfirm,
     @HiveField(6) final String? userType,
     @HiveField(7) final String? typeApproved,
+    @HiveField(8) final String? phoneNumber,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/job.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/util/decoration_util.dart';
 import 'package:slice_job/helpers/util/shimmer_util.dart';
 import 'package:slice_job/helpers/util/util.dart';
@@ -21,7 +21,7 @@ class RecentJobListItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.pushNamed(
-          RoutePaths.jobDetailRoute.routeName,
+          jobDetailRoute,
           extra: job,
         );
       },

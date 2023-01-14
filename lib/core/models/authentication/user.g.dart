@@ -25,13 +25,14 @@ class UserAdapter extends TypeAdapter<_$_User> {
       emailConfirm: fields[5] as String?,
       userType: fields[6] as String?,
       typeApproved: fields[7] as String?,
+      phoneNumber: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$_User obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.firstName)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class UserAdapter extends TypeAdapter<_$_User> {
       ..writeByte(6)
       ..write(obj.userType)
       ..writeByte(7)
-      ..write(obj.typeApproved);
+      ..write(obj.typeApproved)
+      ..writeByte(8)
+      ..write(obj.phoneNumber);
   }
 
   @override
@@ -74,6 +77,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       emailConfirm: json['email_confirm'] as String?,
       userType: json['user_type'] as String?,
       typeApproved: json['type_approved'] as String?,
+      phoneNumber: json['phone_number'] as String?,
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) {
@@ -93,5 +97,6 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) {
   writeNotNull('email_confirm', instance.emailConfirm);
   writeNotNull('user_type', instance.userType);
   writeNotNull('type_approved', instance.typeApproved);
+  writeNotNull('phone_number', instance.phoneNumber);
   return val;
 }

@@ -12,6 +12,7 @@ const String userBox = 'UserBox';
 // Type Ids
 const int authDataTypeId = 0;
 const int userTypeId = 1;
+const int profileTypeId = 2;
 
 final hiveProvider = Provider<HiveDB>((ref) {
   return HiveDB();
@@ -50,7 +51,7 @@ class HiveDB {
       prev = await sessionBox.getAt(0);
       await sessionBox.putAt(0, session);
     }
-    final curr = sessionBox.getAt(0) as AuthData;
+    final curr = await sessionBox.getAt(0) as AuthData;
     log('setSession from: $prev to: $curr');
   }
 

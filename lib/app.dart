@@ -43,7 +43,6 @@ class _AppState extends ConsumerState<App> {
 
   @override
   Widget build(BuildContext context) {
-    final router = ref.read(goRouterRef);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.dark.copyWith(
         statusBarIconBrightness: Brightness.light,
@@ -54,8 +53,9 @@ class _AppState extends ConsumerState<App> {
     return ScreenUtilInit(
       designSize: const Size(378, 806),
       builder: (BuildContext context, child) {
-        return MaterialApp.router(
-          routerConfig: router,
+        return MaterialApp(
+          onGenerateRoute: generateRoute,
+          initialRoute: mainRoute,
           theme: ThemeData(
             primarySwatch: AppColors.primary.toMaterialColor(),
             textTheme: GoogleFonts.alegreyaSansTextTheme(

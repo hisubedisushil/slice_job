@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:slice_job/app_setup/routes/route_modal.dart';
+import 'package:slice_job/app_setup/routes/route_not_found_screen.dart';
+import 'package:slice_job/core/models/authentication/user.dart';
 import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
+import 'package:slice_job/features/auth/views/login_screen.dart';
+import 'package:slice_job/features/auth/views/register_screen.dart';
+import 'package:slice_job/features/auth/views/verify_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_category_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_detail_screen.dart';
 import 'package:slice_job/features/job_category/views/job_category_screen.dart';
@@ -14,220 +16,147 @@ import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/others/views/about_us_screen.dart';
 import 'package:slice_job/features/others/views/contact_us_screen.dart';
 import 'package:slice_job/features/others/views/faqs_screen.dart';
+import 'package:slice_job/helpers/util/util.dart';
 import 'package:slice_job/modules/applied/views/applied_view.dart';
-import 'package:slice_job/modules/login/views/login_view.dart';
+import 'package:slice_job/modules/cv/views/my_cv_view.dart';
 import 'package:slice_job/modules/profile/views/change_password_view.dart';
-import 'package:slice_job/modules/register/views/register_view.dart';
+import 'package:slice_job/modules/profile/views/profile_update_view.dart';
 import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
+import 'package:slice_job/modules/test/views/test_categories_view.dart';
 
-final goRouterRef = Provider<GoRouter>(
-  (ref) {
-    return GoRouter(
-      routes: <RouteBase>[
-        GoRoute(
-          path: RoutePaths.mainRoute.path,
-          name: RoutePaths.mainRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const MainScreen();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.jobDetailRoute.path,
-          name: RoutePaths.jobDetailRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            final job = state.extra as Job;
-            return JobDetailScreen(
-              job: job,
-            );
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.jobCategoryScreenRoute.path,
-          name: RoutePaths.jobCategoryScreenRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            final jobCategory = state.extra as JobCategory;
-            return JobCategoryScreen(
-              jobCategory: jobCategory,
-            );
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.loginRoute.path,
-          name: RoutePaths.loginRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const LoginView();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.registerRoute.path,
-          name: RoutePaths.registerRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const RegisterView();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.aboutUsRoute.path,
-          name: RoutePaths.aboutUsRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const AboutUsScreen();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.contactUsRoute.path,
-          name: RoutePaths.contactUsRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const ContactUsScreen();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.faqsRoute.path,
-          name: RoutePaths.faqsRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const FaqsScreen();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.removeAccountRoute.path,
-          name: RoutePaths.removeAccountRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const RemoveAccountView();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.profileUpdateRoute.path,
-          name: RoutePaths.profileUpdateRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            // return const ProfileUpdateView();
-            return const SizedBox();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.changePasswordRoute.path,
-          name: RoutePaths.changePasswordRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const ChangePasswordView();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.testCategoriesRoute.path,
-          name: RoutePaths.testCategoriesRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            // return const TestCategoriesView();
-            return const SizedBox();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.myCVRoute.path,
-          name: RoutePaths.myCVRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            // return const MyCVView();
-            return const SizedBox();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.jobAppliedRoute.path,
-          name: RoutePaths.jobAppliedRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            return const AppliedView();
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.blogDetailRoute.path,
-          name: RoutePaths.blogDetailRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            final blog = state.extra as Blog;
-            return BlogDetailScreen(
-              blog: blog,
-            );
-          },
-        ),
-        GoRoute(
-          path: RoutePaths.blogCategoryRoute.path,
-          name: RoutePaths.blogCategoryRoute.routeName,
-          builder: (BuildContext context, GoRouterState state) {
-            final blogCategory = state.extra as BlogCategory;
-            return BlogCategoryScreen(
-              blogCategory: blogCategory,
-            );
-          },
-        ),
-      ],
-    );
-  },
-);
+const String mainRoute = 'mainScreen';
+const String splashRoute = 'splashPage';
+const String loginRoute = 'loginPage';
+const String registerRoute = 'registerPage';
+const String jobDetailRoute = 'jobDetail';
+const String jobCategoryScreenRoute = 'jobCategoryScreen';
+const String aboutUsRoute = 'aboutUsPage';
+const String contactUsRoute = 'contactUsPage';
+const String faqsRoute = 'faqsPage';
+const String removeAccountRoute = 'removeAccountPage';
+const String profileUpdateRoute = 'profileUpdatePage';
+const String changePasswordRoute = 'changePasswordPage';
+const String testCategoriesRoute = 'testCategoriesPage';
+const String myCVRoute = 'myCVPage';
+const String jobAppliedRoute = 'jobAppliedPage';
+const String blogDetailRoute = 'blogDetailPage';
+const String blogCategoryRoute = 'blogCategoryPage';
+const String verifyRoute = 'registerVerifyPage';
 
-/// [RoutePaths] list of all routes
-class RoutePaths {
-  static final RouteModal mainRoute = RouteModal(
-    routeName: 'mainScreen',
-    path: '/',
-  );
-  static final RouteModal splashRoute = RouteModal(
-    routeName: 'splashPage',
-    path: '/splashPage',
-  );
-  static final RouteModal loginRoute = RouteModal(
-    routeName: 'loginPage',
-    path: '/loginPage',
-  );
-  static final RouteModal registerRoute = RouteModal(
-    routeName: 'registerPage',
-    path: '/registerPage',
-  );
-  static final RouteModal jobDetailRoute = RouteModal(
-    routeName: 'jobDetail',
-    path: '/jobDetail',
-  );
-  static final RouteModal jobCategoryScreenRoute = RouteModal(
-    routeName: 'jobCategoryScreen',
-    path: '/jobCategoryScreen',
-  );
-  static final RouteModal aboutUsRoute = RouteModal(
-    routeName: 'aboutUsPage',
-    path: '/aboutUsPage',
-  );
-  static final RouteModal contactUsRoute = RouteModal(
-    routeName: 'contactUsPage',
-    path: '/contactUsPage',
-  );
-  static final RouteModal faqsRoute = RouteModal(
-    routeName: 'faqsPage',
-    path: '/faqsPage',
-  );
-  static final RouteModal removeAccountRoute = RouteModal(
-    routeName: 'removeAccountPage',
-    path: '/removeAccountPage',
-  );
+Route<dynamic> generateRoute(RouteSettings settings) {
+  ezConsoleLog('Route settings: ${settings.name}');
+  final routeName = settings.name;
+  switch (routeName) {
+    case mainRoute:
+      return makeRoouteWithSettings(
+        (p0) => const MainScreen(),
+        routeName,
+      );
+    case jobDetailRoute:
+      var job = settings.arguments as Job;
+      return makeRoouteWithSettings(
+        (p0) => JobDetailScreen(job: job),
+        routeName,
+      );
+    case jobCategoryScreenRoute:
+      var jobCategory = settings.arguments as JobCategory;
+      return makeRoouteWithSettings(
+        (p0) => JobCategoryScreen(jobCategory: jobCategory),
+        routeName,
+      );
+    case loginRoute:
+      return makeRoouteWithSettings(
+        (p0) => const LoginScreen(),
+        routeName,
+      );
+    case registerRoute:
+      return makeRoouteWithSettings(
+        (p0) => const RegisterScreen(),
+        routeName,
+      );
+    case aboutUsRoute:
+      return makeRoouteWithSettings(
+        (p0) => const AboutUsScreen(),
+        routeName,
+      );
+    case contactUsRoute:
+      return makeRoouteWithSettings(
+        (p0) => const ContactUsScreen(),
+        routeName,
+      );
+    case faqsRoute:
+      return makeRoouteWithSettings(
+        (p0) => const FaqsScreen(),
+        routeName,
+      );
+    case removeAccountRoute:
+      return makeRoouteWithSettings(
+        (p0) => const RemoveAccountView(),
+        routeName,
+      );
+    case profileUpdateRoute:
+      return makeRoouteWithSettings(
+        (p0) => const ProfileUpdateView(),
+        routeName,
+      );
+    case changePasswordRoute:
+      return makeRoouteWithSettings(
+        (p0) => const ChangePasswordView(),
+        routeName,
+      );
+    case testCategoriesRoute:
+      return makeRoouteWithSettings(
+        (p0) => const TestCategoriesView(),
+        routeName,
+      );
+    case myCVRoute:
+      return makeRoouteWithSettings(
+        (p0) => const MyCVView(),
+        routeName,
+      );
+    case jobAppliedRoute:
+      return makeRoouteWithSettings(
+        (p0) => const AppliedView(),
+        routeName,
+      );
+    case blogDetailRoute:
+      var blog = settings.arguments as Blog;
+      return makeRoouteWithSettings(
+        (p0) => BlogDetailScreen(
+          blog: blog,
+        ),
+        routeName,
+      );
+    case blogCategoryRoute:
+      final blogCategory = settings.arguments as BlogCategory;
+      return makeRoouteWithSettings(
+        (p0) => BlogCategoryScreen(
+          blogCategory: blogCategory,
+        ),
+        routeName,
+      );
+    case verifyRoute:
+      final user = settings.arguments as User;
+      return makeRoouteWithSettings(
+        (p0) => VerifyScreen(user: user),
+        routeName,
+      );
+    default:
+      return makeRoouteWithSettings(
+        (p0) => const RouteNotFoundScreen(),
+        routeName,
+      );
+  }
+}
 
-  static final RouteModal profileUpdateRoute = RouteModal(
-    routeName: 'profileUpdatePage',
-    path: '/profileUpdatePage',
+Route<dynamic> makeRoouteWithSettings(
+  Widget Function(BuildContext) builder,
+  String? routeName,
+) {
+  return MaterialPageRoute<dynamic>(
+    builder: builder,
+    settings: RouteSettings(
+      name: routeName,
+    ),
   );
-  static final RouteModal changePasswordRoute = RouteModal(
-    routeName: 'changePasswordPage',
-    path: '/changePasswordPage',
-  );
-  static final RouteModal testCategoriesRoute = RouteModal(
-    routeName: 'testCategoriesPage',
-    path: '/testCategoriesPage',
-  );
-  static final RouteModal myCVRoute = RouteModal(
-    routeName: 'myCVPage',
-    path: '/myCVPage',
-  );
-
-  static final RouteModal jobAppliedRoute = RouteModal(
-    routeName: 'jobAppliedPage',
-    path: '/jobAppliedPage',
-  );
-
-  static final RouteModal blogDetailRoute = RouteModal(
-    routeName: 'blogDetailPage',
-    path: '/blogDetailPage',
-  );
-  static final RouteModal blogCategoryRoute = RouteModal(
-    routeName: 'blogCategoryPage',
-    path: '/blogCategoryPage',
-  );
-  
 }

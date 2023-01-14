@@ -1,4 +1,4 @@
-enum AuthType { BEARER, BASIC, NONE }
+enum AuthType { BEARER, NONE }
 
 enum DIO_METHOD {
   GET,

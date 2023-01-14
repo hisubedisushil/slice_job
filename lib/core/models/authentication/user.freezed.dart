@@ -36,6 +36,8 @@ mixin _$User {
   String? get userType => throw _privateConstructorUsedError;
   @HiveField(7)
   String? get typeApproved => throw _privateConstructorUsedError;
+  @HiveField(8)
+  String? get phoneNumber => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +57,8 @@ abstract class $UserCopyWith<$Res> {
       @HiveField(4) String? regIp,
       @HiveField(5) String? emailConfirm,
       @HiveField(6) String? userType,
-      @HiveField(7) String? typeApproved});
+      @HiveField(7) String? typeApproved,
+      @HiveField(8) String? phoneNumber});
 }
 
 /// @nodoc
@@ -79,6 +82,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? emailConfirm = freezed,
     Object? userType = freezed,
     Object? typeApproved = freezed,
+    Object? phoneNumber = freezed,
   }) {
     return _then(_value.copyWith(
       firstName: freezed == firstName
@@ -113,6 +117,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.typeApproved
           : typeApproved // ignore: cast_nullable_to_non_nullable
               as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -131,7 +139,8 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       @HiveField(4) String? regIp,
       @HiveField(5) String? emailConfirm,
       @HiveField(6) String? userType,
-      @HiveField(7) String? typeApproved});
+      @HiveField(7) String? typeApproved,
+      @HiveField(8) String? phoneNumber});
 }
 
 /// @nodoc
@@ -151,6 +160,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? emailConfirm = freezed,
     Object? userType = freezed,
     Object? typeApproved = freezed,
+    Object? phoneNumber = freezed,
   }) {
     return _then(_$_User(
       firstName: freezed == firstName
@@ -185,6 +195,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.typeApproved
           : typeApproved // ignore: cast_nullable_to_non_nullable
               as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -201,7 +215,8 @@ class _$_User implements _User {
       @HiveField(4) this.regIp,
       @HiveField(5) this.emailConfirm,
       @HiveField(6) this.userType,
-      @HiveField(7) this.typeApproved});
+      @HiveField(7) this.typeApproved,
+      @HiveField(8) this.phoneNumber});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -229,10 +244,13 @@ class _$_User implements _User {
   @override
   @HiveField(7)
   final String? typeApproved;
+  @override
+  @HiveField(8)
+  final String? phoneNumber;
 
   @override
   String toString() {
-    return 'User(firstName: $firstName, lastName: $lastName, email: $email, regDate: $regDate, regIp: $regIp, emailConfirm: $emailConfirm, userType: $userType, typeApproved: $typeApproved)';
+    return 'User(firstName: $firstName, lastName: $lastName, email: $email, regDate: $regDate, regIp: $regIp, emailConfirm: $emailConfirm, userType: $userType, typeApproved: $typeApproved, phoneNumber: $phoneNumber)';
   }
 
   @override
@@ -252,13 +270,15 @@ class _$_User implements _User {
             (identical(other.userType, userType) ||
                 other.userType == userType) &&
             (identical(other.typeApproved, typeApproved) ||
-                other.typeApproved == typeApproved));
+                other.typeApproved == typeApproved) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, firstName, lastName, email,
-      regDate, regIp, emailConfirm, userType, typeApproved);
+      regDate, regIp, emailConfirm, userType, typeApproved, phoneNumber);
 
   @JsonKey(ignore: true)
   @override
@@ -283,7 +303,8 @@ abstract class _User implements User {
       @HiveField(4) final String? regIp,
       @HiveField(5) final String? emailConfirm,
       @HiveField(6) final String? userType,
-      @HiveField(7) final String? typeApproved}) = _$_User;
+      @HiveField(7) final String? typeApproved,
+      @HiveField(8) final String? phoneNumber}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -311,6 +332,9 @@ abstract class _User implements User {
   @override
   @HiveField(7)
   String? get typeApproved;
+  @override
+  @HiveField(8)
+  String? get phoneNumber;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

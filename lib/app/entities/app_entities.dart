@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/core/models/authentication/login_response.dart';
+import 'package:slice_job/core/models/authentication/user.dart';
 
 part 'app_entities.freezed.dart';
 
@@ -19,6 +20,8 @@ class AuthState with _$AuthState {
     required final bool isInitial,
     required final bool isAuthenticating,
     required final bool isAuthenticated,
+    final User? user,
     final AuthData? authData,
+    final Failure? error,
   }) = _AuthState;
 }

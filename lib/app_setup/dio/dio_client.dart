@@ -24,7 +24,7 @@ final dioProvider = Provider<Dio>((ref) {
     'Accept': Headers.jsonContentType,
   };
   dio.options.extra = <String, Object>{
-    authToken: AuthType.BASIC,
+    authToken: AuthType.NONE,
   };
 
   dio.interceptors.addAll([
@@ -38,7 +38,7 @@ final dioProvider = Provider<Dio>((ref) {
       compact: true,
       maxWidth: 120,
     ),
-    RequestInterceptor(ref, dio),
+    RequestInterceptor(ref),
     ResponseInterceptor(ref, dio),
     ErrorInterceptor(ref, dio),
   ]);

@@ -5,6 +5,7 @@ const String facebookGetProfileEndpoint = 'me';
 // ================ Static Urls ========================== //
 const String termsAndConditionsUrl = 'https://www.slicejob.com/company/terms';
 const String privacyPolicyUrl = 'https://www.slicejob.com/company/policy';
+const String webUrl = 'https://www.slicejob.com';
 
 // ================ Endpoints ============================ //
 const String jobCategoriesEndpoint = 'job-category';
@@ -31,4 +32,16 @@ const String faqsEndpoint = 'page-faqs';
 const String termsEndpoint = 'page-terms';
 const String aboutEndpoint = 'page-about';
 
+// =============== Auth Endpoints ================ //
+const String loginEndpoint = 'login';
+const String registerEndpoint = 'register';
+const String registerVerifyEndpoint = 'register-verify';
+const String accountRemoveEndpoint = 'account_remove';
+const String forgotPasswordEndpoint = 'password-forgot';
+const String resetPasswordEndpoint = 'password-reset';
+const String getTokenEndpoint = 'get-token';
+const String logoutEndpoint = 'logout';
 
+// =================== Profile Endpoints ================== //
+const String profileEndpoint = 'profile';
+const String updateProfileEndpoint = 'profile-update';

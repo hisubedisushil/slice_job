@@ -480,7 +480,9 @@ mixin _$AuthState {
   bool get isInitial => throw _privateConstructorUsedError;
   bool get isAuthenticating => throw _privateConstructorUsedError;
   bool get isAuthenticated => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
   AuthData? get authData => throw _privateConstructorUsedError;
+  Failure? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -496,8 +498,11 @@ abstract class $AuthStateCopyWith<$Res> {
       {bool isInitial,
       bool isAuthenticating,
       bool isAuthenticated,
-      AuthData? authData});
+      User? user,
+      AuthData? authData,
+      Failure? error});
 
+  $UserCopyWith<$Res>? get user;
   $AuthDataCopyWith<$Res>? get authData;
 }
 
@@ -517,7 +522,9 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isInitial = null,
     Object? isAuthenticating = null,
     Object? isAuthenticated = null,
+    Object? user = freezed,
     Object? authData = freezed,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       isInitial: null == isInitial
@@ -532,11 +539,31 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
       authData: freezed == authData
           ? _value.authData
           : authData // ignore: cast_nullable_to_non_nullable
               as AuthData?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Failure?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 
   @override
@@ -563,8 +590,12 @@ abstract class _$$_AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
       {bool isInitial,
       bool isAuthenticating,
       bool isAuthenticated,
-      AuthData? authData});
+      User? user,
+      AuthData? authData,
+      Failure? error});
 
+  @override
+  $UserCopyWith<$Res>? get user;
   @override
   $AuthDataCopyWith<$Res>? get authData;
 }
@@ -583,7 +614,9 @@ class __$$_AuthStateCopyWithImpl<$Res>
     Object? isInitial = null,
     Object? isAuthenticating = null,
     Object? isAuthenticated = null,
+    Object? user = freezed,
     Object? authData = freezed,
+    Object? error = freezed,
   }) {
     return _then(_$_AuthState(
       isInitial: null == isInitial
@@ -598,10 +631,18 @@ class __$$_AuthStateCopyWithImpl<$Res>
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
       authData: freezed == authData
           ? _value.authData
           : authData // ignore: cast_nullable_to_non_nullable
               as AuthData?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Failure?,
     ));
   }
 }
@@ -613,7 +654,9 @@ class _$_AuthState implements _AuthState {
       {required this.isInitial,
       required this.isAuthenticating,
       required this.isAuthenticated,
-      this.authData});
+      this.user,
+      this.authData,
+      this.error});
 
   @override
   final bool isInitial;
@@ -622,11 +665,15 @@ class _$_AuthState implements _AuthState {
   @override
   final bool isAuthenticated;
   @override
+  final User? user;
+  @override
   final AuthData? authData;
+  @override
+  final Failure? error;
 
   @override
   String toString() {
-    return 'AuthState(isInitial: $isInitial, isAuthenticating: $isAuthenticating, isAuthenticated: $isAuthenticated, authData: $authData)';
+    return 'AuthState(isInitial: $isInitial, isAuthenticating: $isAuthenticating, isAuthenticated: $isAuthenticated, user: $user, authData: $authData, error: $error)';
   }
 
   @override
@@ -640,13 +687,15 @@ class _$_AuthState implements _AuthState {
                 other.isAuthenticating == isAuthenticating) &&
             (identical(other.isAuthenticated, isAuthenticated) ||
                 other.isAuthenticated == isAuthenticated) &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.authData, authData) ||
-                other.authData == authData));
+                other.authData == authData) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isInitial, isAuthenticating, isAuthenticated, authData);
+  int get hashCode => Object.hash(runtimeType, isInitial, isAuthenticating,
+      isAuthenticated, user, authData, error);
 
   @JsonKey(ignore: true)
   @override
@@ -660,7 +709,9 @@ abstract class _AuthState implements AuthState {
       {required final bool isInitial,
       required final bool isAuthenticating,
       required final bool isAuthenticated,
-      final AuthData? authData}) = _$_AuthState;
+      final User? user,
+      final AuthData? authData,
+      final Failure? error}) = _$_AuthState;
 
   @override
   bool get isInitial;
@@ -669,7 +720,11 @@ abstract class _AuthState implements AuthState {
   @override
   bool get isAuthenticated;
   @override
+  User? get user;
+  @override
   AuthData? get authData;
+  @override
+  Failure? get error;
   @override
   @JsonKey(ignore: true)
   _$$_AuthStateCopyWith<_$_AuthState> get copyWith =>

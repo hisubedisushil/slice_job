@@ -26,12 +26,15 @@ InputDecoration getFormInputDecoration({
   String? customPrefix,
   VoidCallback? onTapPrefix,
   dynamic? labelIconData,
+  String? errorText,
+  Color? suffixColor,
 }) =>
     noBorder
         ? const InputDecoration.collapsed(
             hintText: '',
           )
         : InputDecoration(
+            errorText: errorText,
             suffixIcon: suffix == null
                 ? null
                 : InkWell(
@@ -39,7 +42,7 @@ InputDecoration getFormInputDecoration({
                     child: Icon(
                       suffix,
                       size: 24,
-                      color: AppColors.red.withRed(200),
+                      color: suffixColor ?? AppColors.red.withRed(200),
                     ),
                   ),
             prefixIcon: customPrefix != null
@@ -70,8 +73,8 @@ InputDecoration getFormInputDecoration({
             ),
             labelText: labelText,
             contentPadding: isDense
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 5)
-                : const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ? EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h)
+                : EdgeInsets.symmetric(horizontal: 20.h, vertical: 20.h),
             hintText: hint,
             isDense: isDense,
             hintStyle: TextStyle(
@@ -116,14 +119,14 @@ final kStyleFocusBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(10),
   borderSide: BorderSide(
     color: AppColors.primary,
-    width: 1,
+    width: 2,
   ),
 );
 
 final kStyleErrorBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(10),
   borderSide: BorderSide(
-    color: AppColors.primary,
+    color: AppColors.red,
     width: 1,
   ),
 );

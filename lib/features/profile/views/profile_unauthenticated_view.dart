@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
+
 
 class ProfileUnauthenticatedView extends StatelessWidget {
   const ProfileUnauthenticatedView({super.key});
@@ -40,7 +41,7 @@ class ProfileUnauthenticatedView extends StatelessWidget {
                 MaterialButton(
                   onPressed: () {
                     context.pushNamed(
-                      RoutePaths.loginRoute.routeName,
+                      loginRoute,
                     );
                   },
                   shape: RoundedRectangleBorder(
@@ -62,7 +63,7 @@ class ProfileUnauthenticatedView extends StatelessWidget {
                 MaterialButton(
                   onPressed: () {
                     context.pushNamed(
-                      RoutePaths.registerRoute.routeName,
+                      registerRoute,
                     );
                   },
                   shape: RoundedRectangleBorder(

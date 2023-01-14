@@ -1,7 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:slice_job/app/entities/failure.dart';
+import 'package:slice_job/app/urls.dart';
+import 'package:slice_job/app_setup/dio/dio_util.dart';
 import 'package:slice_job/app_setup/dio/interceptors/dio_helper.dart';
 import 'package:slice_job/app_setup/hive/hive_setup.dart';
 import 'package:slice_job/core/models/authentication/login_response.dart';
+import 'package:slice_job/core/models/authentication/user.dart';
+import 'package:slice_job/core/models/base_response.dart';
 
 final authRepositoryRef = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(ref);
@@ -10,6 +15,20 @@ final authRepositoryRef = Provider<AuthRepository>((ref) {
 abstract class AuthRepository {
   Future<AuthData?> getSession();
   Future<void> setSession(AuthData session);
+  Future<BaseResponse> login(String username, String password);
+  Future<BaseResponse> logout();
+  Future<BaseResponse> register(
+    String firstName,
+    String lastName,
+    String email,
+    String phone,
+    String password,
+  );
+  Future<BaseResponse> registerVerify(
+    String email,
+    String phone,
+    String code,
+  );
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -32,5 +51,157 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> setSession(AuthData session) {
     return hive.setSession(session);
+  }
+
+  @override
+  Future<BaseResponse> login(String username, String password) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: loginEndpoint,
+      authType: AuthType.NONE,
+      reqBody: {
+        "email": username,
+        "password": password,
+      },
+    );
+    return response.fold((s) async {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as Map<String, dynamic>;
+            final authData = AuthData.fromJson(json);
+            return authData;
+          },
+        );
+        await setSession(data.data);
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> register(
+    String firstName,
+    String lastName,
+    String email,
+    String phone,
+    String password,
+  ) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: registerEndpoint,
+      authType: AuthType.NONE,
+      reqBody: {
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "phone": phone,
+        "password": password,
+        "confirm_password": password,
+      },
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as Map<String, dynamic>;
+            final authData = User.fromJson(json);
+            return authData;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> registerVerify(
+    String email,
+    String phone,
+    String code,
+  ) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: registerEndpoint,
+      authType: AuthType.NONE,
+      reqBody: {
+        "email": email,
+        "phone": phone,
+        "code": code,
+      },
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as Map<String, dynamic>;
+            final authData = User.fromJson(json);
+            return authData;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> logout() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: logoutEndpoint,
+      authType: AuthType.NONE,
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        return const BaseResponse(
+          status: true,
+          message: 'Log out Successful!',
+          data: true,
+        );
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
   }
 }
