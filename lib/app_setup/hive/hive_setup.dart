@@ -41,6 +41,12 @@ class HiveDB {
     return a;
   }
 
+  Future<void> clearSession() async {
+    final sessionBox = await openBox(authDataBox);
+    await sessionBox.clear();
+    return;
+  }
+
   Future<void> setSession(AuthData session) async {
     final sessionBox = await openBox(authDataBox);
     AuthData? prev;

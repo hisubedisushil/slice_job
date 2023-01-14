@@ -13,6 +13,7 @@ class ProfileDetailButton extends StatelessWidget {
     this.prefixIconData,
     this.color,
     this.foregroundColor,
+    this.isLoading = false,
   });
 
   final void Function() onPressed;
@@ -21,6 +22,7 @@ class ProfileDetailButton extends StatelessWidget {
   final Color? color;
   final Color? foregroundColor;
   final IoniconsData? prefixIconData;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -37,32 +39,40 @@ class ProfileDetailButton extends StatelessWidget {
       minWidth: double.infinity,
       height: 56.h,
       elevation: 0.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (prefixIconData != null)
-            Icon(
-              prefixIconData,
-              size: 25.w,
-              color: foregroundColor ?? AppColors.black,
-            ).pR(10.w),
-          Expanded(
-            child: Text(
-              buttonText,
-              style: TextStyle(
-                color: foregroundColor ?? AppColors.black,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
+      child: isLoading
+          ? SizedBox(
+              width: 32.w,
+              height: 32.w,
+              child: CircularProgressIndicator(
+                color: AppColors.kColorWhite,
               ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (prefixIconData != null)
+                  Icon(
+                    prefixIconData,
+                    size: 25.w,
+                    color: foregroundColor ?? AppColors.black,
+                  ).pR(10.w),
+                Expanded(
+                  child: Text(
+                    buttonText,
+                    style: TextStyle(
+                      color: foregroundColor ?? AppColors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Icon(
+                  iconData,
+                  size: 32.w,
+                  color: foregroundColor ?? AppColors.black,
+                ),
+              ],
             ),
-          ),
-          Icon(
-            iconData,
-            size: 32.w,
-            color: foregroundColor ?? AppColors.black,
-          ),
-        ],
-      ),
     );
   }
 }

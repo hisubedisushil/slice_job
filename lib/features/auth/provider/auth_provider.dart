@@ -94,7 +94,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
-   Future<void> verifyRegister({
+  Future<void> verifyRegister({
     required String email,
     required String phone,
     required String code,
@@ -126,8 +126,22 @@ class AuthProvider extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> logout() async {
+    state = state.copyWith(
+      isAuthenticating: true,
+      isInitial: false,
+    );
+    await _repository.logout();
+    state = state.copyWith(
+      isAuthenticating: false,
+      isAuthenticated: false,
+      authData: null,
+    );
+  }
+
   void resetError() {
     state = state.copyWith(
+      isInitial: true,
       isAuthenticating: false,
       isAuthenticated: false,
       authData: null,

@@ -4,11 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/core/widgets/home_screen_header.dart';
+import 'package:slice_job/features/auth/provider/auth_provider.dart';
+import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/profile/provider/profile_provider.dart';
 import 'package:slice_job/features/profile/views/profile_authenticated_shimmer_view.dart';
 import 'package:slice_job/features/profile/widgets/profile_detail_button_widget.dart';
@@ -20,6 +23,11 @@ import 'package:slice_job/helpers/util/util.dart';
 final profileRef =
     StateNotifierProvider.autoDispose<ProfileProvider, BaseState>((ref) {
   return ProfileProvider(ref: ref);
+});
+
+final logoutRef =
+    StateNotifierProvider.autoDispose<AuthProvider, AuthState>((ref) {
+  return AuthProvider(ref: ref);
 });
 
 class ProfileauthenticatedView extends ConsumerStatefulWidget {
@@ -50,9 +58,34 @@ class _ProfileauthenticatedViewState
     );
   }
 
+  void _onLogout() {
+    ref.read(logoutRef.notifier).logout();
+  }
+
   @override
   Widget build(BuildContext context) {
     final divider = _divider();
+    ref.listen<AuthState>(
+      logoutRef,
+      (previous, next) {
+        if (!next.isAuthenticating &&
+            !next.isAuthenticated &&
+            !next.isInitial) {
+          ref.read(logoutRef.notifier).resetError();
+          context.popUntilNamed(loginRoute);
+          Future.delayed(const Duration(milliseconds: 200), () {
+            ref.read(navBarController.notifier).setSelectedIndex(0);
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'User Logged out!',
+              ),
+            ),
+          );
+        }
+      },
+    );
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -395,20 +428,18 @@ class _ProfileauthenticatedViewState
                   iconData: Ionicons.arrow_forward_circle,
                 ),
                 verticalSpacer(30.h),
-                ProfileDetailButton(
-                  onPressed: () async {
-                    // bool result = await showDialog(
-                    //   context: context,
-                    //   builder: (context) => FutureProgressDialog(
-                    //     authentication.logOut(),
-                    //   ),
-                    // );
-                    // log(result.toString());
+                Consumer(
+                  builder: (context, ref, child) {
+                    final isLoading = ref.watch(logoutRef).isAuthenticating;
+                    return ProfileDetailButton(
+                      onPressed: !isLoading ? _onLogout : () {},
+                      buttonText: 'Logout',
+                      color: AppColors.red,
+                      foregroundColor: AppColors.white,
+                      iconData: Ionicons.exit_outline,
+                      isLoading: isLoading,
+                    );
                   },
-                  buttonText: 'Logout',
-                  color: AppColors.red,
-                  foregroundColor: AppColors.white,
-                  iconData: Ionicons.exit_outline,
                 ),
                 verticalSpacer(30.h),
               ],

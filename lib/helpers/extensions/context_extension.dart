@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:slice_job/app_setup/routes/router.dart';
 
 extension RouterExtension on BuildContext {
   pushNamed(String routeName, {dynamic extra}) {
@@ -17,5 +18,11 @@ extension RouterExtension on BuildContext {
       routeName,
       arguments: extra,
     );
+  }
+
+  popUntilNamed(String routeName, {dynamic extra}) {
+    Navigator.of(this).pushNamedAndRemoveUntil(routeName, (route) {
+      return route.settings.name == mainRoute;
+    });
   }
 }

@@ -185,6 +185,7 @@ class AuthRepositoryImpl implements AuthRepository {
       authType: AuthType.NONE,
     );
     return response.fold((s) {
+      hive.clearSession();
       if (s['status']) {
         return const BaseResponse(
           status: true,
