@@ -4,7 +4,6 @@ import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
 
-
 class ProfileUnauthenticatedView extends StatelessWidget {
   const ProfileUnauthenticatedView({super.key});
 
@@ -39,10 +38,8 @@ class ProfileUnauthenticatedView extends StatelessWidget {
                 ),
                 const SizedBox(height: 10.0),
                 MaterialButton(
-                  onPressed: () {
-                    context.pushNamed(
-                      loginRoute,
-                    );
+                  onPressed: () async {
+                    context.pushLoginScreen();
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),

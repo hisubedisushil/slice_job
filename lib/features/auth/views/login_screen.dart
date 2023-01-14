@@ -4,14 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
 import 'package:slice_job/features/auth/provider/auth_provider.dart';
-import 'package:slice_job/features/auth/views/register_screen.dart';
-import 'package:slice_job/modules/forget_password/views/forgot_password_view.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
+import 'package:slice_job/modules/forget_password/views/forgot_password_view.dart';
 
 String emailOrPhoneKey = 'emailOrPhone';
 String passwordKey = 'password';
@@ -60,7 +60,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           );
         }
         if (next.authData != null && next.isAuthenticated) {
-          context.pushReplacementNamed(mainRoute);
+          ref.read(authRef.notifier).getSession();
+          context.pop();
         }
       },
     );
@@ -213,12 +214,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const RegisterScreen(),
-                              ),
-                            );
+                            context.pushReplacementNamed(registerRoute);
                           },
                           child: Text(
                             'Create New Account',

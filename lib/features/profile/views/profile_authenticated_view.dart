@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
@@ -11,7 +12,6 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/core/widgets/home_screen_header.dart';
 import 'package:slice_job/features/auth/provider/auth_provider.dart';
-import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/profile/provider/profile_provider.dart';
 import 'package:slice_job/features/profile/views/profile_authenticated_shimmer_view.dart';
 import 'package:slice_job/features/profile/widgets/profile_detail_button_widget.dart';
@@ -72,10 +72,8 @@ class _ProfileauthenticatedViewState
             !next.isAuthenticated &&
             !next.isInitial) {
           ref.read(logoutRef.notifier).resetError();
-          context.popUntilNamed(loginRoute);
-          Future.delayed(const Duration(milliseconds: 200), () {
-            ref.read(navBarController.notifier).setSelectedIndex(0);
-          });
+          ref.read(authRef.notifier).getSession();
+          context.pushLoginScreen();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text(

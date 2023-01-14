@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
+import 'package:slice_job/features/auth/views/login_screen.dart';
 
 extension RouterExtension on BuildContext {
   pushNamed(String routeName, {dynamic extra}) {
@@ -24,5 +25,14 @@ extension RouterExtension on BuildContext {
     Navigator.of(this).pushNamedAndRemoveUntil(routeName, (route) {
       return route.settings.name == mainRoute;
     });
+  }
+
+  void pushLoginScreen() {
+    showDialog<bool>(
+      context: this,
+      builder: (context) {
+        return const LoginScreen();
+      },
+    );
   }
 }
