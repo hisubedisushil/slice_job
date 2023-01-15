@@ -46,6 +46,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return const ProfileUnauthenticatedView();
     }
 
-    return const ProfileauthenticatedView();
+    return const ProfileAuthenticatedView();
   }
 }

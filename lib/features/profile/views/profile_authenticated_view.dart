@@ -42,16 +42,16 @@ final logoutRef =
   return AuthProvider(ref: ref);
 });
 
-class ProfileauthenticatedView extends ConsumerStatefulWidget {
-  const ProfileauthenticatedView({super.key});
+class ProfileAuthenticatedView extends ConsumerStatefulWidget {
+  const ProfileAuthenticatedView({super.key});
 
   @override
-  ConsumerState<ProfileauthenticatedView> createState() =>
-      _ProfileauthenticatedViewState();
+  ConsumerState<ProfileAuthenticatedView> createState() =>
+      _ProfileAuthenticatedViewState();
 }
 
-class _ProfileauthenticatedViewState
-    extends ConsumerState<ProfileauthenticatedView> {
+class _ProfileAuthenticatedViewState
+    extends ConsumerState<ProfileAuthenticatedView> {
   @override
   void initState() {
     super.initState();
@@ -77,42 +77,6 @@ class _ProfileauthenticatedViewState
   _downloadCV() async {
     FocusScope.of(context).requestFocus(FocusNode());
     ref.read(downloadCVRef.notifier).downloadCV();
-
-    // if (result.isNotEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: const Text(
-    //         'You have successfully downloaded your CV.',
-    //         textAlign: TextAlign.center,
-    //       ),
-    //       backgroundColor: AppColors.green,
-    //     ),
-    //   );
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Success",
-    //     message: "CV Downloaded Successfully.",
-    //     buttonText: 'Open CV',
-    //     onTapDismiss: () {
-    //       Navigator.pop(context);
-    //       // OpenFile.open(result);
-    //     },
-    //     panaraDialogType: PanaraDialogType.success,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 
   @override
@@ -144,18 +108,7 @@ class _ProfileauthenticatedViewState
           showDialog(
             context: context,
             builder: (context) {
-              return Dialog(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    verticalSpacer(20.h),
-                    const CircularProgressIndicator(),
-                    verticalSpacer(20.h),
-                    const Text('Downloading your CV...'),
-                    verticalSpacer(20.h),
-                  ],
-                ),
-              );
+              return const DownloadingCVDialog();
             },
           );
         } else {
@@ -165,65 +118,7 @@ class _ProfileauthenticatedViewState
             showDialog(
               context: context,
               builder: (context) {
-                return Dialog(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      verticalSpacer(10.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ClipRRect(
-                            child: Icon(
-                              Ionicons.information_circle,
-                              size: 40.r,
-                            ),
-                          ),
-                          Text(
-                            'CV downloaded!',
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(
-                              Ionicons.close,
-                            ),
-                          )
-                        ],
-                      ),
-                      verticalSpacer(20.h),
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          OpenFile.open(data);
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: AppColors.primary,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        minWidth: double.infinity,
-                        height: 56.0,
-                        elevation: 0.0,
-                        child: Text(
-                          'Open CV',
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      verticalSpacer(20.h),
-                    ],
-                  ).pX(10.w),
-                );
+                return CVDownloadedDialog(data: data);
               },
             );
             ScaffoldMessenger.of(context).showSnackBar(
@@ -254,18 +149,7 @@ class _ProfileauthenticatedViewState
           showDialog(
             context: context,
             builder: (context) {
-              return Dialog(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    verticalSpacer(20.h),
-                    const CircularProgressIndicator(),
-                    verticalSpacer(20.h),
-                    const Text('Uploading Profile Image...'),
-                    verticalSpacer(20.h),
-                  ],
-                ),
-              );
+              return const UploadingProfileImageDialog();
             },
           );
         } else {
@@ -527,6 +411,15 @@ class _ProfileauthenticatedViewState
                     Flexible(
                       child: Column(
                         children: [
+                          Text(
+                            'Job Experience',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          verticalSpacer(5.h),
                           SizedBox(
                             height: 35.h,
                             child: Align(
@@ -542,15 +435,6 @@ class _ProfileauthenticatedViewState
                               ),
                             ),
                           ),
-                          verticalSpacer(5.h),
-                          Text(
-                            'Job Experience',
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -562,6 +446,15 @@ class _ProfileauthenticatedViewState
                     Flexible(
                       child: Column(
                         children: [
+                          Text(
+                            'Highest Education',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          verticalSpacer(5.h),
                           SizedBox(
                             height: 35.h,
                             child: Align(
@@ -576,15 +469,6 @@ class _ProfileauthenticatedViewState
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            ),
-                          ),
-                          verticalSpacer(5.h),
-                          Text(
-                            'Highest Education',
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -749,5 +633,121 @@ class _ProfileauthenticatedViewState
       //   return;
       // }
     }
+  }
+}
+
+class UploadingProfileImageDialog extends StatelessWidget {
+  const UploadingProfileImageDialog({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          verticalSpacer(20.h),
+          const CircularProgressIndicator(),
+          verticalSpacer(20.h),
+          const Text('Uploading Profile Image...'),
+          verticalSpacer(20.h),
+        ],
+      ),
+    );
+  }
+}
+
+class DownloadingCVDialog extends StatelessWidget {
+  const DownloadingCVDialog({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          verticalSpacer(20.h),
+          const CircularProgressIndicator(),
+          verticalSpacer(20.h),
+          const Text('Downloading your CV...'),
+          verticalSpacer(20.h),
+        ],
+      ),
+    );
+  }
+}
+
+class CVDownloadedDialog extends StatelessWidget {
+  const CVDownloadedDialog({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          verticalSpacer(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ClipRRect(
+                child: Icon(
+                  Ionicons.information_circle,
+                  size: 40.r,
+                ),
+              ),
+              Text(
+                'CV downloaded!',
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(
+                  Ionicons.close,
+                ),
+              )
+            ],
+          ),
+          verticalSpacer(20.h),
+          MaterialButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              OpenFile.open(data);
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            color: AppColors.primary,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            minWidth: double.infinity,
+            height: 56.0,
+            elevation: 0.0,
+            child: Text(
+              'Open CV',
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          verticalSpacer(20.h),
+        ],
+      ).pX(10.w),
+    );
   }
 }
