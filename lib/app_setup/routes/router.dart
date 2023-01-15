@@ -5,6 +5,7 @@ import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
+import 'package:slice_job/core/models/test/test_response.dart';
 import 'package:slice_job/features/auth/views/login_screen.dart';
 import 'package:slice_job/features/auth/views/register_screen.dart';
 import 'package:slice_job/features/auth/views/verify_screen.dart';
@@ -17,6 +18,7 @@ import 'package:slice_job/features/others/views/about_us_screen.dart';
 import 'package:slice_job/features/others/views/contact_us_screen.dart';
 import 'package:slice_job/features/others/views/faqs_screen.dart';
 import 'package:slice_job/features/test/views/test_category_screen.dart';
+import 'package:slice_job/features/test/views/test_complete_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
 import 'package:slice_job/modules/applied/views/applied_view.dart';
 import 'package:slice_job/modules/cv/views/my_cv_view.dart';
@@ -42,6 +44,7 @@ const String jobAppliedRoute = 'jobAppliedPage';
 const String blogDetailRoute = 'blogDetailPage';
 const String blogCategoryRoute = 'blogCategoryPage';
 const String verifyRoute = 'registerVerifyPage';
+const String testCompleteRoute = 'testCompletePage';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   ezConsoleLog('Route settings: ${settings.name}');
@@ -139,6 +142,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final user = settings.arguments as User;
       return makeRoouteWithSettings(
         (p0) => VerifyScreen(user: user),
+        routeName,
+      );
+    case testCompleteRoute:
+      final args = settings.arguments as Map<String, dynamic>;
+      final category = args['category'] as TestCategory;
+      final result = args['result'] as TestResult;
+      return makeRoouteWithSettings(
+        (p0) => TestCompleteScreen(
+          category: category,
+          result: result,
+        ),
         routeName,
       );
     default:

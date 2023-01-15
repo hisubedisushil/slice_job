@@ -5,7 +5,6 @@ import 'package:slice_job/app_setup/dio/dio_util.dart';
 import 'package:slice_job/app_setup/dio/interceptors/dio_helper.dart';
 import 'package:slice_job/app_setup/hive/hive_setup.dart';
 import 'package:slice_job/core/models/base_response.dart';
-import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/core/models/test/test_response.dart';
 
 final testRepositoryRef = Provider<TestRepository>((ref) {
@@ -14,8 +13,8 @@ final testRepositoryRef = Provider<TestRepository>((ref) {
 
 abstract class TestRepository {
   Future<BaseResponse> getTestCategories();
-  Future<BaseResponse> startTest();
-  Future<BaseResponse> finishTest();
+  Future<BaseResponse> startTest(String category);
+  Future<BaseResponse> finishTest(Map<String, dynamic> testData);
 }
 
 class TestRepositoryImpl implements TestRepository {
@@ -64,19 +63,21 @@ class TestRepositoryImpl implements TestRepository {
   }
 
   @override
-  Future<BaseResponse> startTest() async {
+  Future<BaseResponse> startTest(String category) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
-      endpoint: profileEndpoint,
-      authType: AuthType.BEARER,
-    );
+        reqType: DIO_METHOD.POST,
+        endpoint: startTestEndpoint,
+        authType: AuthType.BEARER,
+        reqBody: {
+          'category': category,
+        });
     return response.fold((s) async {
       if (s['status']) {
         final data = BaseResponse.fromJson(
           s,
           (p0) {
             final json = p0 as Map<String, dynamic>;
-            final data = Profile.fromJson(json);
+            final data = Test.fromJson(json);
             return data;
           },
         );
@@ -96,11 +97,14 @@ class TestRepositoryImpl implements TestRepository {
   }
 
   @override
-  Future<BaseResponse> finishTest() async {
+  Future<BaseResponse> finishTest(
+    Map<String, dynamic> testData,
+  ) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
-      endpoint: profileEndpoint,
+      reqType: DIO_METHOD.POST,
+      endpoint: finishTestEndpoint,
       authType: AuthType.BEARER,
+      reqBody: testData,
     );
     return response.fold((s) async {
       if (s['status']) {
@@ -108,7 +112,7 @@ class TestRepositoryImpl implements TestRepository {
           s,
           (p0) {
             final json = p0 as Map<String, dynamic>;
-            final data = Profile.fromJson(json);
+            final data = TestResult.fromJson(json);
             return data;
           },
         );

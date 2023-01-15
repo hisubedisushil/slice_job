@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/constants/app_colors.dart';
-import 'package:slice_job/constants/app_images.dart';
 import 'package:slice_job/core/models/test/test_response.dart';
-import 'package:slice_job/core/widgets/home_screen_menu_sheet.dart';
 import 'package:slice_job/features/auth/provider/auth_provider.dart';
 import 'package:slice_job/features/test/provider/test_provider.dart';
 import 'package:slice_job/features/test/views/test_screen.dart';
@@ -80,63 +77,16 @@ class _TestAuthenticatedViewState extends ConsumerState<TestAuthenticatedView> {
     );
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: PreferredSize(
-        preferredSize: Size(
-          double.infinity,
-          80.h,
-        ),
-        child: AppBar(
-          backgroundColor: AppColors.white,
-          elevation: 0.0,
-          centerTitle: false,
-          leadingWidth: 120,
-          leading: Container(
-            width: 120,
-            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: AppColors.white,
-            ),
-            child: Image.asset(
-              AppImages.logoMedium,
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(10.0),
-                    ),
-                  ),
-                  builder: (cxt) => const HomeScreenMenuSheet(),
-                );
-              },
-              tooltip: 'Menu',
-              padding: EdgeInsets.zero,
-              visualDensity: VisualDensity.compact,
-              icon: Icon(
-                Ionicons.menu,
-                color: AppColors.primary,
-              ),
-            ),
-          ],
-          flexibleSpace: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                'Choose A Online Test Category',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+        elevation: 0.0,
+        centerTitle: false,
+        title: Text(
+          'Choose A Online Test Category',
+          style: TextStyle(
+            fontSize: 20.sp,
+            color: AppColors.white,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

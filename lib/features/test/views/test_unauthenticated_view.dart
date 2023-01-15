@@ -10,75 +10,80 @@ class TestUnauthenticatedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Center(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Ionicons.lock_closed_outline,
-                  size: 60.0,
-                  color: AppColors.red,
-                ),
-                const SizedBox(height: 10.0),
-                Text(
-                  'To access the page you need to be login. '
-                  'Please login if you already a register user or '
-                  'register if you are not registered.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.grey,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Choose A Online Test Category'),
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Ionicons.lock_closed_outline,
+                    size: 60.0,
+                    color: AppColors.red,
                   ),
-                ),
-                const SizedBox(height: 10.0),
-                MaterialButton(
-                  onPressed: () async {
-                    context.pushLoginScreen();
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: AppColors.primary,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  elevation: 0.0,
-                  child: Text(
-                    'Login',
+                  const SizedBox(height: 10.0),
+                  Text(
+                    'To access the page you need to be login. '
+                    'Please login if you already a register user or '
+                    'register if you are not registered.',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.white,
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.grey,
                     ),
                   ),
-                ),
-                const SizedBox(height: 10.0),
-                MaterialButton(
-                  onPressed: () {
-                    context.pushNamed(
-                      registerRoute,
-                    );
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: Colors.transparent,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  elevation: 0.0,
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10.0),
+                  MaterialButton(
+                    onPressed: () async {
+                      context.pushLoginScreen();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 0.0,
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 10.0),
+                  MaterialButton(
+                    onPressed: () {
+                      context.pushNamed(
+                        registerRoute,
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.transparent,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 0.0,
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
