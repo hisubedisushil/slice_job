@@ -20,11 +20,17 @@ import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/others/views/about_us_screen.dart';
 import 'package:slice_job/features/others/views/contact_us_screen.dart';
 import 'package:slice_job/features/others/views/faqs_screen.dart';
+import 'package:slice_job/features/profile/views/cv/view_cv_screen.dart';
+import 'package:slice_job/features/profile/views/cv/work_certificate_form_screen.dart';
+import 'package:slice_job/features/profile/views/cv/work_education_form_screen.dart';
+import 'package:slice_job/features/profile/views/cv/work_experience_form_screen.dart';
+import 'package:slice_job/features/profile/views/cv/work_language_form_screen.dart';
+import 'package:slice_job/features/profile/views/cv/work_skill_form_screen.dart';
+import 'package:slice_job/features/profile/views/cv/work_training_form_screen.dart';
 import 'package:slice_job/features/profile/views/edit_profile_screen.dart';
 import 'package:slice_job/features/test/views/test_category_screen.dart';
 import 'package:slice_job/features/test/views/test_complete_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
-import 'package:slice_job/modules/cv/views/my_cv_view.dart';
 import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
 
 const String mainRoute = 'mainScreen';
@@ -46,6 +52,12 @@ const String blogDetailRoute = 'blogDetailPage';
 const String blogCategoryRoute = 'blogCategoryPage';
 const String verifyRoute = 'registerVerifyPage';
 const String testCompleteRoute = 'testCompletePage';
+const String workExperienceFormRoute = 'workExperienceFormPage';
+const String workEducationFormRoute = 'workEducationFormPage';
+const String workSkillFormRoute = 'workSkillFormPage';
+const String workLanguageFormRoute = 'workLanguageFormPage';
+const String workTrainingFormRoute = 'workTrainingFormPage';
+const String workCertificateFormRoute = 'workCertificateFormPage';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   ezConsoleLog('Route settings: ${settings.name}');
@@ -118,7 +130,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case myCVRoute:
       return makeRoouteWithSettings(
-        (p0) => const MyCVView(),
+        (p0) => const ViewCVScreen(),
         routeName,
       );
     case jobAppliedRoute:
@@ -157,6 +169,36 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           category: category,
           result: result,
         ),
+        routeName,
+      );
+    case workExperienceFormRoute:
+      return makeRoouteWithSettings(
+        (p0) => const WorkExperienceFormScreen(),
+        routeName,
+      );
+    case workEducationFormRoute:
+      return makeRoouteWithSettings(
+        (p0) => const WorkEducationFormScreen(),
+        routeName,
+      );
+    case workSkillFormRoute:
+      return makeRoouteWithSettings(
+        (p0) => const WorkSkillFormScreen(),
+        routeName,
+      );
+    case workLanguageFormRoute:
+      return makeRoouteWithSettings(
+        (p0) => const WorkLanguageFormScreen(),
+        routeName,
+      );
+    case workTrainingFormRoute:
+      return makeRoouteWithSettings(
+        (p0) => const WorkTrainingFormScreen(),
+        routeName,
+      );
+    case workCertificateFormRoute:
+      return makeRoouteWithSettings(
+        (p0) => const WorkCertificateFormScreen(),
         routeName,
       );
     default:

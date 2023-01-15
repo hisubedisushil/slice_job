@@ -59,7 +59,15 @@ class _ProfileAuthenticatedViewState
   }
 
   void _getProfile() {
-    Future.microtask(() => ref.read(profileRef.notifier).getProfile());
+    Future.microtask(() {
+      ref.read(profileRef.notifier).getProfile();
+      ref.read(profileRef.notifier).getProfileExperience();
+      ref.read(profileRef.notifier).getProfileEducation();
+      ref.read(profileRef.notifier).getProfileSkill();
+      ref.read(profileRef.notifier).getProfileLanguage();
+      ref.read(profileRef.notifier).getProfileTraining();
+      ref.read(profileRef.notifier).getProfileCertificate();
+    });
   }
 
   Widget _divider() => verticalSpacer(10.h);

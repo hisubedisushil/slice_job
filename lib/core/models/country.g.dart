@@ -30,3 +30,24 @@ Map<String, dynamic> _$$_CountryToJson(_$_Country instance) {
   writeNotNull('status', instance.status);
   return val;
 }
+
+_$_City _$$_CityFromJson(Map<String, dynamic> json) => _$_City(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      countryId: json['country_id'] as String?,
+    );
+
+Map<String, dynamic> _$$_CityToJson(_$_City instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('country_id', instance.countryId);
+  return val;
+}

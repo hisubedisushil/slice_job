@@ -16,3 +16,15 @@ class Country with _$Country {
   factory Country.fromJson(Map<String, dynamic> json) =>
       _$CountryFromJson(json);
 }
+
+@freezed
+class City with _$City {
+  const factory City({
+    final String? id,
+    final String? name,
+    final String? countryId,
+  }) = _City;
+
+  factory City.fromJson(Map<String, dynamic> json) =>
+      _$CityFromJson(json);
+}

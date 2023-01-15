@@ -1194,12 +1194,12 @@ class _MyCVViewState extends State<MyCVView> {
                           PopupMenuButton(
                             itemBuilder: (cxt) => [
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: 1,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: 2,
+                                child: Text("Delete"),
                               ),
                             ],
                             shape: RoundedRectangleBorder(
@@ -1322,12 +1322,12 @@ class _MyCVViewState extends State<MyCVView> {
                           PopupMenuButton(
                             itemBuilder: (cxt) => [
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: 1,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: 2,
+                                child: Text("Delete"),
                               ),
                             ],
                             shape: RoundedRectangleBorder(
@@ -1450,12 +1450,12 @@ class _MyCVViewState extends State<MyCVView> {
                           PopupMenuButton(
                             itemBuilder: (cxt) => [
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: 1,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: 2,
+                                child: Text("Delete"),
                               ),
                             ],
                             shape: RoundedRectangleBorder(
@@ -1559,12 +1559,12 @@ class _MyCVViewState extends State<MyCVView> {
                           PopupMenuButton(
                             itemBuilder: (cxt) => [
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: 1,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: 2,
+                                child: Text("Delete"),
                               ),
                             ],
                             shape: RoundedRectangleBorder(
@@ -1668,12 +1668,12 @@ class _MyCVViewState extends State<MyCVView> {
                           PopupMenuButton(
                             itemBuilder: (cxt) => [
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: 1,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: 2,
+                                child: Text("Delete"),
                               ),
                             ],
                             shape: RoundedRectangleBorder(
@@ -1779,12 +1779,12 @@ class _MyCVViewState extends State<MyCVView> {
                           PopupMenuButton(
                             itemBuilder: (cxt) => [
                               const PopupMenuItem(
-                                child: Text("Edit"),
                                 value: 1,
+                                child: Text("Edit"),
                               ),
                               const PopupMenuItem(
-                                child: Text("Delete"),
                                 value: 2,
+                                child: Text("Delete"),
                               ),
                             ],
                             shape: RoundedRectangleBorder(

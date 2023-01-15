@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:open_file/open_file.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/features/profile/views/profile_authenticated_view.dart';
 import 'package:slice_job/features/profile/views/profile_unauthenticated_view.dart';

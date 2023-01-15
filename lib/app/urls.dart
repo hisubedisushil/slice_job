@@ -57,3 +57,11 @@ const String appliedJobsEndpoint = 'applied-jobs';
 
 // ==================== other endpoints =============== //
 const String countriesEndpoint = 'country';
+
+const String getProfileExperienceEndpoint = 'cv-work-experience-list';
+const String getProfileEducationEndpoint = 'cv-education-list';
+const String getProfileSkillEndpoint = 'cv-skill-list';
+const String getProfileLanguageEndpoint = 'cv-language-list';
+const String getProfileTrainingEndpoint = 'cv-training-list';
+const String getProfileCertificateEndpoint = 'cv-certificate-list';
+

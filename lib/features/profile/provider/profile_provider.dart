@@ -1,19 +1,45 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/core/models/base_response.dart';
+import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/models/profile/applied_job_response.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/features/profile/repository/profile_repository.dart';
 
+final profileExperienceRef = StateProvider<List<Experience>>((ref) {
+  return [];
+});
+
+final profileEducationRef = StateProvider<List<Education>>((ref) {
+  return [];
+});
+
+final profileSkillRef = StateProvider<List<Skill>>((ref) {
+  return [];
+});
+
+final profileLanguageRef = StateProvider<List<Language>>((ref) {
+  return [];
+});
+
+final profileTrainingRef = StateProvider<List<Training>>((ref) {
+  return [];
+});
+
+final profileCertificateRef = StateProvider<List<Certificate>>((ref) {
+  return [];
+});
+
 class ProfileProvider extends StateNotifier<BaseState> {
   ProfileProvider({
-    required Ref ref,
+    required this.ref,
   })  : _repository = ref.read(profileRepositoryRef),
         super(
           const BaseState.initial(),
         );
+
+  final Ref ref;
 
   final ProfileRepository _repository;
 
@@ -105,5 +131,47 @@ class ProfileProvider extends StateNotifier<BaseState> {
     } else {
       state = BaseState.error(result.data as Failure);
     }
+  }
+
+  Future<void> getProfileExperience() async {
+    final result = await _repository.getProfileExperience();
+    if (result is BaseResponse<List<Experience>>) {
+      ref.read(profileExperienceRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getProfileEducation() async {
+    final result = await _repository.getProfileEducation();
+    if (result is BaseResponse<List<Education>>) {
+      ref.read(profileEducationRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getProfileSkill() async {
+    final result = await _repository.getProfileSkill();
+    if (result is BaseResponse<List<Skill>>) {
+      ref.read(profileSkillRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getProfileLanguage() async {
+    final result = await _repository.getProfileLanguage();
+    if (result is BaseResponse<List<Language>>) {
+      ref.read(profileLanguageRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getProfileTraining() async {
+    final result = await _repository.getProfileTraining();
+    if (result is BaseResponse<List<Training>>) {
+      ref.read(profileTrainingRef).addAll(result.data);
+    } else {}
+  }
+
+  Future<void> getProfileCertificate() async {
+    final result = await _repository.getProfileCertificate();
+    if (result is BaseResponse<List<Certificate>>) {
+      ref.read(profileCertificateRef).addAll(result.data);
+    } else {}
   }
 }

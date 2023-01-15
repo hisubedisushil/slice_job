@@ -7,6 +7,7 @@ import 'package:slice_job/app_setup/dio/dio_util.dart';
 import 'package:slice_job/app_setup/dio/interceptors/dio_helper.dart';
 import 'package:slice_job/app_setup/hive/hive_setup.dart';
 import 'package:slice_job/core/models/base_response.dart';
+import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/models/profile/applied_job_response.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
 
@@ -24,6 +25,12 @@ abstract class ProfileRepository {
   });
   Future<BaseResponse> updateProfile(Map<String, String> profileData);
   Future<BaseResponse> downloadCV();
+  Future<BaseResponse> getProfileExperience();
+  Future<BaseResponse> getProfileEducation();
+  Future<BaseResponse> getProfileSkill();
+  Future<BaseResponse> getProfileLanguage();
+  Future<BaseResponse> getProfileTraining();
+  Future<BaseResponse> getProfileCertificate();
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -229,6 +236,240 @@ class ProfileRepositoryImpl implements ProfileRepository {
             return BaseResponse(status: false, message: message, data: failure);
           },
         );
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getProfileExperience() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: getProfileExperienceEndpoint,
+      authType: AuthType.BEARER,
+    );
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final experienceList = <Experience>[];
+            for (var exJson in json) {
+              if (exJson['id'] != null) {
+                final parsedCompanyJson = Experience.fromJson(exJson);
+                experienceList.add(parsedCompanyJson);
+              }
+            }
+            return experienceList;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getProfileEducation() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: getProfileEducationEndpoint,
+      authType: AuthType.BEARER,
+    );
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final educationList = <Education>[];
+            for (var exJson in json) {
+              if (exJson['id'] != null) {
+                final parsedCompanyJson = Education.fromJson(exJson);
+                educationList.add(parsedCompanyJson);
+              }
+            }
+            return educationList;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getProfileSkill() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: getProfileSkillEndpoint,
+      authType: AuthType.BEARER,
+    );
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final skillList = <Skill>[];
+            for (var exJson in json) {
+              if (exJson['id'] != null) {
+                final parsedCompanyJson = Skill.fromJson(exJson);
+                skillList.add(parsedCompanyJson);
+              }
+            }
+            return skillList;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getProfileLanguage() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: getProfileLanguageEndpoint,
+      authType: AuthType.BEARER,
+    );
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final languageList = <Language>[];
+            for (var exJson in json) {
+              if (exJson['id'] != null) {
+                final parsedCompanyJson = Language.fromJson(exJson);
+                languageList.add(parsedCompanyJson);
+              }
+            }
+            return languageList;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getProfileTraining() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: getProfileTrainingEndpoint,
+      authType: AuthType.BEARER,
+    );
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final trainingList = <Training>[];
+            for (var exJson in json) {
+              if (exJson['id'] != null) {
+                final parsedCompanyJson = Training.fromJson(exJson);
+                trainingList.add(parsedCompanyJson);
+              }
+            }
+            return trainingList;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getProfileCertificate() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: getProfileCertificateEndpoint,
+      authType: AuthType.BEARER,
+    );
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final certificateList = <Certificate>[];
+            for (var exJson in json) {
+              if (exJson['id'] != null) {
+                final parsedCompanyJson = Certificate.fromJson(exJson);
+                certificateList.add(parsedCompanyJson);
+              }
+            }
+            return certificateList;
+          },
+        );
+        return data;
       } else {
         final message = s['message'] as String;
         final failure = Failure(
