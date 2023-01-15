@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/app/urls.dart';
 import 'package:slice_job/app_setup/dio/dio_util.dart';
@@ -22,6 +23,7 @@ abstract class ProfileRepository {
     required String password,
   });
   Future<BaseResponse> updateProfile(Map<String, String> profileData);
+  Future<BaseResponse> downloadCV();
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -167,10 +169,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return BaseResponse(status: false, message: errorMessage, data: f);
     });
   }
-  
+
   @override
   Future<BaseResponse> updateProfile(Map<String, String> profileData) async {
-        final response = await _api.request<Map<String, dynamic>>(
+    final response = await _api.request<Map<String, dynamic>>(
       reqType: DIO_METHOD.POST,
       endpoint: updateProfileEndpoint,
       authType: AuthType.BEARER,
@@ -182,6 +184,50 @@ class ProfileRepositoryImpl implements ProfileRepository {
           status: true,
           message: s['message'],
           data: true,
+        );
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> downloadCV() async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.GET,
+      endpoint: downloadCVEndpoint,
+      authType: AuthType.BEARER,
+    );
+    final appDir = await getApplicationDocumentsDirectory();
+    return response.fold((s) async {
+      if (s['status']) {
+        final cvFile = s['data']['cv_file'];
+        final cvRes =
+            await _api.download<dynamic>(cvFile, '${appDir.path}/cv.pdf');
+        return cvRes.fold(
+          (l) {
+            return BaseResponse<String>(
+              status: true,
+              message: s['message'],
+              data: '${appDir.path}/cv.pdf',
+            );
+          },
+          (r) {
+            final message = s['message'] as String;
+            final failure = Failure(
+              message,
+              FailureType.response,
+            );
+            return BaseResponse(status: false, message: message, data: failure);
+          },
         );
       } else {
         final message = s['message'] as String;

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/core/models/base_response.dart';
@@ -90,6 +91,16 @@ class ProfileProvider extends StateNotifier<BaseState> {
     state = const BaseState.loading();
     final result = await _repository.getAppliedJobs();
     if (result is BaseResponse<List<AppliedJobs>>) {
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
+
+  Future<void> downloadCV() async {
+    state = const BaseState.loading();
+    final result = await _repository.downloadCV();
+    if (result is BaseResponse<String>) {
       state = BaseState.success(data: result.data);
     } else {
       state = BaseState.error(result.data as Failure);

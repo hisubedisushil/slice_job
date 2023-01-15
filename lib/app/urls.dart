@@ -47,6 +47,7 @@ const String profileEndpoint = 'profile';
 const String updateProfileEndpoint = 'profile-update';
 const String uploadProfileEndpoint = 'profile-picture';
 const String changePasswordEndpoint = 'change-password';
+const String downloadCVEndpoint ='cv-download-pdf';
 
 // =================== Test Endpoints ================== //
 const String testCategoriesEndpoint = 'test-category';

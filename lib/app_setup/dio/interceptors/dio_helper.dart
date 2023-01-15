@@ -16,6 +16,18 @@ class DioHelper {
   final Ref _ref;
 
   Dio get _dio => _ref.read(dioProvider);
+
+  Future<Either<R, Failure>> download<R>(String file, String savePath) async {
+    try {
+      var response = await _dio.download(file, savePath);
+      return Left(response.data);
+    } on DioError catch (e) {
+      return Right(e.toFailure);
+    } catch (e) {
+      return Right(Failure.fromException(e));
+    }
+  }
+
   Future<Either<R, Failure>> uploadFormData<R>({
     required DIO_METHOD reqType,
     required String endpoint,
@@ -25,7 +37,6 @@ class DioHelper {
     Map<String, dynamic>? queryParam,
   }) async {
     try {
-
       var response = await _dio.post(
         endpoint,
         data: reqBody,

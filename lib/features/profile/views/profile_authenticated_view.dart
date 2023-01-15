@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:open_file/open_file.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app/entities/base_state.dart';
@@ -27,6 +28,11 @@ final profileRef =
 });
 
 final profileUploadRef =
+    StateNotifierProvider.autoDispose<ProfileProvider, BaseState>((ref) {
+  return ProfileProvider(ref: ref);
+});
+
+final downloadCVRef =
     StateNotifierProvider.autoDispose<ProfileProvider, BaseState>((ref) {
   return ProfileProvider(ref: ref);
 });
@@ -68,6 +74,47 @@ class _ProfileauthenticatedViewState
     ref.read(logoutRef.notifier).logout();
   }
 
+  _downloadCV() async {
+    FocusScope.of(context).requestFocus(FocusNode());
+    ref.read(downloadCVRef.notifier).downloadCV();
+
+    // if (result.isNotEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: const Text(
+    //         'You have successfully downloaded your CV.',
+    //         textAlign: TextAlign.center,
+    //       ),
+    //       backgroundColor: AppColors.green,
+    //     ),
+    //   );
+    //   await PanaraInfoDialog.showAnimatedGrow(
+    //     context,
+    //     title: "Success",
+    //     message: "CV Downloaded Successfully.",
+    //     buttonText: 'Open CV',
+    //     onTapDismiss: () {
+    //       Navigator.pop(context);
+    //       // OpenFile.open(result);
+    //     },
+    //     panaraDialogType: PanaraDialogType.success,
+    //     barrierDismissible: true,
+    //   );
+    //   return;
+    // } else {
+    //   await PanaraInfoDialog.showAnimatedGrow(
+    //     context,
+    //     title: "Failed",
+    //     message: result,
+    //     buttonText: 'Okay',
+    //     onTapDismiss: () => Navigator.pop(context),
+    //     panaraDialogType: PanaraDialogType.error,
+    //     barrierDismissible: true,
+    //   );
+    //   return;
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     final divider = _divider();
@@ -87,6 +134,116 @@ class _ProfileauthenticatedViewState
               ),
             ),
           );
+        }
+      },
+    );
+    ref.listen<BaseState>(
+      downloadCVRef,
+      (previous, next) {
+        if (next is BaseLoading) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    verticalSpacer(20.h),
+                    const CircularProgressIndicator(),
+                    verticalSpacer(20.h),
+                    const Text('Downloading your CV...'),
+                    verticalSpacer(20.h),
+                  ],
+                ),
+              );
+            },
+          );
+        } else {
+          Navigator.of(context).pop();
+          if (next is BaseSuccess) {
+            final data = next.data as String;
+            showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      verticalSpacer(10.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ClipRRect(
+                            child: Icon(
+                              Ionicons.information_circle,
+                              size: 40.r,
+                            ),
+                          ),
+                          Text(
+                            'CV downloaded!',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(
+                              Ionicons.close,
+                            ),
+                          )
+                        ],
+                      ),
+                      verticalSpacer(20.h),
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          OpenFile.open(data);
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        color: AppColors.primary,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        minWidth: double.infinity,
+                        height: 56.0,
+                        elevation: 0.0,
+                        child: Text(
+                          'Open CV',
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      verticalSpacer(20.h),
+                    ],
+                  ).pX(10.w),
+                );
+              },
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'CV Downloaded Successfully!',
+                ),
+              ),
+            );
+          }
+          if (next is BaseError) {
+            final err = next.data as Failure;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  err.reason,
+                ),
+              ),
+            );
+          }
         }
       },
     );
@@ -592,52 +749,5 @@ class _ProfileauthenticatedViewState
       //   return;
       // }
     }
-  }
-
-  _downloadCV() async {
-    FocusScope.of(context).requestFocus(FocusNode());
-
-    // String result = await showDialog(
-    //   context: context,
-    //   builder: (context) => FutureProgressDialog(
-    //     context.read<ProfileController>().getCVDownloadLink(),
-    //   ),
-    // );
-
-    // if (result.isNotEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: const Text(
-    //         'You have successfully downloaded your CV.',
-    //         textAlign: TextAlign.center,
-    //       ),
-    //       backgroundColor: AppColors.green,
-    //     ),
-    //   );
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Success",
-    //     message: "CV Downloaded Successfully.",
-    //     buttonText: 'Open CV',
-    //     onTapDismiss: () {
-    //       Navigator.pop(context);
-    //       // OpenFile.open(result);
-    //     },
-    //     panaraDialogType: PanaraDialogType.success,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 }
