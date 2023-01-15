@@ -12,6 +12,7 @@ import 'package:slice_job/features/auth/views/verify_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_category_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_detail_screen.dart';
 import 'package:slice_job/features/job_category/views/job_category_screen.dart';
+import 'package:slice_job/features/jobs/views/applied_jobs_screen.dart';
 import 'package:slice_job/features/jobs/views/job_detail_screen.dart';
 import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/others/views/about_us_screen.dart';
@@ -20,7 +21,6 @@ import 'package:slice_job/features/others/views/faqs_screen.dart';
 import 'package:slice_job/features/test/views/test_category_screen.dart';
 import 'package:slice_job/features/test/views/test_complete_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
-import 'package:slice_job/modules/applied/views/applied_view.dart';
 import 'package:slice_job/modules/cv/views/my_cv_view.dart';
 import 'package:slice_job/modules/profile/views/change_password_view.dart';
 import 'package:slice_job/modules/profile/views/profile_update_view.dart';
@@ -119,7 +119,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case jobAppliedRoute:
       return makeRoouteWithSettings(
-        (p0) => const AppliedView(),
+        (p0) => const AppliedJobsScreen(),
         routeName,
       );
     case blogDetailRoute:
