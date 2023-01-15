@@ -26,6 +26,16 @@ class ProfileProvider extends StateNotifier<BaseState> {
     }
   }
 
+  Future<void> uploadProfileImage(String profileImage) async {
+    state = const BaseState.loading();
+    final result = await _repository.uploadProfileImage(profileImage);
+    if (result is BaseResponse<String>) {
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
+
   Future<void> getAppliedJobs() async {
     state = const BaseState.loading();
     final result = await _repository.getAppliedJobs();

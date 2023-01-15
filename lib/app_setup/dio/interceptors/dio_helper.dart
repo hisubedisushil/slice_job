@@ -16,33 +16,37 @@ class DioHelper {
   final Ref _ref;
 
   Dio get _dio => _ref.read(dioProvider);
-  // Future<Either<R, Failure>> postUri<R>({
-  //   required Uri uri,
-  //   required AuthType authType,
-  //   CancelToken? cancelToken,
-  // }) async {
-  //   try {
-  //     var response = await _dio.postUri(
-  //       uri,
-  //       // data: _data,
-  //       options: Options(
-  //         contentType: Headers.jsonContentType,
-  //         extra: {
-  //           authToken: authType,
-  //         },
-  //       ),
-  //     );
-  //     final json = response.data! as R;
-  //     // (response.data is List) ?
-  //     //   response.data as List<dynamic>:
+  Future<Either<R, Failure>> uploadFormData<R>({
+    required DIO_METHOD reqType,
+    required String endpoint,
+    required AuthType authType,
+    required FormData reqBody,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? queryParam,
+  }) async {
+    try {
 
-  //     return Left(json);
-  //   } on DioError catch (e) {
-  //     return Right(Failure.fromException(e));
-  //   } catch (e) {
-  //     return Right(Failure.fromException(e));
-  //   }
-  // }
+      var response = await _dio.post(
+        endpoint,
+        data: reqBody,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': '*/*',
+          },
+          extra: {
+            authToken: authType,
+          },
+        ),
+      );
+      final json = response.data! as R;
+      return Left(json);
+    } on DioError catch (e) {
+      return Right(e.toFailure);
+    } catch (e) {
+      return Right(Failure.fromException(e));
+    }
+  }
 
   Future<Either<R, Failure>> request<R>({
     required DIO_METHOD reqType,

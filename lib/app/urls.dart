@@ -45,6 +45,7 @@ const String logoutEndpoint = 'logout';
 // =================== Profile Endpoints ================== //
 const String profileEndpoint = 'profile';
 const String updateProfileEndpoint = 'profile-update';
+const String uploadProfileEndpoint = 'profile-picture';
 
 // =================== Test Endpoints ================== //
 const String testCategoriesEndpoint = 'test-category';

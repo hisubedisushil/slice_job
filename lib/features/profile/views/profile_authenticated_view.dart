@@ -7,6 +7,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/app_entities.dart';
 import 'package:slice_job/app/entities/base_state.dart';
+import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
@@ -21,6 +22,11 @@ import 'package:slice_job/helpers/util/image_util.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
 final profileRef =
+    StateNotifierProvider.autoDispose<ProfileProvider, BaseState>((ref) {
+  return ProfileProvider(ref: ref);
+});
+
+final profileUploadRef =
     StateNotifierProvider.autoDispose<ProfileProvider, BaseState>((ref) {
   return ProfileProvider(ref: ref);
 });
@@ -81,6 +87,53 @@ class _ProfileauthenticatedViewState
               ),
             ),
           );
+        }
+      },
+    );
+    ref.listen<BaseState>(
+      profileUploadRef,
+      (previous, next) {
+        if (next is BaseLoading) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    verticalSpacer(20.h),
+                    const CircularProgressIndicator(),
+                    verticalSpacer(20.h),
+                    const Text('Uploading Profile Image...'),
+                    verticalSpacer(20.h),
+                  ],
+                ),
+              );
+            },
+          );
+        } else {
+          Navigator.of(context).pop();
+          if (next is BaseSuccess) {
+            final data = next.data as String;
+            _getProfile();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  data,
+                ),
+              ),
+            );
+          }
+          if (next is BaseError) {
+            final err = next.data as Failure;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  err.reason,
+                ),
+              ),
+            );
+          }
         }
       },
     );
@@ -486,6 +539,9 @@ class _ProfileauthenticatedViewState
           ),
         ],
       );
+    }
+    if (croppedFile != null) {
+      ref.read(profileUploadRef.notifier).uploadProfileImage(croppedFile.path);
     }
 
     if (croppedFile != null) {

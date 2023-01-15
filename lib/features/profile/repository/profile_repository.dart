@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/app/urls.dart';
@@ -15,6 +16,7 @@ final profileRepositoryRef = Provider<ProfileRepository>((ref) {
 abstract class ProfileRepository {
   Future<BaseResponse> getUserProfile();
   Future<BaseResponse> getAppliedJobs();
+  Future<BaseResponse> uploadProfileImage(String profileImage);
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -42,6 +44,37 @@ class ProfileRepositoryImpl implements ProfileRepository {
           },
         );
         return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> uploadProfileImage(String profileImage) async {
+    final formDataFile = await MultipartFile.fromFile(profileImage);
+    final response = await _api.uploadFormData<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: uploadProfileEndpoint,
+      authType: AuthType.BEARER,
+      reqBody: FormData.fromMap(
+        {
+          'avatar': formDataFile,
+        },
+      ),
+    );
+    return response.fold((s) async {
+      if (s['status']) {
+        return BaseResponse<String>(
+            status: true, message: '${s['message']}', data: '${s['message']}');
       } else {
         final message = s['message'] as String;
         final failure = Failure(
