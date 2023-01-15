@@ -36,6 +36,23 @@ class ProfileProvider extends StateNotifier<BaseState> {
     }
   }
 
+    Future<void> changePassword({
+    required String oldPassword,
+    required String password,
+  }) async {
+        state = const BaseState.loading();
+
+    final result = await _repository.changePassword(
+      oldPassword: oldPassword,
+      password: password,
+    );
+     if (result is BaseResponse<bool>) {
+      state = BaseState.success(data: result.message);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
+
   Future<void> getAppliedJobs() async {
     state = const BaseState.loading();
     final result = await _repository.getAppliedJobs();

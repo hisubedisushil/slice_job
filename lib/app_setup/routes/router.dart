@@ -6,6 +6,7 @@ import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
 import 'package:slice_job/core/models/test/test_response.dart';
+import 'package:slice_job/features/auth/views/change_password_screen.dart';
 import 'package:slice_job/features/auth/views/login_screen.dart';
 import 'package:slice_job/features/auth/views/register_screen.dart';
 import 'package:slice_job/features/auth/views/verify_screen.dart';
@@ -22,7 +23,6 @@ import 'package:slice_job/features/test/views/test_category_screen.dart';
 import 'package:slice_job/features/test/views/test_complete_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
 import 'package:slice_job/modules/cv/views/my_cv_view.dart';
-import 'package:slice_job/modules/profile/views/change_password_view.dart';
 import 'package:slice_job/modules/profile/views/profile_update_view.dart';
 import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
 
@@ -104,7 +104,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case changePasswordRoute:
       return makeRoouteWithSettings(
-        (p0) => const ChangePasswordView(),
+        (p0) => const ChangePasswordScreen(),
         routeName,
       );
     case testCategoriesRoute:

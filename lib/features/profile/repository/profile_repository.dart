@@ -17,6 +17,10 @@ abstract class ProfileRepository {
   Future<BaseResponse> getUserProfile();
   Future<BaseResponse> getAppliedJobs();
   Future<BaseResponse> uploadProfileImage(String profileImage);
+  Future<BaseResponse> changePassword({
+    required String oldPassword,
+    required String password,
+  });
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -114,6 +118,41 @@ class ProfileRepositoryImpl implements ProfileRepository {
           },
         );
         return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> changePassword({
+    required String oldPassword,
+    required String password,
+  }) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: changePasswordEndpoint,
+      authType: AuthType.BEARER,
+      reqBody: {
+        'old_password': oldPassword,
+        'password': password,
+      },
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        return BaseResponse<bool>(
+          status: true,
+          message: s['message'],
+          data: true,
+        );
       } else {
         final message = s['message'] as String;
         final failure = Failure(
