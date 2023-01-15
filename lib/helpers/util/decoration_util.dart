@@ -73,7 +73,7 @@ InputDecoration getFormInputDecoration({
             ),
             labelText: labelText,
             contentPadding: isDense
-                ? EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h)
+                ? EdgeInsets.symmetric(horizontal: 10.h, vertical: 10.h)
                 : EdgeInsets.symmetric(horizontal: 20.h, vertical: 20.h),
             hintText: hint,
             isDense: isDense,

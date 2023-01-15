@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
@@ -28,6 +29,10 @@ class SliceJobTextField extends StatelessWidget {
     return FormBuilderTextField(
       name: fieldKey,
       validator: validator,
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w700,
+      ),
       decoration: getFormInputDecoration(
         suffix: Ionicons.close,
         prefix: null,
@@ -135,6 +140,104 @@ class SliceJobCehckBox extends StatelessWidget {
               errorText: errorText,
             )
           : null,
+    );
+  }
+}
+
+class SliceJobDropdown extends StatelessWidget {
+  const SliceJobDropdown({
+    super.key,
+    required this.fieldKey,
+    required this.formKey,
+    required this.hint,
+    required this.validator,
+    this.isDense = false,
+    this.errorText,
+    required this.items,
+  });
+
+  final String fieldKey;
+  final GlobalKey<FormBuilderState> formKey;
+  final String hint;
+  final String? Function(String?)? validator;
+  final bool isDense;
+  final String? errorText;
+  final List<String?> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderDropdown<String>(
+      name: fieldKey,
+      validator: validator,
+      alignment: Alignment.centerLeft,
+      items: items
+          .where((element) => element != null)
+          .map((item) => DropdownMenuItem(
+                alignment: AlignmentDirectional.centerStart,
+                value: item,
+                child: Text(
+                  item!,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ))
+          .toList(),
+      decoration: getFormInputDecoration(
+        suffix: null,
+        prefix: null,
+        hint: hint,
+        isDense: isDense,
+        onTapSuffix: () {
+          formKey.currentState?.fields[fieldKey]?.didChange('');
+        },
+        errorText: errorText,
+      ),
+    );
+  }
+}
+
+class SliceJobDatePicker extends StatelessWidget {
+  const SliceJobDatePicker({
+    super.key,
+    required this.fieldKey,
+    required this.formKey,
+    required this.hint,
+    required this.validator,
+    this.isDense = false,
+    this.errorText,
+  });
+
+  final String fieldKey;
+  final GlobalKey<FormBuilderState> formKey;
+  final String hint;
+  final String? Function(DateTime?)? validator;
+  final bool isDense;
+  final String? errorText;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderDateTimePicker(
+      name: fieldKey,
+      validator: validator,
+      firstDate: DateTime(1970),
+      lastDate: DateTime.now(),
+      inputType: InputType.date,
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w700,
+      ),
+      decoration: getFormInputDecoration(
+        suffix: null,
+        prefix: null,
+        hint: hint,
+        isDense: isDense,
+        onTapSuffix: () {
+          formKey.currentState?.fields[fieldKey]?.didChange('');
+        },
+        errorText: errorText,
+      ),
     );
   }
 }

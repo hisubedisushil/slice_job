@@ -3,6 +3,7 @@ import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/core/models/base_response.dart';
 import 'package:slice_job/core/models/company.dart';
+import 'package:slice_job/core/models/country.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
 import 'package:slice_job/core/models/job_detail.dart';
@@ -26,6 +27,9 @@ final jobExperienceLevelsRef = StateProvider<List<JobType>>((ref) {
   return [];
 });
 final allCategoriesRef = StateProvider<List<JobCategory>>((ref) {
+  return [];
+});
+final countriesRef = StateProvider<List<Country>>((ref) {
   return [];
 });
 
@@ -154,7 +158,13 @@ class JobProvider extends StateNotifier<BaseState> {
     getJobSalaries();
     getJobEducationLevels();
     getJobExperienceLevels();
+    getCountries();
   }
 
-
+  Future<void> getCountries() async {
+    final result = await _repository.getCountries();
+    if (result is BaseResponse<List<Country>>) {
+      ref.read(countriesRef).addAll(result.data);
+    } else {}
+  }
 }

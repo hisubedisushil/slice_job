@@ -26,6 +26,39 @@ class ProfileProvider extends StateNotifier<BaseState> {
     }
   }
 
+  Future<void> updateProfile({
+    required String firstName,
+    required String lastName,
+    required String dob,
+    required String mobileNumber,
+    required String country,
+    required String city,
+    required String gender,
+    required String nationality,
+    required String qualification,
+    required String experience,
+  }) async {
+    state = const BaseState.loading();
+    final updateProfileData = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'dob': dob,
+      'nationality': nationality,
+      'gender': gender,
+      'curr_country': country,
+      'curr_city': city,
+      'qualification': qualification,
+      'experience': experience,
+      'mobile_number': mobileNumber,
+    };
+    final result = await _repository.updateProfile(updateProfileData);
+    if (result is BaseResponse<bool>) {
+      state = BaseState.success(data: result.message);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
+
   Future<void> uploadProfileImage(String profileImage) async {
     state = const BaseState.loading();
     final result = await _repository.uploadProfileImage(profileImage);
@@ -36,17 +69,17 @@ class ProfileProvider extends StateNotifier<BaseState> {
     }
   }
 
-    Future<void> changePassword({
+  Future<void> changePassword({
     required String oldPassword,
     required String password,
   }) async {
-        state = const BaseState.loading();
+    state = const BaseState.loading();
 
     final result = await _repository.changePassword(
       oldPassword: oldPassword,
       password: password,
     );
-     if (result is BaseResponse<bool>) {
+    if (result is BaseResponse<bool>) {
       state = BaseState.success(data: result.message);
     } else {
       state = BaseState.error(result.data as Failure);

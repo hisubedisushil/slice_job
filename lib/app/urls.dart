@@ -53,3 +53,6 @@ const String testCategoriesEndpoint = 'test-category';
 const String startTestEndpoint = 'test-start';
 const String finishTestEndpoint = 'test-finish';
 const String appliedJobsEndpoint = 'applied-jobs';
+
+// ==================== other endpoints =============== //
+const String countriesEndpoint = 'country';

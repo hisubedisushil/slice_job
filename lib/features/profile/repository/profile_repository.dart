@@ -21,6 +21,7 @@ abstract class ProfileRepository {
     required String oldPassword,
     required String password,
   });
+  Future<BaseResponse> updateProfile(Map<String, String> profileData);
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -145,6 +146,35 @@ class ProfileRepositoryImpl implements ProfileRepository {
         'old_password': oldPassword,
         'password': password,
       },
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        return BaseResponse<bool>(
+          status: true,
+          message: s['message'],
+          data: true,
+        );
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+  
+  @override
+  Future<BaseResponse> updateProfile(Map<String, String> profileData) async {
+        final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: updateProfileEndpoint,
+      authType: AuthType.BEARER,
+      reqBody: profileData,
     );
     return response.fold((s) {
       if (s['status']) {

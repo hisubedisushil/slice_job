@@ -332,6 +332,32 @@ class _ProfileauthenticatedViewState
                     ],
                   ).pB(10.h),
                 verticalSpacer(10.h),
+                Row(
+                  children: [
+                    Text(
+                      'Account\nType',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    horizontalSpacer(10.h),
+                    Text(
+                      (profile.userType ?? '').isEmpty
+                          ? '-'
+                          : profile.userType ?? '',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                divider,
                 Divider(
                   thickness: 0.5,
                   height: 5,
@@ -341,84 +367,71 @@ class _ProfileauthenticatedViewState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Column(
-                      children: [
-                        Text(
-                          (profile.userType ?? '').isEmpty
-                              ? '-'
-                              : profile.userType ?? '',
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
+                    Flexible(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 35.h,
+                            child: Align(
+                              child: Text(
+                                (profile.experience ?? '').isEmpty
+                                    ? '-'
+                                    : profile.experience ?? '',
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        verticalSpacer(5.h),
-                        Text(
-                          'Account Type',
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
+                          verticalSpacer(5.h),
+                          Text(
+                            'Job Experience',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Container(
                       color: Colors.grey,
                       width: 1,
-                      height: 30.h,
+                      height: 50.h,
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          (profile.experience ?? '').isEmpty
-                              ? '-'
-                              : profile.experience ?? '',
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
+                    Flexible(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 35.h,
+                            child: Align(
+                              child: Text(
+                                (profile.qualification ?? '').isEmpty
+                                    ? '-'
+                                    : profile.qualification ?? '',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        verticalSpacer(5.h),
-                        Text(
-                          'Job Experience',
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
+                          verticalSpacer(5.h),
+                          Text(
+                            'Highest Education',
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      color: Colors.grey,
-                      width: 1,
-                      height: 30.h,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          (profile.qualification ?? '').isEmpty
-                              ? '-'
-                              : profile.qualification ?? '',
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        verticalSpacer(5.h),
-                        Text(
-                          'Highest Education',
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -431,7 +444,7 @@ class _ProfileauthenticatedViewState
                 verticalSpacer(10.h),
                 ProfileDetailButton(
                   onPressed: () {
-                    _navigate(profileUpdateRoute);
+                    context.pushNamed(profileUpdateRoute, extra: profile);
                   },
                   buttonText: 'Edit Profile',
                   prefixIconData: Ionicons.pencil,
@@ -480,7 +493,7 @@ class _ProfileauthenticatedViewState
                   prefixIconData: Ionicons.chatbox,
                   iconData: Ionicons.arrow_forward_circle,
                 ),
-                verticalSpacer(30.h),
+                verticalSpacer(40.h),
                 Consumer(
                   builder: (context, ref, child) {
                     final isLoading = ref.watch(logoutRef).isAuthenticating;

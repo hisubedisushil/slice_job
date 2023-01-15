@@ -5,6 +5,7 @@ import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
+import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/core/models/test/test_response.dart';
 import 'package:slice_job/features/auth/views/change_password_screen.dart';
 import 'package:slice_job/features/auth/views/login_screen.dart';
@@ -19,11 +20,11 @@ import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/others/views/about_us_screen.dart';
 import 'package:slice_job/features/others/views/contact_us_screen.dart';
 import 'package:slice_job/features/others/views/faqs_screen.dart';
+import 'package:slice_job/features/profile/views/edit_profile_screen.dart';
 import 'package:slice_job/features/test/views/test_category_screen.dart';
 import 'package:slice_job/features/test/views/test_complete_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
 import 'package:slice_job/modules/cv/views/my_cv_view.dart';
-import 'package:slice_job/modules/profile/views/profile_update_view.dart';
 import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
 
 const String mainRoute = 'mainScreen';
@@ -98,8 +99,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName,
       );
     case profileUpdateRoute:
+      final profile = settings.arguments as Profile;
       return makeRoouteWithSettings(
-        (p0) => const ProfileUpdateView(),
+        (p0) => EditProfileScreen(
+          profile: profile,
+        ),
         routeName,
       );
     case changePasswordRoute:
