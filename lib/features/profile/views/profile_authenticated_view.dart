@@ -89,7 +89,9 @@ class _ProfileauthenticatedViewState
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0.0,
-        title: const HomeScreenHeaderWidget(),
+        title: const HomeScreenHeaderWidget(
+          hideProfile: true,
+        ),
       ),
       body: ref.watch<BaseState>(profileRef).maybeWhen(
         loading: () {

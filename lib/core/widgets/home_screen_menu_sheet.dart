@@ -13,7 +13,12 @@ import 'package:slice_job/helpers/util/inapp_webview.dart';
 import '/constants/app_colors.dart';
 
 class HomeScreenMenuSheet extends ConsumerStatefulWidget {
-  const HomeScreenMenuSheet({Key? key}) : super(key: key);
+  const HomeScreenMenuSheet({
+    Key? key,
+    this.hideProfile = false,
+  }) : super(key: key);
+
+  final bool hideProfile;
 
   @override
   ConsumerState<HomeScreenMenuSheet> createState() =>
@@ -72,7 +77,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
             label: 'Register',
           ),
         if (!authState.isAuthenticated) divider,
-        if (authState.isAuthenticated)
+        if (authState.isAuthenticated && !widget.hideProfile)
           SheetListTileItem(
             onTap: () {
               navbar.setSelectedIndex(3);
@@ -81,7 +86,7 @@ class _HomeScreenMenuSheetState extends ConsumerState<HomeScreenMenuSheet> {
             iconData: Ionicons.person_outline,
             label: 'Profile',
           ),
-        if (authState.isAuthenticated) divider,
+        if (authState.isAuthenticated && !widget.hideProfile) divider,
         SheetListTileItem(
           onTap: () {
             navbar.setSelectedIndex(1);

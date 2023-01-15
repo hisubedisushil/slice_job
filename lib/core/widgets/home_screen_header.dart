@@ -5,7 +5,12 @@ import 'package:slice_job/constants/app_images.dart';
 import 'package:slice_job/core/widgets/home_screen_menu_sheet.dart';
 
 class HomeScreenHeaderWidget extends StatelessWidget {
-  const HomeScreenHeaderWidget({Key? key}) : super(key: key);
+  const HomeScreenHeaderWidget({
+    Key? key,
+    this.hideProfile = false,
+  }) : super(key: key);
+
+  final bool hideProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,9 @@ class HomeScreenHeaderWidget extends StatelessWidget {
                     top: Radius.circular(10.0),
                   ),
                 ),
-                builder: (cxt) => const HomeScreenMenuSheet(),
+                builder: (cxt) => HomeScreenMenuSheet(
+                  hideProfile: hideProfile,
+                ),
               );
             },
             tooltip: 'Menu',
