@@ -47,10 +47,10 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
   void initState() {
     super.initState();
     _pagingControllerInit();
-    _getBlogCategory();
+    _getJobCategory();
   }
 
-  void _getBlogCategory() {
+  void _getJobCategory() {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       ref.read(jobCategoryRef.notifier).getJobCategories();
     });

@@ -174,4 +174,5 @@ class ProfileProvider extends StateNotifier<BaseState> {
       ref.read(profileCertificateRef).addAll(result.data);
     } else {}
   }
+
 }

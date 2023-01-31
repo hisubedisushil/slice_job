@@ -24,6 +24,19 @@ class Job with _$Job {
 }
 
 @freezed
+class JobTitle with _$JobTitle {
+  const factory JobTitle({
+    final String? id,
+    final String? title,
+    final String? categoryId,
+    final String? status,
+  }) = _JobTitle;
+
+  factory JobTitle.fromJson(Map<String, dynamic> json) =>
+      _$JobTitleFromJson(json);
+}
+
+@freezed
 class JobType with _$JobType {
   const factory JobType({
     required final String id,

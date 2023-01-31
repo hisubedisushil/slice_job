@@ -4,3 +4,5 @@ const String fKeyCareerLevelKey = 'career_level';
 const String fKeyJobSalaryKey = 'job_salary';
 const String fKeyEducationLevelKey = 'education_level';
 const String fKeyExperienceKey = 'experience';
+final List<String> currencies = ['USD', 'NRP'];
+

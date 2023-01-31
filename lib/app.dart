@@ -11,6 +11,7 @@ import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/features/auth/provider/auth_provider.dart';
 import 'package:slice_job/features/jobs/provider/job_provider.dart';
+import 'package:slice_job/features/profile/provider/cv_provider.dart';
 
 final authRef = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider(ref: ref);
@@ -18,6 +19,10 @@ final authRef = StateNotifierProvider<AuthProvider, AuthState>((ref) {
 final getFilterPropertiesRef =
     StateNotifierProvider.autoDispose<JobProvider, BaseState>((ref) {
   return JobProvider(ref: ref);
+});
+final getCVBasicInfoRef =
+    StateNotifierProvider.autoDispose<CVProvider, BaseState>((ref) {
+  return CVProvider(ref: ref);
 });
 
 class App extends ConsumerStatefulWidget {
@@ -39,6 +44,7 @@ class _AppState extends ConsumerState<App> {
   initialFetchCalls() async {
     await ref.read(getFilterPropertiesRef.notifier).getFilterProperties();
     await ref.read(authRef.notifier).getSession();
+    ref.read(getCVBasicInfoRef.notifier).getCVBasicInfo();
     FlutterNativeSplash.remove();
   }
 

@@ -32,6 +32,7 @@ abstract class JobRepository {
   Future<BaseResponse> getJobEducationLevels();
   Future<BaseResponse> getJobExperienceLevels();
   Future<BaseResponse> getCountries();
+  Future<BaseResponse> getCities(String countryId);
 }
 
 class JobRepositoryImpl implements JobRepository {
@@ -437,6 +438,41 @@ class JobRepositoryImpl implements JobRepository {
           (p0) {
             final json = p0 as List<dynamic>;
             final countries = json.map((e) => Country.fromJson(e)).toList();
+            return countries;
+          },
+        );
+        return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> getCities(String countryId) async {
+    final response = await _api.request<Map<String, dynamic>>(
+        reqType: DIO_METHOD.POST,
+        endpoint: citiesEndpoint,
+        authType: AuthType.NONE,
+        reqBody: {
+          'country_id': countryId,
+        });
+
+    return response.fold((s) {
+      if (s['status']) {
+        final data = BaseResponse.fromJson(
+          s,
+          (p0) {
+            final json = p0 as List<dynamic>;
+            final countries = json.map((e) => City.fromJson(e)).toList();
             return countries;
           },
         );

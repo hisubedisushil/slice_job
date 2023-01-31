@@ -167,4 +167,14 @@ class JobProvider extends StateNotifier<BaseState> {
       ref.read(countriesRef).addAll(result.data);
     } else {}
   }
+
+  Future<void> getCities(String countryId) async {
+    state = const BaseState.loading();
+    final result = await _repository.getCities(countryId);
+    if (result is BaseResponse<List<City>>) {
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
 }

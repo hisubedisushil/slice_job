@@ -154,6 +154,7 @@ class SliceJobDropdown extends StatelessWidget {
     this.isDense = false,
     this.errorText,
     required this.items,
+    this.onChanged,
   });
 
   final String fieldKey;
@@ -163,6 +164,7 @@ class SliceJobDropdown extends StatelessWidget {
   final bool isDense;
   final String? errorText;
   final List<String?> items;
+  final Function(String?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +186,7 @@ class SliceJobDropdown extends StatelessWidget {
                 ),
               ))
           .toList(),
+          onChanged: onChanged,
       decoration: getFormInputDecoration(
         suffix: null,
         prefix: null,
