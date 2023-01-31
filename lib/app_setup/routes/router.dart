@@ -8,8 +8,10 @@ import 'package:slice_job/core/models/job_category.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/core/models/test/test_response.dart';
 import 'package:slice_job/features/auth/views/change_password_screen.dart';
+import 'package:slice_job/features/auth/views/forgot_password_screen.dart';
 import 'package:slice_job/features/auth/views/login_screen.dart';
 import 'package:slice_job/features/auth/views/register_screen.dart';
+import 'package:slice_job/features/auth/views/reset_password_screen.dart';
 import 'package:slice_job/features/auth/views/verify_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_category_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_detail_screen.dart';
@@ -58,6 +60,8 @@ const String workSkillFormRoute = 'workSkillFormPage';
 const String workLanguageFormRoute = 'workLanguageFormPage';
 const String workTrainingFormRoute = 'workTrainingFormPage';
 const String workCertificateFormRoute = 'workCertificateFormPage';
+const String forgotPasswordRoute = 'forgotPasswordPage';
+const String resetPasswordRoute = 'resetPasswordPage';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   ezConsoleLog('Route settings: ${settings.name}');
@@ -199,6 +203,19 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case workCertificateFormRoute:
       return makeRoouteWithSettings(
         (p0) => const WorkCertificateFormScreen(),
+        routeName,
+      );
+    case forgotPasswordRoute:
+      return makeRoouteWithSettings(
+        (p0) => const ForgotPasswordScreen(),
+        routeName,
+      );
+    case resetPasswordRoute:
+      final email = settings.arguments as String;
+      return makeRoouteWithSettings(
+        (p0) => ResetPasswordScreen(
+          email: email,
+        ),
         routeName,
       );
     default:

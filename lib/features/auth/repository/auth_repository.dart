@@ -29,6 +29,12 @@ abstract class AuthRepository {
     String phone,
     String code,
   );
+  Future<BaseResponse> resetPassword(
+    String email,
+    String code,
+    String password,
+  );
+  Future<BaseResponse> forgotPassword(String email);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -192,6 +198,68 @@ class AuthRepositoryImpl implements AuthRepository {
           message: 'Log out Successful!',
           data: true,
         );
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> forgotPassword(String email) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: forgotPasswordEndpoint,
+      authType: AuthType.NONE,
+      reqBody: {
+        "email": email,
+      },
+    );
+    return response.fold((s) async {
+      if (s['status']) {
+        return BaseResponse<bool>(
+            status: true, message: s['message'], data: true);
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> resetPassword(
+    String email,
+    String code,
+    String password,
+  ) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: resetPasswordEndpoint,
+      authType: AuthType.NONE,
+      reqBody: {
+        "email": email,
+        "password": password,
+        "code": code,
+      },
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        return BaseResponse<bool>(
+            status: true, message: s['message'], data: true);
       } else {
         final message = s['message'] as String;
         final failure = Failure(

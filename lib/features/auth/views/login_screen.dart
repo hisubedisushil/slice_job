@@ -11,7 +11,6 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
 import 'package:slice_job/features/auth/provider/auth_provider.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
-import 'package:slice_job/modules/forget_password/views/forgot_password_view.dart';
 
 String emailOrPhoneKey = 'emailOrPhone';
 String passwordKey = 'password';
@@ -181,12 +180,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const ForgotPasswordView(),
-                              ),
-                            );
+                            context.pushNamed(forgotPasswordRoute);
                           },
                           child: Text(
                             'Forget Password?',

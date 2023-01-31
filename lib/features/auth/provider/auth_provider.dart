@@ -139,6 +139,54 @@ class AuthProvider extends StateNotifier<AuthState> {
     );
   }
 
+  Future<void> forgotPassword(String email) async {
+    state = state.copyWith(
+      isAuthenticating: true,
+      isInitial: false,
+    );
+    final result = await _repository.forgotPassword(email);
+    if (result is BaseResponse<bool>) {
+      state = state.copyWith(
+        isAuthenticating: false,
+        isAuthenticated: true,
+        authData: null,
+      );
+    } else {
+      state = state.copyWith(
+        isAuthenticating: false,
+        isAuthenticated: false,
+        authData: null,
+        error: result.data as Failure,
+      );
+    }
+  }
+
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    state = state.copyWith(
+      isAuthenticating: true,
+      isInitial: false,
+    );
+    final result = await _repository.resetPassword(email, code, password);
+    if (result is BaseResponse<bool>) {
+      state = state.copyWith(
+        isAuthenticating: false,
+        isAuthenticated: true,
+        authData: null,
+      );
+    } else {
+      state = state.copyWith(
+        isAuthenticating: false,
+        isAuthenticated: false,
+        authData: null,
+        error: result.data as Failure,
+      );
+    }
+  }
+
   void resetError() {
     state = state.copyWith(
       isInitial: true,
