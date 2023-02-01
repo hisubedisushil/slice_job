@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -15,6 +16,8 @@ class SliceJobTextField extends StatelessWidget {
     required this.validator,
     this.isDense = false,
     this.errorText,
+    this.maxLines = 1,
+    this.maxLength,
   });
 
   final String fieldKey;
@@ -23,12 +26,20 @@ class SliceJobTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool isDense;
   final String? errorText;
+  final int maxLines;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
       name: fieldKey,
+      maxLength: maxLength,
+      maxLines: maxLines,
+      minLines: maxLines == 1 ? maxLines : 2,
       validator: validator,
+      maxLengthEnforcement: maxLength != null
+          ? MaxLengthEnforcement.enforced
+          : MaxLengthEnforcement.none,
       style: TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeight.w700,
@@ -186,7 +197,7 @@ class SliceJobDropdown extends StatelessWidget {
                 ),
               ))
           .toList(),
-          onChanged: onChanged,
+      onChanged: onChanged,
       decoration: getFormInputDecoration(
         suffix: null,
         prefix: null,

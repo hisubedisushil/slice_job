@@ -202,7 +202,10 @@ class _ViewCVScreenState extends ConsumerState<ViewCVScreen> {
                                       barrierDismissible: true,
                                     );
                                   } else {
-                                    context.pushNamed(workExperienceFormRoute);
+                                    context.pushNamed(
+                                      workExperienceFormRoute,
+                                      extra: work,
+                                    );
                                   }
                                 },
                               ),

@@ -3,6 +3,7 @@ import 'package:slice_job/app_setup/routes/route_not_found_screen.dart';
 import 'package:slice_job/core/models/authentication/user.dart';
 import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
+import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
@@ -176,8 +177,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName,
       );
     case workExperienceFormRoute:
+      final exp = settings.arguments as Experience;
       return makeRoouteWithSettings(
-        (p0) => const WorkExperienceFormScreen(),
+        (p0) => WorkExperienceFormScreen(
+          experience: exp,
+        ),
         routeName,
       );
     case workEducationFormRoute:

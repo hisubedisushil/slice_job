@@ -68,4 +68,14 @@ class CVProvider extends StateNotifier<BaseState> {
       state = BaseState.error(result.data as Failure);
     }
   }
+
+  Future<void> addExperience(Map<String, String?> data) async {
+    state = const BaseState.loading();
+    final result = await _repository.addExperience(data);
+    if (result is BaseResponse<bool>) {
+      state = BaseState.success(data: result.message);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
 }

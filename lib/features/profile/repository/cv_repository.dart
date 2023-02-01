@@ -18,6 +18,7 @@ abstract class CVRepository {
   Future<BaseResponse> getCVBasicInfo();
   Future<BaseResponse> updateCVTargetJob(Map<String, String> data);
   Future<BaseResponse> getJobTitles(String categoryId);
+  Future<BaseResponse> addExperience(Map<String, String?> data);
 }
 
 class CVRepositoryImpl implements CVRepository {
@@ -167,6 +168,37 @@ class CVRepositoryImpl implements CVRepository {
           },
         );
         return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> addExperience(Map<String, String?> data) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: data['id'] == null
+          ? cvWorkExperiencePostEndpoint
+          : cvWorkExperienceUpdateEndpoint,
+      authType: AuthType.BEARER,
+      reqBody: data,
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        return BaseResponse<bool>(
+          status: true,
+          message: s['message'],
+          data: true,
+        );
       } else {
         final message = s['message'] as String;
         final failure = Failure(

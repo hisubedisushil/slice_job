@@ -1,8 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:slice_job/app/entities/base_state.dart';
+import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/experience.dart';
+import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
+import 'package:slice_job/features/profile/provider/cv_provider.dart';
+import 'package:slice_job/features/profile/views/profile_authenticated_view.dart';
+import 'package:slice_job/helpers/constants.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
+import 'package:slice_job/helpers/util/util.dart';
 
-class WorkExperienceFormScreen extends StatefulWidget {
+String jobTitleKey = 'jobTitle';
+String companyKey = 'company';
+String locationKey = 'location';
+String fromMonthKey = 'fromMonth';
+String fromYearKey = 'fromYear';
+String toMonthKey = 'toMonth';
+String toYearKey = 'toYear';
+String workDescKey = 'workDesc';
+
+final addWorkExperienceRef =
+    StateNotifierProvider.autoDispose<CVProvider, BaseState>((ref) {
+  return CVProvider(ref: ref);
+});
+
+class WorkExperienceFormScreen extends ConsumerStatefulWidget {
   final Experience? experience;
 
   const WorkExperienceFormScreen({
@@ -11,104 +38,89 @@ class WorkExperienceFormScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<WorkExperienceFormScreen> createState() =>
+  ConsumerState<WorkExperienceFormScreen> createState() =>
       _WorkExperienceFormScreenState();
 }
 
-class _WorkExperienceFormScreenState extends State<WorkExperienceFormScreen> {
-  final _jobTitle = TextEditingController();
-  final _company = TextEditingController();
-  final _location = TextEditingController();
-  final _description = TextEditingController();
-
-  String? _startYear;
-  String? _startMonth;
-  String? _endYear;
-  String? _endMonth;
-
+class _WorkExperienceFormScreenState
+    extends ConsumerState<WorkExperienceFormScreen> {
   final List<String> _years = [
     for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
   ];
 
-  final List<String> _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  final List<String> _endYears = [
-    'Present',
-    for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
-  ];
-
-  final List<String> _endMonths = [
-    'Present',
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.experience != null) {
-      _jobTitle.text = widget.experience?.jobTitle ?? '';
-      _company.text = widget.experience?.company ?? '';
-      _location.text = widget.experience?.location ?? '';
-      try {
-        _startYear = _years.firstWhere(
-          (e) => widget.experience?.fromYear == e,
-        );
-      } catch (e) {}
-      try {
-        _endYear = _endYears.firstWhere(
-          (e) => widget.experience?.toYear == e,
-        );
-      } catch (e) {}
-      try {
-        _startMonth = _months.firstWhere(
-          (e) => widget.experience?.fromMonth == e,
-        );
-      } catch (e) {}
-      try {
-        _endMonth = _endMonths.firstWhere(
-          (e) => widget.experience?.toMonth == e,
-        );
-      } catch (e) {}
-      _description.text = widget.experience?.workDescription ?? '';
+    final exp = widget.experience;
+    if (exp != null) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        formKey.currentState
+          ?..fields[jobTitleKey]?.didChange(exp.jobTitle)
+          ..fields[companyKey]?.didChange(exp.company)
+          ..fields[locationKey]?.didChange(exp.location)
+          ..fields[fromMonthKey]?.didChange(exp.fromMonth)
+          ..fields[fromYearKey]?.didChange(exp.fromYear)
+          ..fields[toMonthKey]?.didChange(exp.toMonth)
+          ..fields[toYearKey]?.didChange(exp.toYear)
+          ..fields[workDescKey]?.didChange(exp.workDescription);
+      });
     }
   }
 
   @override
   void dispose() {
-    _jobTitle.dispose();
-    _company.dispose();
-    _location.dispose();
-    _description.dispose();
     super.dispose();
+  }
+
+  _add() async {
+    if (formKey.currentState?.saveAndValidate() ?? false) {
+      FocusScope.of(context).requestFocus(FocusNode());
+      final formValue = formKey.currentState!.value;
+      final data = <String, String?>{
+        'id': widget.experience?.id,
+        'job_title': formValue[jobTitleKey],
+        'company': formValue[companyKey],
+        'location': formValue[locationKey],
+        'from_month': formValue[fromMonthKey],
+        'from_year': formValue[fromYearKey],
+        'to_month': formValue[toMonthKey],
+        'to_year': formValue[toYearKey],
+        'work_description': formValue[workDescKey],
+      };
+      ref.read(addWorkExperienceRef.notifier).addExperience(
+            data,
+          );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final expId = widget.experience?.id;
+    ref.listen<BaseState>(
+      addWorkExperienceRef,
+      (previous, next) {
+        if (next is BaseLoading) {
+          context.showUpdatingCVInfoDialog(expId == null
+              ? 'Adding New Experience!'
+              : 'Updating Experience!');
+        } else {
+          ref.read(profileRef.notifier).getProfileExperience();
+          context.pop();
+          context.pop();
+          if (next is BaseSuccess) {
+            final message = next.data as String;
+            context.showSnackBar(message);
+          }
+          if (next is BaseError) {
+            final data = next.data as Failure;
+            context.showSnackBar(data.reason);
+          }
+        }
+      },
+    );
+
     return Material(
       color: AppColors.white,
       child: Scaffold(
@@ -118,423 +130,119 @@ class _WorkExperienceFormScreenState extends State<WorkExperienceFormScreen> {
             '${widget.experience != null ? 'Update' : 'Add'} CV Work Experience',
           ),
         ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Job Title',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
+        body: FormBuilder(
+          key: formKey,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  SliceJobTextField(
+                    fieldKey: jobTitleKey,
+                    formKey: formKey,
+                    hint: 'Job Title',
+                    validator: FormBuilderValidators.required(
+                        errorText: 'Job Title required!'),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobTextField(
+                    fieldKey: companyKey,
+                    formKey: formKey,
+                    hint: 'Company',
+                    validator: FormBuilderValidators.required(
+                        errorText: 'Company Name required!'),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobTextField(
+                    fieldKey: locationKey,
+                    formKey: formKey,
+                    hint: 'Location',
+                    validator: FormBuilderValidators.required(
+                        errorText: 'Location required!'),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: fromMonthKey,
+                    items: months,
+                    formKey: formKey,
+                    hint: 'From Month',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Pick Start Month!'),
+                    ]),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: fromYearKey,
+                    items: _years,
+                    formKey: formKey,
+                    hint: 'From Year',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Pick Start Year!'),
+                    ]),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: toMonthKey,
+                    items: ['Present', ...months],
+                    formKey: formKey,
+                    hint: 'To Month',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Pick End Month!'),
+                    ]),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: toYearKey,
+                    items: ['Present', ..._years],
+                    formKey: formKey,
+                    hint: 'To Year',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Pick End Year!'),
+                    ]),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobTextField(
+                    maxLines: 6,
+                    maxLength: 4000,
+                    fieldKey: workDescKey,
+                    formKey: formKey,
+                    hint:
+                        'Work Description (Press enter for list the job description)',
+                    validator: FormBuilderValidators.required(
+                        errorText: 'Job Description required!'),
+                  ),
+                  verticalSpacer(15.h),
+                  MaterialButton(
+                    onPressed: _add,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _jobTitle,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Company',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _company,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Location',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _location,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'From Month',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: double.infinity,
+                    height: 56.0,
+                    elevation: 0.0,
+                    child: Text(
+                      widget.experience != null ? 'Update' : 'Add',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _startMonth,
-                        items: _months.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _startMonth = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select From Month',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'From Year',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _startYear,
-                        items: _years.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _startYear = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select From Year',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'To Month',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _endMonth,
-                        items: _endMonths.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _endMonth = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select To Month',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'To Year',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _endYear,
-                        items: _endYears.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _endYear = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select To Year',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                TextFormField(
-                  minLines: 2,
-                  maxLines: 6,
-                  maxLength: 4000,
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Work Description (Press enter for list the job description)',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  keyboardType: TextInputType.multiline,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _description,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                MaterialButton(
-                  onPressed: _add,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: AppColors.primary,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  minWidth: double.infinity,
-                  height: 56.0,
-                  elevation: 0.0,
-                  child: Text(
-                    widget.experience != null ? 'Update' : 'Add',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                const SizedBox(height: 60.0),
-              ],
+                  const SizedBox(height: 60.0),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  _add() async {
-    FocusScope.of(context).requestFocus(FocusNode());
-
-    // String result = await showDialog(
-    //   context: context,
-    //   builder: (context) => FutureProgressDialog(
-    //     context.read<ProfileController>().postExperience(
-    //           id: widget.experience?.id,
-    //           jobTitle: _jobTitle.text,
-    //           company: _company.text,
-    //           location: _location.text,
-    //           fromMonth: _startMonth ?? '',
-    //           fromYear: _startYear ?? '',
-    //           toMonth: _endMonth ?? '',
-    //           toYear: _endYear ?? '',
-    //           description: _description.text,
-    //         ),
-    //   ),
-    // );
-    // log(result.toString());
-
-    // if (result.isEmpty) {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Success",
-    //     message: "Work Experience Saved Successfully.",
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.success,
-    //     barrierDismissible: true,
-    //   );
-    //   Navigator.pop(context);
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 }

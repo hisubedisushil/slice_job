@@ -47,7 +47,7 @@ const String profileEndpoint = 'profile';
 const String updateProfileEndpoint = 'profile-update';
 const String uploadProfileEndpoint = 'profile-picture';
 const String changePasswordEndpoint = 'change-password';
-const String downloadCVEndpoint ='cv-download-pdf';
+const String downloadCVEndpoint = 'cv-download-pdf';
 
 // =================== Test Endpoints ================== //
 const String testCategoriesEndpoint = 'test-category';
@@ -71,4 +71,5 @@ const String getCVBasicEndpoint = 'cv-basic-all';
 const String cvTargetJobEndpoint = 'cv-targetjob-post';
 
 const String jobTitleEndpoint = 'job-title';
-
+const String cvWorkExperiencePostEndpoint = 'cv-work-experience-post';
+const String cvWorkExperienceUpdateEndpoint = 'cv-work-experience-update';
