@@ -41,68 +41,12 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
   _verify() async {
     if (_formKey.currentState?.validate() ?? false) {
       FocusScope.of(context).requestFocus(FocusNode());
-
       ref.read(verifyRef.notifier).verifyRegister(
             email: widget.user.email!,
             phone: widget.user.phoneNumber!,
             code: _otp.text,
           );
     }
-
-    // final result = await showDialog(
-    //   context: context,
-    //   builder: (context) => FutureProgressDialog(
-    //     context.read<AuthenticationController>().verify(
-    //           email: widget.email,
-    //           phone: widget.phone,
-    //           pin: _otp.text,
-    //         ),
-    //   ),
-    // );
-    // log(result.toString());
-
-    // if (result is bool) {
-    //   if (result) {
-    //     Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (_) => const LoginView(),
-    //       ),
-    //     );
-    //   } else {
-    //     await PanaraInfoDialog.showAnimatedGrow(
-    //       context,
-    //       title: "Verification Failed",
-    //       message: "Oops! Something went wrong.",
-    //       buttonText: 'Okay',
-    //       onTapDismiss: () => Navigator.pop(context),
-    //       panaraDialogType: PanaraDialogType.error,
-    //       barrierDismissible: true,
-    //     );
-    //   }
-    // } else if (result is String) {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Verification Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Verification Failed",
-    //     message: "Oops! Something went wrong.",
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 
   @override
@@ -119,7 +63,19 @@ class _VerifyScreenState extends ConsumerState<VerifyScreen> {
           ),
         );
       }
-      if (next.authData != null) {
+      if (next.isAuthenticated && next.user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.primary.withAlpha(200),
+            content: Text(
+              'Registration Successful! Login with your new credential.',
+              style: TextStyle(
+                color: AppColors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
         context.pushReplacementNamed(
           loginRoute,
         );

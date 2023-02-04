@@ -90,9 +90,8 @@ class _WorkCertificateFormScreenState
               ? 'Adding New Certificate!'
               : 'Updating Certificate!');
         } else {
-          ref.read(profileRef.notifier).getProfileCertificate();
           context.pop();
-          context.pop();
+          context.pop(true);
           if (next is BaseSuccess) {
             final message = next.data as String;
             context.showSnackBar(message);

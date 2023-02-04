@@ -31,6 +31,7 @@ abstract class ProfileRepository {
   Future<BaseResponse> getProfileLanguage();
   Future<BaseResponse> getProfileTraining();
   Future<BaseResponse> getProfileCertificate();
+  Future<BaseResponse> removeAccount(String password);
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -470,6 +471,38 @@ class ProfileRepositoryImpl implements ProfileRepository {
           },
         );
         return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+  @override
+  Future<BaseResponse> removeAccount(String password) async {
+    final response = await _api.request<Map<String, dynamic>>(
+      reqType: DIO_METHOD.POST,
+      endpoint: accountRemoveEndpoint,
+      authType: AuthType.BEARER,
+      reqBody: {
+        'password': password,
+      },
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        hive.clearSession();
+        return BaseResponse<bool>(
+          status: true,
+          message: s['message'],
+          data: true,
+        );
       } else {
         final message = s['message'] as String;
         final failure = Failure(

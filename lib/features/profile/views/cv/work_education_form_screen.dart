@@ -101,7 +101,6 @@ class _WorkEducationFormScreenState
 
   @override
   Widget build(BuildContext context) {
-    // final generalController = context.read<GeneralController>();
     final eduId = widget.education?.id;
     ref.listen<BaseState>(
       addEducationRef,
@@ -110,9 +109,8 @@ class _WorkEducationFormScreenState
           context.showUpdatingCVInfoDialog(
               eduId == null ? 'Adding New Education!' : 'Updating Education!');
         } else {
-          ref.read(profileRef.notifier).getProfileEducation();
           context.pop();
-          context.pop();
+          context.pop(true);
           if (next is BaseSuccess) {
             final message = next.data as String;
             context.showSnackBar(message);

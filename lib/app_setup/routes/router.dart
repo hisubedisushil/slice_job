@@ -12,6 +12,7 @@ import 'package:slice_job/features/auth/views/change_password_screen.dart';
 import 'package:slice_job/features/auth/views/forgot_password_screen.dart';
 import 'package:slice_job/features/auth/views/login_screen.dart';
 import 'package:slice_job/features/auth/views/register_screen.dart';
+import 'package:slice_job/features/auth/views/remove_account_screen.dart';
 import 'package:slice_job/features/auth/views/reset_password_screen.dart';
 import 'package:slice_job/features/auth/views/verify_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_category_screen.dart';
@@ -112,7 +113,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case removeAccountRoute:
       return makeRoouteWithSettings(
-        (p0) => const RemoveAccountView(),
+        (p0) => const RemoveAccountScreen(),
         routeName,
       );
     case profileUpdateRoute:

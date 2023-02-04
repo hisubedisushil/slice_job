@@ -24,6 +24,10 @@ final List<String> years = [
   for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
 ];
 
-  final List<String> expLevels = ['Beginner', 'Intermediate', 'Expert'];
-  final List<String> lanExpLevels = ['Beginner', 'Intermediate', 'Expert'];
-
+final List<String> expLevels = ['Beginner', 'Intermediate', 'Expert'];
+final List<String> lanExpLevels = [
+  'Beginner',
+  'Intermediate',
+  'Expert',
+  'Native'
+];

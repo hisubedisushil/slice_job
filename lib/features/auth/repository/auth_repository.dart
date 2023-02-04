@@ -150,7 +150,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     final response = await _api.request<Map<String, dynamic>>(
       reqType: DIO_METHOD.POST,
-      endpoint: registerEndpoint,
+      endpoint: registerVerifyEndpoint,
       authType: AuthType.NONE,
       reqBody: {
         "email": email,

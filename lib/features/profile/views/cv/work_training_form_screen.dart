@@ -86,9 +86,8 @@ class _WorkTrainingFormScreenState
           context.showUpdatingCVInfoDialog(
               eduId == null ? 'Adding New Training!' : 'Updating Training!');
         } else {
-          ref.read(profileRef.notifier).getProfileTraining();
           context.pop();
-          context.pop();
+          context.pop(true);
           if (next is BaseSuccess) {
             final message = next.data as String;
             context.showSnackBar(message);

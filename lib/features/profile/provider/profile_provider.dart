@@ -133,46 +133,85 @@ class ProfileProvider extends StateNotifier<BaseState> {
     }
   }
 
-  Future<void> getProfileExperience() async {
+  Future<void> getProfileExperience({bool showLoading = true}) async {
+    if (showLoading) {
+      state = const BaseState.loading();
+    }
     final result = await _repository.getProfileExperience();
     if (result is BaseResponse<List<Experience>>) {
-      ref.read(profileExperienceRef).addAll(result.data);
-    } else {}
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
   }
 
-  Future<void> getProfileEducation() async {
+  Future<void> getProfileEducation({bool showLoading = true}) async {
+    if (showLoading) {
+      state = const BaseState.loading();
+    }
     final result = await _repository.getProfileEducation();
     if (result is BaseResponse<List<Education>>) {
-      ref.read(profileEducationRef).addAll(result.data);
-    } else {}
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
   }
 
-  Future<void> getProfileSkill() async {
+  Future<void> getProfileSkill({bool showLoading = true}) async {
+    if (showLoading) {
+      state = const BaseState.loading();
+    }
     final result = await _repository.getProfileSkill();
     if (result is BaseResponse<List<Skill>>) {
-      ref.read(profileSkillRef).addAll(result.data);
-    } else {}
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
   }
 
-  Future<void> getProfileLanguage() async {
+  Future<void> getProfileLanguage({bool showLoading = true}) async {
+    if (showLoading) {
+      state = const BaseState.loading();
+    }
     final result = await _repository.getProfileLanguage();
     if (result is BaseResponse<List<Language>>) {
-      ref.read(profileLanguageRef).addAll(result.data);
-    } else {}
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
   }
 
-  Future<void> getProfileTraining() async {
+  Future<void> getProfileTraining({bool showLoading = true}) async {
+    if (showLoading) {
+      state = const BaseState.loading();
+    }
     final result = await _repository.getProfileTraining();
     if (result is BaseResponse<List<Training>>) {
-      ref.read(profileTrainingRef).addAll(result.data);
-    } else {}
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
   }
 
-  Future<void> getProfileCertificate() async {
+  Future<void> getProfileCertificate({bool showLoading = true}) async {
+    if (showLoading) {
+      state = const BaseState.loading();
+    }
     final result = await _repository.getProfileCertificate();
     if (result is BaseResponse<List<Certificate>>) {
-      ref.read(profileCertificateRef).addAll(result.data);
-    } else {}
+      state = BaseState.success(data: result.data);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
   }
 
+  Future<void> removeAccount(String password) async {
+    state = const BaseState.loading();
+    final result = await _repository.removeAccount(password);
+    if (result is BaseResponse<bool>) {
+      state = BaseState.success(data: result.message);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
 }

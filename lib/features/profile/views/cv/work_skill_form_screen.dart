@@ -77,9 +77,8 @@ class _WorkSkillFormScreenState extends ConsumerState<WorkSkillFormScreen> {
           context.showUpdatingCVInfoDialog(
               eduId == null ? 'Adding New Skill!' : 'Updating Skill!');
         } else {
-          ref.read(profileRef.notifier).getProfileSkill();
           context.pop();
-          context.pop();
+          context.pop(true);
           if (next is BaseSuccess) {
             final message = next.data as String;
             context.showSnackBar(message);

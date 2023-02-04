@@ -10,7 +10,6 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
 import 'package:slice_job/features/profile/provider/cv_provider.dart';
-import 'package:slice_job/features/profile/views/profile_authenticated_view.dart';
 import 'package:slice_job/helpers/constants.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/util/util.dart';
@@ -44,7 +43,6 @@ class WorkExperienceFormScreen extends ConsumerStatefulWidget {
 
 class _WorkExperienceFormScreenState
     extends ConsumerState<WorkExperienceFormScreen> {
-
   final formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -98,9 +96,8 @@ class _WorkExperienceFormScreenState
               ? 'Adding New Experience!'
               : 'Updating Experience!');
         } else {
-          ref.read(profileRef.notifier).getProfileExperience();
           context.pop();
-          context.pop();
+          context.pop(true);
           if (next is BaseSuccess) {
             final message = next.data as String;
             context.showSnackBar(message);

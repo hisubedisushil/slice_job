@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app/entities/failure.dart';
-import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/features/profile/provider/cv_provider.dart';
 import 'package:slice_job/features/profile/provider/profile_provider.dart';
 import 'package:slice_job/features/profile/views/cv/widgets/basic_information_widget.dart';
@@ -41,15 +40,6 @@ class ViewCVScreen extends ConsumerStatefulWidget {
 }
 
 class _ViewCVScreenState extends ConsumerState<ViewCVScreen> {
-  final List<Certificate> profileCertificates = [];
-  String? _cvFile;
-
-  @override
-  void initState() {
-    super.initState();
-    profileCertificates.addAll(ref.read(profileCertificateRef.notifier).state);
-  }
-
   void _downloadCV() {
     FocusScope.of(context).requestFocus(FocusNode());
     ref.read(downloadCVRefP.notifier).downloadCV();
