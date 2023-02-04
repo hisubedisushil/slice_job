@@ -112,42 +112,42 @@ class JobProvider extends StateNotifier<BaseState> {
   Future<void> getJobTypes() async {
     final result = await _repository.getJobTypes();
     if (result is BaseResponse<List<JobType>>) {
-      ref.read(jobTypesRef).addAll(result.data);
+      ref.read(jobTypesRef.notifier).state = result.data;
     } else {}
   }
 
   Future<void> getJobCareerLevels() async {
     final result = await _repository.getJobCareerLevels();
     if (result is BaseResponse<List<JobType>>) {
-      ref.read(jobCareerLevelsRef).addAll(result.data);
+      ref.read(jobCareerLevelsRef.notifier).state = result.data;
     } else {}
   }
 
   Future<void> getJobSalaries() async {
     final result = await _repository.getJobSalaries();
     if (result is BaseResponse<List<JobType>>) {
-      ref.read(jobSalariesRef).addAll(result.data);
+      ref.read(jobSalariesRef.notifier).state = result.data;
     } else {}
   }
 
   Future<void> getJobEducationLevels() async {
     final result = await _repository.getJobEducationLevels();
     if (result is BaseResponse<List<JobType>>) {
-      ref.read(jobEducationLevelsRef).addAll(result.data);
+      ref.read(jobEducationLevelsRef.notifier).state = result.data;
     } else {}
   }
 
   Future<void> getJobExperienceLevels() async {
     final result = await _repository.getJobExperienceLevels();
     if (result is BaseResponse<List<JobType>>) {
-      ref.read(jobExperienceLevelsRef).addAll(result.data);
+      ref.read(jobExperienceLevelsRef.notifier).state = result.data;
     } else {}
   }
 
   Future<void> getJobCategories() async {
     final result = await _jobCategoryrepository.getJobCategories();
     if (result is BaseResponse<List<JobCategory>>) {
-      ref.read(allCategoriesRef).addAll(result.data);
+      ref.read(allCategoriesRef.notifier).state = result.data;
     } else {}
   }
 
@@ -164,7 +164,7 @@ class JobProvider extends StateNotifier<BaseState> {
   Future<void> getCountries() async {
     final result = await _repository.getCountries();
     if (result is BaseResponse<List<Country>>) {
-      ref.read(countriesRef).addAll(result.data);
+      ref.read(countriesRef.notifier).state = result.data;
     } else {}
   }
 

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +12,6 @@ import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
-import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_detail.dart';
 import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
 import 'package:slice_job/features/jobs/provider/job_provider.dart';
@@ -48,18 +46,6 @@ class _JobApplyScreenState extends ConsumerState<JobApplyScreen> {
   ValueNotifier<String?> coverFile = ValueNotifier<String?>(null);
   ValueNotifier<String?> coverError = ValueNotifier<String?>(null);
 
-  final List<JobType> educationLevels = [];
-  final List<JobType> experienceLevels = [];
-
-  @override
-  void initState() {
-    super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      educationLevels.addAll(ref.read(jobEducationLevelsRef));
-      experienceLevels.addAll(ref.read(jobExperienceLevelsRef));
-    });
-  }
-
   Future<void> _submit() async {
     if (cvFile.value == null) {
       cvError.value = cvErrorText;
@@ -91,6 +77,8 @@ class _JobApplyScreenState extends ConsumerState<JobApplyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final educationLevels = ref.read(jobEducationLevelsRef);
+    final experienceLevels = ref.read(jobExperienceLevelsRef);
     ref.listen<BaseState>(
       applyRef,
       (previous, next) {
