@@ -16,7 +16,7 @@ class RequestInterceptor extends QueuedInterceptorsWrapper {
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     final authType = options.extra[authToken] as AuthType;
-    if (authType == AuthType.BEARER) {
+    if (authType == AuthType.bearer) {
       final session = await _ref.read(hiveProvider).getSession();
       if (session != null) {
         ezConsoleLog("accessToken: ${session.token}");

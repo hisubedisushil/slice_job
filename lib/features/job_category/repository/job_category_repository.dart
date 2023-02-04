@@ -24,9 +24,9 @@ class JobCategoryRepositoryImpl implements JobCategoryRepository {
   @override
   Future<BaseResponse> getFeaturedJobCategories() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: featuredJobCategoriesEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
 
     return response.fold((s) {
@@ -58,9 +58,9 @@ class JobCategoryRepositoryImpl implements JobCategoryRepository {
   @override
   Future<BaseResponse> getJobCategories() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: jobCategoriesEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
 
     return response.fold((s) {

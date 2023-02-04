@@ -6,6 +6,7 @@ class PaginatedResponse<T> {
     required this.data,
   });
 
+  // ignore: avoid_shadowing_type_parameters
   PaginatedResponse<T> copyWith<T>({
     int? next,
     required T data,

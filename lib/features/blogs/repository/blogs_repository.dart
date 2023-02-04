@@ -34,9 +34,9 @@ class BlogsRepositoryImpl implements BlogsRepository {
     required int page,
   }) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getAllBlogsEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       queryParam: {
         'page': page,
       },
@@ -82,9 +82,9 @@ class BlogsRepositoryImpl implements BlogsRepository {
   @override
   Future<BaseResponse> getBlogDetail(String blogId) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: blogDetailEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       queryParam: {
         'id': blogId,
       },
@@ -117,9 +117,9 @@ class BlogsRepositoryImpl implements BlogsRepository {
   @override
   Future<BaseResponse> getBlogCategory() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: blogCategoryEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
 
     return response.fold((s) {
@@ -154,9 +154,9 @@ class BlogsRepositoryImpl implements BlogsRepository {
     required int page,
   }) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getBlogsByCategoryEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       queryParam: {
         'page': page,
         'category_id': blogCategoryId,

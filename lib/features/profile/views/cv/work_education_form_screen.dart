@@ -13,7 +13,6 @@ import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
 import 'package:slice_job/features/jobs/provider/job_provider.dart';
 import 'package:slice_job/features/profile/provider/cv_provider.dart';
-import 'package:slice_job/features/profile/views/profile_authenticated_view.dart';
 import 'package:slice_job/helpers/constants.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/util/util.dart';

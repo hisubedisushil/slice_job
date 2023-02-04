@@ -62,9 +62,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<BaseResponse> login(String username, String password) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: loginEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       reqBody: {
         "email": username,
         "password": password,
@@ -105,9 +105,9 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: registerEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       reqBody: {
         "first_name": firstName,
         "last_name": lastName,
@@ -149,9 +149,9 @@ class AuthRepositoryImpl implements AuthRepository {
     String code,
   ) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: registerVerifyEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       reqBody: {
         "email": email,
         "phone": phone,
@@ -186,9 +186,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<BaseResponse> logout() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: logoutEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
     return response.fold((s) {
       hive.clearSession();
@@ -215,9 +215,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<BaseResponse> forgotPassword(String email) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: forgotPasswordEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       reqBody: {
         "email": email,
       },
@@ -247,9 +247,9 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: resetPasswordEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
       reqBody: {
         "email": email,
         "password": password,

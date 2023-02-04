@@ -44,9 +44,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> updateCVBasicInfo(Map<String, String> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: cvBasicEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -73,9 +73,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> updateCVContactInfo(Map<String, String> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: cvContactEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -102,9 +102,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> updateCVTargetJob(Map<String, String> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: cvTargetJobEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -131,9 +131,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> getCVBasicInfo() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getCVBasicEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
     return response.fold((s) {
       if (s['status']) {
@@ -163,9 +163,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> getJobTitles(String categoryId) async {
     final response = await _api.request<Map<String, dynamic>>(
-        reqType: DIO_METHOD.POST,
+        reqType: METHOD.post,
         endpoint: jobTitleEndpoint,
-        authType: AuthType.NONE,
+        authType: AuthType.none,
         reqBody: {
           'category_id': categoryId,
         });
@@ -198,11 +198,11 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> addExperience(Map<String, String?> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: data['id'] == null
           ? cvWorkExperiencePostEndpoint
           : cvWorkExperienceUpdateEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -229,9 +229,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> deleteExperience(String id) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: cvWorkExperienceDeleteEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {'id': id},
     );
     return response.fold((s) {
@@ -258,11 +258,11 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> addEducation(Map<String, String?> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: data['id'] == null
           ? cvEducationPostEndpoint
           : cvEducationUpdateEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -289,9 +289,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> deleteEducation(String id) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: cvEducationDeleteEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {'id': id},
     );
     return response.fold((s) {
@@ -318,11 +318,11 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> addSkill(Map<String, String?> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: data['id'] == null
           ? '$cvSkillEndpoint-post'
           : '$cvSkillEndpoint-update',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -349,9 +349,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> deleteSkill(String id) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: '$cvSkillEndpoint-delete',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {'id': id},
     );
     return response.fold((s) {
@@ -378,11 +378,11 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> addLanguage(Map<String, String?> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: data['id'] == null
           ? '$cvLanguageEndpoint-post'
           : '$cvLanguageEndpoint-update',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -409,9 +409,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> deleteLanguage(String id) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: '$cvLanguageEndpoint-delete',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {'id': id},
     );
     return response.fold((s) {
@@ -438,11 +438,11 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> addTraining(Map<String, String?> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: data['id'] == null
           ? '$cvTrainingEndpoint-post'
           : '$cvTrainingEndpoint-update',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -469,9 +469,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> deleteTraining(String id) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: '$cvTrainingEndpoint-delete',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {'id': id},
     );
     return response.fold((s) {
@@ -498,11 +498,11 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> addCertificate(Map<String, String?> data) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: data['id'] == null
           ? '$cvCertificateEndpoint-post'
           : '$cvCertificateEndpoint-update',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: data,
     );
     return response.fold((s) {
@@ -529,9 +529,9 @@ class CVRepositoryImpl implements CVRepository {
   @override
   Future<BaseResponse> deleteCertificate(String id) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: '$cvCertificateEndpoint-delete',
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {'id': id},
     );
     return response.fold((s) {
@@ -555,13 +555,13 @@ class CVRepositoryImpl implements CVRepository {
     });
   }
 
-    @override
+  @override
   Future<BaseResponse> uploadOriginalCV(String profileImage) async {
     final formDataFile = await MultipartFile.fromFile(profileImage);
     final response = await _api.uploadFormData<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: cvOriginalCVEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: FormData.fromMap(
         {
           'cv': formDataFile,

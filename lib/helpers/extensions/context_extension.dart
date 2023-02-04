@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
-import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/features/auth/views/login_screen.dart';
 import 'package:slice_job/features/profile/views/cv/widgets/updating_dialog.dart';
 

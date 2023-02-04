@@ -19,17 +19,9 @@ Future<void> main() async {
   initHive();
   bootstrap(
     () => ProviderScope(
-      // overrides: [
-      //   hiveProvider.overrideWith((ref) {
-      //     final hiveDb = HiveDB();
-      //     hiveDb.initHiveDB();
-      //     return hiveDb;
-      //   }),
-      // ],
       observers: [
         LoggingObserver(),
       ],
-      // child: const MyApp(),
       child: const App(),
     ),
   );
@@ -54,7 +46,7 @@ class LoggingObserver extends ProviderObserver {
   @override
   void didDisposeProvider(
     ProviderBase provider,
-    ProviderContainer containers,
+    ProviderContainer container,
   ) =>
       log('EZLOG => ${provider.nameOrType} was disposed.');
 
@@ -81,30 +73,3 @@ class LoggingObserver extends ProviderObserver {
         stackTrace: stackTrace,
       );
 }
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:provider/provider.dart';
-
-// import 'modules/navbar/controllers/nav_bar_controller.dart';
-// import 'my_app.dart';
-
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-
-//   LicenseRegistry.addLicense(() async* {
-//     final license = await rootBundle.loadString('google_fonts/OFL.txt');
-//     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-//   });
-
-//   runApp(
-//     MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(
-//           create: (_) => NavBarController(),
-//         ),
-//       ],
-//       child: const MyApp(),
-//     ),
-//   );
-// }

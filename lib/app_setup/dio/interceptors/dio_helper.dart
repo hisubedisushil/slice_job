@@ -29,7 +29,7 @@ class DioHelper {
   }
 
   Future<Either<R, Failure>> uploadFormData<R>({
-    required DIO_METHOD reqType,
+    required METHOD reqType,
     required String endpoint,
     required AuthType authType,
     required FormData reqBody,
@@ -60,7 +60,7 @@ class DioHelper {
   }
 
   Future<Either<R, Failure>> request<R>({
-    required DIO_METHOD reqType,
+    required METHOD reqType,
     required String endpoint,
     required AuthType authType,
     Map<String, dynamic>? reqBody,

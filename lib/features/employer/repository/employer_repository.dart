@@ -25,9 +25,9 @@ class EmployerRepositoryImpl implements EmployerRepository {
   @override
   Future<BaseResponse> getTopEmployers() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: topEmployersEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
 
     return response.fold((s) {

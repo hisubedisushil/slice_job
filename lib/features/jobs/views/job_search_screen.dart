@@ -99,8 +99,6 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
         _updateData(data, currentPage);
       }
       if (next is BaseError) {
-        final paginatedData = next.data;
-        final currentPage = int.parse(paginatedData.page);
         _pagingController.error = 'first Page error';
         log('error:');
       }

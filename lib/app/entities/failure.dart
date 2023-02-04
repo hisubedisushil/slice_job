@@ -35,7 +35,7 @@ extension FailureExtension on Failure {
   showError(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(this.reason),
+        content: Text(reason),
         duration: const Duration(seconds: 2),
       ),
     );

@@ -44,9 +44,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getUserProfile() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: profileEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
     return response.fold((s) async {
       if (s['status']) {
@@ -77,9 +77,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<BaseResponse> uploadProfileImage(String profileImage) async {
     final formDataFile = await MultipartFile.fromFile(profileImage);
     final response = await _api.uploadFormData<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: uploadProfileEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: FormData.fromMap(
         {
           'avatar': formDataFile,
@@ -107,9 +107,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getAppliedJobs() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: appliedJobsEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -149,9 +149,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String password,
   }) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: changePasswordEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {
         'old_password': oldPassword,
         'password': password,
@@ -181,9 +181,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> updateProfile(Map<String, String> profileData) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: updateProfileEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: profileData,
     );
     return response.fold((s) {
@@ -210,9 +210,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> downloadCV() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: downloadCVEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
     final appDir = await getApplicationDocumentsDirectory();
     return response.fold((s) async {
@@ -254,9 +254,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getProfileExperience() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getProfileExperienceEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -293,9 +293,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getProfileEducation() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getProfileEducationEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -332,9 +332,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getProfileSkill() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getProfileSkillEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -371,9 +371,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getProfileLanguage() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getProfileLanguageEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -410,9 +410,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getProfileTraining() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getProfileTrainingEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -449,9 +449,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> getProfileCertificate() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: getProfileCertificateEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
 
     return response.fold((s) {
@@ -488,9 +488,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<BaseResponse> removeAccount(String password) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: accountRemoveEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: {
         'password': password,
       },

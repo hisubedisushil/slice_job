@@ -313,33 +313,5 @@ class _ContactUsScreenState extends ConsumerState<ContactUsScreen> {
       );
       return;
     }
-
-    // final String result = await showDialog(
-    //   context: context,
-    //   builder: (context) => FutureProgressDialog(
-    //     context.read<GeneralController>().contactSend(
-    //           name: _name.text.trim(),
-    //           email: _email.text.trim(),
-    //           number: _mobile.text.trim(),
-    //           message: _message.text.trim(),
-    //         ),
-    //   ),
-    // );
-    // log(result.toString());
-
-    // if (result.isEmpty) {
-    //   Navigator.pop(context);
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 }

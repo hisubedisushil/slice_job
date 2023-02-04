@@ -27,9 +27,9 @@ class TestRepositoryImpl implements TestRepository {
   @override
   Future<BaseResponse> getTestCategories() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: testCategoriesEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
     );
     return response.fold((s) async {
       if (s['status']) {
@@ -65,9 +65,9 @@ class TestRepositoryImpl implements TestRepository {
   @override
   Future<BaseResponse> startTest(String category) async {
     final response = await _api.request<Map<String, dynamic>>(
-        reqType: DIO_METHOD.POST,
+        reqType: METHOD.post,
         endpoint: startTestEndpoint,
-        authType: AuthType.BEARER,
+        authType: AuthType.bearer,
         reqBody: {
           'category': category,
         });
@@ -101,9 +101,9 @@ class TestRepositoryImpl implements TestRepository {
     Map<String, dynamic> testData,
   ) async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.POST,
+      reqType: METHOD.post,
       endpoint: finishTestEndpoint,
-      authType: AuthType.BEARER,
+      authType: AuthType.bearer,
       reqBody: testData,
     );
     return response.fold((s) async {

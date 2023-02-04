@@ -25,7 +25,7 @@ InputDecoration getFormInputDecoration({
   bool noBorder = false,
   String? customPrefix,
   VoidCallback? onTapPrefix,
-  dynamic? labelIconData,
+  dynamic labelIconData,
   String? errorText,
   Color? suffixColor,
 }) =>

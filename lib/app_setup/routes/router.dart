@@ -35,7 +35,6 @@ import 'package:slice_job/features/profile/views/edit_profile_screen.dart';
 import 'package:slice_job/features/test/views/test_category_screen.dart';
 import 'package:slice_job/features/test/views/test_complete_screen.dart';
 import 'package:slice_job/helpers/util/util.dart';
-import 'package:slice_job/modules/remove_account/views/remove_account_view.dart';
 
 const String mainRoute = 'mainScreen';
 const String splashRoute = 'splashPage';

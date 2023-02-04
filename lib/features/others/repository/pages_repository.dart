@@ -29,9 +29,9 @@ class PagesRepositoryImpl implements PagesRepository {
   @override
   Future<BaseResponse> getAboutInfo() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: aboutEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
     return response.fold((s) {
       if (s['status']) {
@@ -61,9 +61,9 @@ class PagesRepositoryImpl implements PagesRepository {
   @override
   Future<BaseResponse> getContactInfo() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: contactUsEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
     return response.fold((s) {
       if (s['status']) {
@@ -93,9 +93,9 @@ class PagesRepositoryImpl implements PagesRepository {
   @override
   Future<BaseResponse> getFaqs() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: faqsEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
     return response.fold((s) {
       if (s['status']) {
@@ -125,9 +125,9 @@ class PagesRepositoryImpl implements PagesRepository {
   @override
   Future<BaseResponse> getPrivacyPolicy() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: policyEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
     return response.fold((s) {
       if (s['status']) {
@@ -157,9 +157,9 @@ class PagesRepositoryImpl implements PagesRepository {
   @override
   Future<BaseResponse> getTermsInfo() async {
     final response = await _api.request<Map<String, dynamic>>(
-      reqType: DIO_METHOD.GET,
+      reqType: METHOD.get,
       endpoint: termsEndpoint,
-      authType: AuthType.NONE,
+      authType: AuthType.none,
     );
     return response.fold((s) {
       if (s['status']) {

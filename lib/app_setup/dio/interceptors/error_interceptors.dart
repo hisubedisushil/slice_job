@@ -1,11 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ErrorInterceptor extends Interceptor {
   ///
-  ErrorInterceptor(this._read, this._dio);
+  ErrorInterceptor(this._dio);
 
-  final Ref _read;
   final Dio _dio;
 
   @override

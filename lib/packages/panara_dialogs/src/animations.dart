@@ -10,9 +10,9 @@ class PanaraAnimations {
   static fromLeft(Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
-      child: child,
       position: Tween<Offset>(end: Offset.zero, begin: const Offset(1.0, 0.0))
           .animate(animation),
+      child: child,
     );
   }
 
@@ -20,9 +20,9 @@ class PanaraAnimations {
   static fromRight(Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
-      child: child,
       position: Tween<Offset>(end: Offset.zero, begin: const Offset(-1.0, 0.0))
           .animate(animation),
+      child: child,
     );
   }
 
@@ -30,9 +30,9 @@ class PanaraAnimations {
   static fromTop(Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
-      child: child,
       position: Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, -1.0))
           .animate(animation),
+      child: child,
     );
   }
 
@@ -40,9 +40,9 @@ class PanaraAnimations {
   static fromBottom(Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
-      child: child,
       position: Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 1.0))
           .animate(animation),
+      child: child,
     );
   }
 
@@ -50,7 +50,6 @@ class PanaraAnimations {
   static grow(Animation<double> animation, Animation<double> secondaryAnimation,
       Widget child) {
     return ScaleTransition(
-      child: child,
       scale: Tween<double>(end: 1.0, begin: 0.0).animate(
         CurvedAnimation(
           parent: animation,
@@ -61,6 +60,7 @@ class PanaraAnimations {
           ),
         ),
       ),
+      child: child,
     );
   }
 
@@ -68,13 +68,13 @@ class PanaraAnimations {
   static shrink(Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return ScaleTransition(
-      child: child,
       scale: Tween<double>(end: 1.0, begin: 1.2).animate(
         CurvedAnimation(
           parent: animation,
           curve: const Interval(0.50, 1.00, curve: Curves.linear),
         ),
       ),
+      child: child,
     );
   }
 }

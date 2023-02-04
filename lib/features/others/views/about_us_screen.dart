@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:slice_job/app/entities/base_state.dart';
 import 'package:slice_job/constants/app_colors.dart';
-import 'package:slice_job/core/models/others/about.dart';
 import 'package:slice_job/features/others/provider/pages_provider.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
@@ -53,7 +52,6 @@ class _AboutUsScreenState extends ConsumerState<AboutUsScreen> {
             );
           },
           success: (data, extraData) {
-            final aboutUs = data as About;
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(20),
