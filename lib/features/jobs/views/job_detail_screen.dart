@@ -5,11 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/base_state.dart';
+import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_detail.dart';
 import 'package:slice_job/features/jobs/provider/job_provider.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
 final jobDetailRef =
@@ -32,12 +35,14 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       ref.read(jobDetailRef.notifier).getJobDetail(jobKey: widget.job.jobKey);
+      ref.read(authRef.notifier).getSession();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final job = widget.job;
+    final authState = ref.watch(authRef);
     return SafeArea(
       top: false,
       child: Scaffold(
@@ -273,23 +278,11 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
                     if ((jobDetail.jobApplyUrl ?? '').isEmpty)
                       MaterialButton(
                         onPressed: () {
-                          // if (context.read<AuthenticationController>().isLoggedIn) {
-                          //   // Navigator.push(
-                          //   //   context,
-                          //   //   MaterialPageRoute(
-                          //   //     builder: (cxt) => JobApplyView(
-                          //   //       jobDetail: jobDetail!,
-                          //   //     ),
-                          //   //   ),
-                          //   // );
-                          // } else {
-                          //   // Navigator.push(
-                          //   //   context,
-                          //   //   MaterialPageRoute(
-                          //   //     builder: (cxt) => const LoginView(),
-                          //   //   ),
-                          //   // );
-                          // }
+                          if (authState.isAuthenticated) {
+                            context.pushNamed(jobApplyRoute, extra: jobDetail);
+                          } else {
+                            context.pushNamed(loginRoute);
+                          }
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -313,23 +306,11 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
                             'yes')
                       MaterialButton(
                         onPressed: () {
-                          // if (context.read<AuthenticationController>().isLoggedIn) {
-                          //   // Navigator.push(
-                          //   //   context,
-                          //   //   MaterialPageRoute(
-                          //   //     builder: (cxt) => JobApplyView(
-                          //   //       jobDetail: jobDetail!,
-                          //   //     ),
-                          //   //   ),
-                          //   // );
-                          // } else {
-                          //   // Navigator.push(
-                          //   //   context,
-                          //   //   MaterialPageRoute(
-                          //   //     builder: (cxt) => const LoginView(),
-                          //   //   ),
-                          //   // );
-                          // }
+                          if (authState.isAuthenticated) {
+                            context.pushNamed(jobApplyRoute, extra: jobDetail);
+                          } else {
+                            context.pushNamed(loginRoute);
+                          }
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

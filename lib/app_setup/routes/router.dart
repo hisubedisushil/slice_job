@@ -6,6 +6,7 @@ import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
+import 'package:slice_job/core/models/job_detail.dart';
 import 'package:slice_job/core/models/profile/profile_response.dart';
 import 'package:slice_job/core/models/test/test_response.dart';
 import 'package:slice_job/features/auth/views/change_password_screen.dart';
@@ -19,6 +20,8 @@ import 'package:slice_job/features/blogs/views/blog_category_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_detail_screen.dart';
 import 'package:slice_job/features/job_category/views/job_category_screen.dart';
 import 'package:slice_job/features/jobs/views/applied_jobs_screen.dart';
+import 'package:slice_job/features/jobs/views/job_apply_screen.dart';
+import 'package:slice_job/features/jobs/views/job_apply_success_screen.dart';
 import 'package:slice_job/features/jobs/views/job_detail_screen.dart';
 import 'package:slice_job/features/main/main_screen.dart';
 import 'package:slice_job/features/others/views/about_us_screen.dart';
@@ -63,6 +66,8 @@ const String workTrainingFormRoute = 'workTrainingFormPage';
 const String workCertificateFormRoute = 'workCertificateFormPage';
 const String forgotPasswordRoute = 'forgotPasswordPage';
 const String resetPasswordRoute = 'resetPasswordPage';
+const String jobApplySuccessRoute = 'jobApplySuccessPage';
+const String jobApplyRoute = 'jobApplyPage';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   ezConsoleLog('Route settings: ${settings.name}');
@@ -234,6 +239,22 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return makeRoouteWithSettings(
         (p0) => ResetPasswordScreen(
           email: email,
+        ),
+        routeName,
+      );
+    case jobApplyRoute:
+      final job = settings.arguments as JobDetail;
+      return makeRoouteWithSettings(
+        (p0) => JobApplyScreen(
+          jobDetail: job,
+        ),
+        routeName,
+      );
+    case jobApplySuccessRoute:
+      final job = settings.arguments as JobDetail;
+      return makeRoouteWithSettings(
+        (p0) => JobApplySuccessScreen(
+          job: job,
         ),
         routeName,
       );

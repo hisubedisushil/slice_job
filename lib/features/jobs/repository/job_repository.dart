@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/app/urls.dart';
@@ -33,6 +34,7 @@ abstract class JobRepository {
   Future<BaseResponse> getJobExperienceLevels();
   Future<BaseResponse> getCountries();
   Future<BaseResponse> getCities(String countryId);
+  Future<BaseResponse> applyJob(Map<String, dynamic> data);
 }
 
 class JobRepositoryImpl implements JobRepository {
@@ -477,6 +479,35 @@ class JobRepositoryImpl implements JobRepository {
           },
         );
         return data;
+      } else {
+        final message = s['message'] as String;
+        final failure = Failure(
+          message,
+          FailureType.response,
+        );
+        return BaseResponse(status: false, message: message, data: failure);
+      }
+    }, (f) {
+      final errorMessage = f.reason;
+      return BaseResponse(status: false, message: errorMessage, data: f);
+    });
+  }
+
+    @override
+  Future<BaseResponse> applyJob(Map<String, dynamic> data) async {
+    final response = await _api.uploadFormData<Map<String, dynamic>>(
+      reqType: METHOD.post,
+      endpoint:  jobApplyEndpoint,
+      authType: AuthType.bearer,
+      reqBody: FormData.fromMap(data),
+    );
+    return response.fold((s) {
+      if (s['status']) {
+        return BaseResponse<bool>(
+          status: true,
+          message: s['message'],
+          data: true,
+        );
       } else {
         final message = s['message'] as String;
         final failure = Failure(

@@ -83,3 +83,4 @@ const String cvTrainingEndpoint = 'cv-training';
 const String cvCertificateEndpoint = 'cv-certificate';
 const String cvOriginalCVEndpoint = 'cv-original-cv';
 
+const String jobApplyEndpoint = 'job-apply';

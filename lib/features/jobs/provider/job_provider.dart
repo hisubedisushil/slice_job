@@ -177,4 +177,14 @@ class JobProvider extends StateNotifier<BaseState> {
       state = BaseState.error(result.data as Failure);
     }
   }
+
+  Future<void> applyJob(Map<String, dynamic> data) async {
+    state = const BaseState.loading();
+    final result = await _repository.applyJob(data);
+    if (result is BaseResponse<bool>) {
+      state = BaseState.success(data: result.message);
+    } else {
+      state = BaseState.error(result.data as Failure);
+    }
+  }
 }
