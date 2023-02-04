@@ -73,3 +73,13 @@ const String cvTargetJobEndpoint = 'cv-targetjob-post';
 const String jobTitleEndpoint = 'job-title';
 const String cvWorkExperiencePostEndpoint = 'cv-work-experience-post';
 const String cvWorkExperienceUpdateEndpoint = 'cv-work-experience-update';
+const String cvWorkExperienceDeleteEndpoint = 'cv-work-experience-delete';
+const String cvEducationDeleteEndpoint = 'cv-education-delete';
+const String cvEducationPostEndpoint = 'cv-education-post';
+const String cvEducationUpdateEndpoint = 'cv-education-update';
+const String cvSkillEndpoint = 'cv-skill';
+const String cvLanguageEndpoint = 'cv-language';
+const String cvTrainingEndpoint = 'cv-training';
+const String cvCertificateEndpoint = 'cv-certificate';
+const String cvOriginalCVEndpoint = 'cv-original-cv';
+

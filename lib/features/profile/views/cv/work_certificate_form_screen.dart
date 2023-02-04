@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:slice_job/app/entities/base_state.dart';
+import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/experience.dart';
+import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
+import 'package:slice_job/features/profile/provider/cv_provider.dart';
+import 'package:slice_job/features/profile/views/profile_authenticated_view.dart';
+import 'package:slice_job/helpers/constants.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
+import 'package:slice_job/helpers/util/util.dart';
 
-class WorkCertificateFormScreen extends StatefulWidget {
+String certificateKey = 'certificate';
+String fromMonthKey = 'fromMonth';
+String fromYearKey = 'fromYear';
+String toMonthKey = 'toMonth';
+String toYearKey = 'toYear';
+String descKey = 'desc';
+
+final addRef = StateNotifierProvider.autoDispose<CVProvider, BaseState>((ref) {
+  return CVProvider(ref: ref);
+});
+
+class WorkCertificateFormScreen extends ConsumerStatefulWidget {
   final Certificate? certificate;
 
   const WorkCertificateFormScreen({
@@ -11,75 +35,75 @@ class WorkCertificateFormScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<WorkCertificateFormScreen> createState() =>
+  ConsumerState<WorkCertificateFormScreen> createState() =>
       _WorkCertificateFormScreenState();
 }
 
-class _WorkCertificateFormScreenState extends State<WorkCertificateFormScreen> {
-  final _title = TextEditingController();
-  final _description = TextEditingController();
-  String? _startYear;
-  String? _startMonth;
-  String? _endYear;
-  String? _endMonth;
-
-  final List<String> _years = [
-    for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
-  ];
-  final List<String> _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+class _WorkCertificateFormScreenState
+    extends ConsumerState<WorkCertificateFormScreen> {
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
     super.initState();
+    final cert = widget.certificate;
+    if (cert != null) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        formKey.currentState
+          ?..fields[certificateKey]?.didChange(cert.title)
+          ..fields[fromMonthKey]?.didChange(cert.issueMonth)
+          ..fields[fromYearKey]?.didChange(cert.issueYear)
+          ..fields[toMonthKey]?.didChange(cert.expireMonth)
+          ..fields[toYearKey]?.didChange(cert.expireYear)
+          ..fields[descKey]?.didChange(cert.description);
+      });
+    }
+  }
 
-    if (widget.certificate != null) {
-      _title.text = widget.certificate?.title ?? '';
-      try {
-        _startYear = _years.firstWhere(
-          (e) => widget.certificate?.issueYear == e,
-        );
-      } catch (e) {}
-      try {
-        _endYear = _years.firstWhere(
-          (e) => widget.certificate?.expireYear == e,
-        );
-      } catch (e) {}
-      try {
-        _startMonth = _months.firstWhere(
-          (e) => widget.certificate?.issueMonth == e,
-        );
-      } catch (e) {}
-      try {
-        _endMonth = _months.firstWhere(
-          (e) => widget.certificate?.expireMonth == e,
-        );
-      } catch (e) {}
-      _description.text = widget.certificate?.description ?? '';
+  _add() async {
+    if (formKey.currentState?.saveAndValidate() ?? false) {
+      FocusScope.of(context).requestFocus(FocusNode());
+      final formValue = formKey.currentState!.value;
+      final data = <String, String?>{
+        'id': widget.certificate?.id,
+        'title': formValue[certificateKey],
+        'issue_month': formValue[fromMonthKey],
+        'issue_year': formValue[fromYearKey],
+        'expire_month': formValue[toMonthKey],
+        'expire_year': formValue[toYearKey],
+        'description': formValue[descKey],
+      };
+      ref.read(addRef.notifier).addCertificate(
+            data,
+          );
     }
   }
 
   @override
-  void dispose() {
-    _title.dispose();
-    _description.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final eduId = widget.certificate?.id;
+    ref.listen<BaseState>(
+      addRef,
+      (previous, next) {
+        if (next is BaseLoading) {
+          context.showUpdatingCVInfoDialog(eduId == null
+              ? 'Adding New Certificate!'
+              : 'Updating Certificate!');
+        } else {
+          ref.read(profileRef.notifier).getProfileCertificate();
+          context.pop();
+          context.pop();
+          if (next is BaseSuccess) {
+            final message = next.data as String;
+            context.showSnackBar(message);
+          }
+          if (next is BaseError) {
+            final data = next.data as Failure;
+            context.showSnackBar(data.reason);
+          }
+        }
+      },
+    );
     return Material(
       color: AppColors.white,
       child: Scaffold(
@@ -89,364 +113,95 @@ class _WorkCertificateFormScreenState extends State<WorkCertificateFormScreen> {
             '${widget.certificate != null ? 'Update' : 'Add'} CV Certificate',
           ),
         ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Title',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
+        body: FormBuilder(
+          key: formKey,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  SliceJobTextField(
+                    fieldKey: certificateKey,
+                    formKey: formKey,
+                    hint: 'Title',
+                    validator: FormBuilderValidators.required(
+                        errorText: 'Certificate Title required!'),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: fromMonthKey,
+                    items: months,
+                    formKey: formKey,
+                    hint: 'Issue Month',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Pick Issued Month!'),
+                    ]),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: fromYearKey,
+                    items: years,
+                    formKey: formKey,
+                    hint: 'Issue Year',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Pick Issued Year!'),
+                    ]),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: toMonthKey,
+                    items: ['Present', ...months],
+                    formKey: formKey,
+                    hint: 'Expire Month',
+                    validator: null,
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: toYearKey,
+                    items: ['Present', ...years],
+                    formKey: formKey,
+                    hint: 'Expire Year',
+                    validator: null,
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobTextField(
+                    maxLines: 6,
+                    maxLength: 4000,
+                    fieldKey: descKey,
+                    formKey: formKey,
+                    hint: 'Certificate Description',
+                    validator: null,
+                  ),
+                  verticalSpacer(15.h),
+                  MaterialButton(
+                    onPressed: _add,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _title,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Issue Month',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: double.infinity,
+                    height: 56.0,
+                    elevation: 0.0,
+                    child: Text(
+                      widget.certificate != null ? 'Update' : 'Add',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _startMonth,
-                        items: _months.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _startMonth = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select Issue Month',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Issue Year',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _startYear,
-                        items: _years.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _startYear = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select Issue Year',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Expire Month',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _endMonth,
-                        items: _months.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _endMonth = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select Expire Month',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Expire Year',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _endYear,
-                        items: _years.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _endYear = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select Expire Year',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                TextFormField(
-                  minLines: 2,
-                  maxLines: 6,
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Description',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  keyboardType: TextInputType.multiline,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _description,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                MaterialButton(
-                  onPressed: _add,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: AppColors.primary,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  minWidth: double.infinity,
-                  height: 56.0,
-                  elevation: 0.0,
-                  child: Text(
-                    widget.certificate != null ? 'Update' : 'Add',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                const SizedBox(height: 60.0),
-              ],
+                  const SizedBox(height: 60.0),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  _add() async {
-    FocusScope.of(context).requestFocus(FocusNode());
-
-    // String result = await showDialog(
-    //   context: context,
-    //   builder: (context) => FutureProgressDialog(
-    //     context.read<ProfileController>().postCertificate(
-    //           id: widget.certificate?.id,
-    //           title: _title.text,
-    //           issueMonth: _startMonth ?? '',
-    //           issueYear: _startYear ?? '',
-    //           expireMonth: _endMonth ?? '',
-    //           expireYear: _endYear ?? '',
-    //           description: _description.text,
-    //         ),
-    //   ),
-    // );
-    // log(result.toString());
-
-    // if (result.isEmpty) {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Success",
-    //     message: "Certificate Saved Successfully.",
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.success,
-    //     barrierDismissible: true,
-    //   );
-    //   Navigator.pop(context);
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 }

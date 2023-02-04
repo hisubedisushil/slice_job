@@ -605,42 +605,6 @@ class _ProfileAuthenticatedViewState
     if (croppedFile != null) {
       ref.read(profileUploadRef.notifier).uploadProfileImage(croppedFile.path);
     }
-
-    if (croppedFile != null) {
-      // String result = await showDialog(
-      //   context: context,
-      //   builder: (context) => FutureProgressDialog(
-      //     context
-      //         .read<ProfileController>()
-      //         .uploadProfileImage(image: croppedFile?.path ?? ''),
-      //   ),
-      // );
-      // log(result.toString());
-
-      // if (result.isEmpty) {
-      //   await PanaraInfoDialog.showAnimatedGrow(
-      //     context,
-      //     title: "Success",
-      //     message: "Profile Image Updated Successfully.",
-      //     buttonText: 'Okay',
-      //     onTapDismiss: () => Navigator.pop(context),
-      //     panaraDialogType: PanaraDialogType.success,
-      //     barrierDismissible: true,
-      //   );
-      //   return;
-      // } else {
-      //   await PanaraInfoDialog.showAnimatedGrow(
-      //     context,
-      //     title: "Failed",
-      //     message: result,
-      //     buttonText: 'Okay',
-      //     onTapDismiss: () => Navigator.pop(context),
-      //     panaraDialogType: PanaraDialogType.error,
-      //     barrierDismissible: true,
-      //   );
-      //   return;
-      // }
-    }
   }
 }
 

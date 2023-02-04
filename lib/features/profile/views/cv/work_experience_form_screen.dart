@@ -44,9 +44,6 @@ class WorkExperienceFormScreen extends ConsumerStatefulWidget {
 
 class _WorkExperienceFormScreenState
     extends ConsumerState<WorkExperienceFormScreen> {
-  final List<String> _years = [
-    for (int i = 1950; i <= DateTime.now().year; i += 1) i.toString()
-  ];
 
   final formKey = GlobalKey<FormBuilderState>();
 
@@ -67,11 +64,6 @@ class _WorkExperienceFormScreenState
           ..fields[workDescKey]?.didChange(exp.workDescription);
       });
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   _add() async {
@@ -175,7 +167,7 @@ class _WorkExperienceFormScreenState
                   verticalSpacer(15.h),
                   SliceJobDropdown(
                     fieldKey: fromYearKey,
-                    items: _years,
+                    items: years,
                     formKey: formKey,
                     hint: 'From Year',
                     validator: FormBuilderValidators.compose([
@@ -197,7 +189,7 @@ class _WorkExperienceFormScreenState
                   verticalSpacer(15.h),
                   SliceJobDropdown(
                     fieldKey: toYearKey,
-                    items: ['Present', ..._years],
+                    items: ['Present', ...years],
                     formKey: formKey,
                     hint: 'To Year',
                     validator: FormBuilderValidators.compose([

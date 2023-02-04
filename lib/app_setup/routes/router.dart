@@ -185,28 +185,43 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName,
       );
     case workEducationFormRoute:
+      final edu = settings.arguments as Education;
       return makeRoouteWithSettings(
-        (p0) => const WorkEducationFormScreen(),
+        (p0) => WorkEducationFormScreen(
+          education: edu,
+        ),
         routeName,
       );
     case workSkillFormRoute:
+      final skill = settings.arguments as Skill;
       return makeRoouteWithSettings(
-        (p0) => const WorkSkillFormScreen(),
+        (p0) => WorkSkillFormScreen(
+          skill: skill,
+        ),
         routeName,
       );
     case workLanguageFormRoute:
+      final lan = settings.arguments as Language;
       return makeRoouteWithSettings(
-        (p0) => const WorkLanguageFormScreen(),
+        (p0) => WorkLanguageFormScreen(
+          language: lan,
+        ),
         routeName,
       );
     case workTrainingFormRoute:
+      final training = settings.arguments as Training;
       return makeRoouteWithSettings(
-        (p0) => const WorkTrainingFormScreen(),
+        (p0) => WorkTrainingFormScreen(
+          training: training,
+        ),
         routeName,
       );
     case workCertificateFormRoute:
+      final cert = settings.arguments as Certificate;
       return makeRoouteWithSettings(
-        (p0) => const WorkCertificateFormScreen(),
+        (p0) => WorkCertificateFormScreen(
+          certificate: cert,
+        ),
         routeName,
       );
     case forgotPasswordRoute:

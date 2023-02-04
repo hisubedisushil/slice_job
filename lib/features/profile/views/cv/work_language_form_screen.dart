@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:slice_job/app/entities/base_state.dart';
+import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/experience.dart';
+import 'package:slice_job/core/widgets/slicejob_input_fields.dart';
+import 'package:slice_job/features/profile/provider/cv_provider.dart';
+import 'package:slice_job/features/profile/views/profile_authenticated_view.dart';
+import 'package:slice_job/helpers/constants.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
+import 'package:slice_job/helpers/util/util.dart';
 
-class WorkLanguageFormScreen extends StatefulWidget {
+String languageKey = 'language';
+String expLevelKey = 'expLevel';
+
+final addRef = StateNotifierProvider.autoDispose<CVProvider, BaseState>((ref) {
+  return CVProvider(ref: ref);
+});
+
+class WorkLanguageFormScreen extends ConsumerStatefulWidget {
   final Language? language;
 
   const WorkLanguageFormScreen({
@@ -11,42 +31,66 @@ class WorkLanguageFormScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<WorkLanguageFormScreen> createState() => _WorkLanguageFormScreenState();
+  ConsumerState<WorkLanguageFormScreen> createState() =>
+      _WorkLanguageFormScreenState();
 }
 
-class _WorkLanguageFormScreenState extends State<WorkLanguageFormScreen> {
-  final _language = TextEditingController();
-  String? _level;
-
-  final List<String> _levels = [
-    'Beginner',
-    'Intermediate',
-    'Expert',
-    'Native',
-  ];
+class _WorkLanguageFormScreenState
+    extends ConsumerState<WorkLanguageFormScreen> {
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
     super.initState();
+    final lan = widget.language;
+    if (lan != null) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        formKey.currentState
+          ?..fields[languageKey]?.didChange(lan.language)
+          ..fields[expLevelKey]?.didChange(lan.level);
+      });
+    }
+  }
 
-    if (widget.language != null) {
-      _language.text = widget.language?.language ?? '';
-      try {
-        _level = _levels.firstWhere(
-          (e) => widget.language?.level == e,
-        );
-      } catch (e) {}
+  _add() async {
+    if (formKey.currentState?.saveAndValidate() ?? false) {
+      FocusScope.of(context).requestFocus(FocusNode());
+      final formValue = formKey.currentState!.value;
+      final data = <String, String?>{
+        'id': widget.language?.id,
+        'language': formValue[languageKey],
+        'level': formValue[expLevelKey],
+      };
+      ref.read(addRef.notifier).addLanguage(
+            data,
+          );
     }
   }
 
   @override
-  void dispose() {
-    _language.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final lanId = widget.language?.id;
+    ref.listen<BaseState>(
+      addRef,
+      (previous, next) {
+        if (next is BaseLoading) {
+          context.showUpdatingCVInfoDialog(
+              lanId == null ? 'Adding New Language!' : 'Updating Language!');
+        } else {
+          ref.read(profileRef.notifier).getProfileLanguage();
+          context.pop();
+          context.pop();
+          if (next is BaseSuccess) {
+            final message = next.data as String;
+            context.showSnackBar(message);
+          }
+          if (next is BaseError) {
+            final data = next.data as Failure;
+            context.showSnackBar(data.reason);
+          }
+        }
+      },
+    );
     return Material(
       color: AppColors.white,
       child: Scaffold(
@@ -56,161 +100,60 @@ class _WorkLanguageFormScreenState extends State<WorkLanguageFormScreen> {
             '${widget.language != null ? 'Update' : 'Add'} CV  Language',
           ),
         ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    label: const Text(
-                      'Language',
-                    ),
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
+        body: FormBuilder(
+          key: formKey,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  SliceJobTextField(
+                    fieldKey: languageKey,
+                    formKey: formKey,
+                    hint: 'Language',
+                    validator: FormBuilderValidators.required(
+                        errorText: 'Language required!'),
+                  ),
+                  verticalSpacer(15.h),
+                  SliceJobDropdown(
+                    fieldKey: expLevelKey,
+                    items: lanExpLevels,
+                    formKey: formKey,
+                    hint: 'Select Experience Level',
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Experience Level required!'),
+                    ]),
+                    isDense: false,
+                  ),
+                  verticalSpacer(15.h),
+                  MaterialButton(
+                    onPressed: _add,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    fillColor: AppColors.white.withOpacity(0.8),
-                    hintStyle: TextStyle(
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    filled: true,
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: _language,
-                  // validator: (value) {
-                  //   if (((value ?? '').length < 10)) {
-                  //     return 'Mobile number must have 10 digits.';
-                  //   }
-                  //   return null;
-                  // },
-                ),
-                const SizedBox(height: 10.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColors.white,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Level',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
+                    color: AppColors.primary,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minWidth: double.infinity,
+                    height: 56.0,
+                    elevation: 0.0,
+                    child: Text(
+                      widget.language != null ? 'Update' : 'Add',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const Divider(),
-                      DropdownButton<String>(
-                        value: _level,
-                        items: _levels.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.black,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          _level = value;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                        hint: Text(
-                          'Select Experience Level',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        isExpanded: true,
-                        underline: Container(),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                MaterialButton(
-                  onPressed: _add,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: AppColors.primary,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  minWidth: double.infinity,
-                  height: 56.0,
-                  elevation: 0.0,
-                  child: Text(
-                    widget.language != null ? 'Update' : 'Add',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                const SizedBox(height: 60.0),
-              ],
+                  const SizedBox(height: 60.0),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  _add() async {
-    FocusScope.of(context).requestFocus(FocusNode());
-
-    // String result = await showDialog(
-    //   context: context,
-    //   builder: (context) => FutureProgressDialog(
-    //     context.read<ProfileController>().postLanguage(
-    //           id: widget.language?.id,
-    //           language: _language.text,
-    //           level: _level ?? '',
-    //         ),
-    //   ),
-    // );
-    // log(result.toString());
-
-    // if (result.isEmpty) {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Success",
-    //     message: "Language Saved Successfully.",
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.success,
-    //     barrierDismissible: true,
-    //   );
-    //   Navigator.pop(context);
-    // } else {
-    //   await PanaraInfoDialog.showAnimatedGrow(
-    //     context,
-    //     title: "Failed",
-    //     message: result,
-    //     buttonText: 'Okay',
-    //     onTapDismiss: () => Navigator.pop(context),
-    //     panaraDialogType: PanaraDialogType.error,
-    //     barrierDismissible: true,
-    //   );
-    //   return;
-    // }
   }
 }
