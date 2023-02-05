@@ -61,6 +61,7 @@ class _ProfileAuthenticatedViewState
   void _getProfile() {
     Future.microtask(() {
       ref.read(profileRef.notifier).getProfile();
+      ref.read(getCVBasicInfoRef.notifier).getCVBasicInfo();
     });
   }
 
