@@ -232,6 +232,10 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
           PagedSliverList.separated(
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate<Job>(
+              noItemsFoundIndicatorBuilder: (context) {
+                return const NewPageError(
+                    message: 'No Jobs found for the provided criteria!');
+              },
               itemBuilder: (context, item, index) {
                 return RecentJobListItem(
                   job: item,

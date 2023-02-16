@@ -233,14 +233,14 @@ class JobRepositoryImpl implements JobRepository {
         return data;
       } else {
         final message = s['message'] as String;
-        final failure = Failure(
-          message,
-          FailureType.response,
-        );
-        return BaseResponsePaginated(
+        // final failure = Failure(
+        //   message,
+        //   FailureType.response,
+        // );
+        return BaseResponsePaginated<List<Job>>(
           status: false,
           message: message,
-          data: failure,
+          data: [],
           page: page.toString(),
           total: '0',
         );
@@ -493,11 +493,11 @@ class JobRepositoryImpl implements JobRepository {
     });
   }
 
-    @override
+  @override
   Future<BaseResponse> applyJob(Map<String, dynamic> data) async {
     final response = await _api.uploadFormData<Map<String, dynamic>>(
       reqType: METHOD.post,
-      endpoint:  jobApplyEndpoint,
+      endpoint: jobApplyEndpoint,
       authType: AuthType.bearer,
       reqBody: FormData.fromMap(data),
     );
