@@ -85,8 +85,17 @@ class DioHelper {
           },
         ),
       );
-      final json = response.data! as R;
-      return Left(json);
+      if ((response.data ?? '').toString().trim().isEmpty) {
+        return Right(
+          Failure(
+            'Server returned Success but empty response!',
+            FailureType.response,
+          ),
+        );
+      } else {
+        final json = response.data! as R;
+        return Left(json);
+      }
     } on DioError catch (e) {
       return Right(e.toFailure);
     } catch (e) {

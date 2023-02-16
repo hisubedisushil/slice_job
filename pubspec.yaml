@@ -50,6 +50,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   form_builder_validators: ^8.4.0
   hive: ^2.2.3
+  fwfh_webview: ^0.7.0+1
   
 
 dev_dependencies:

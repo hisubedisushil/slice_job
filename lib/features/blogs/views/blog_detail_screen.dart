@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:fwfh_webview/fwfh_webview.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:slice_job/app/entities/base_state.dart';
@@ -142,6 +143,7 @@ class _BlogDetailScreenState extends ConsumerState<BlogDetailScreen> {
                   const SizedBox(height: 10.0),
                   HtmlWidget(
                     blogDetail.detailDesc ?? '',
+                    factoryBuilder: () => SliceJobWidgetFactory(),
                     onTapUrl: (url) async {
                       return openUrl(url);
                     },
@@ -198,3 +200,5 @@ class _BlogDetailScreenState extends ConsumerState<BlogDetailScreen> {
     );
   }
 }
+
+class SliceJobWidgetFactory extends WidgetFactory with WebViewFactory {}

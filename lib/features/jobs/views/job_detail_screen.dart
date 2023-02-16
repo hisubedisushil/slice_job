@@ -7,6 +7,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:slice_job/app.dart';
 import 'package:slice_job/app/entities/base_state.dart';
+import 'package:slice_job/app/entities/failure.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/job.dart';
@@ -335,9 +336,37 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
               ),
             );
           },
+          error: (data) {
+            final error = data as Failure;
+            return SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  30.verticalSpace,
+                  Text(
+                    error.reason,
+                    style: TextStyle(
+                      color: AppColors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
           orElse: () {
             return Container(
               color: Colors.amber,
+              child: Text(
+                '',
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             );
           },
         ),
