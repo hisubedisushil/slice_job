@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/company.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
+import 'package:slice_job/helpers/util/image_util.dart';
 import 'package:slice_job/helpers/util/shimmer_util.dart';
 
 class TopEmployerListItem extends StatelessWidget {
@@ -43,18 +42,8 @@ class TopEmployerListItem extends StatelessWidget {
               height: width - 20.h - 60.h,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
-                child: CachedNetworkImage(
-                  imageUrl: company.logo ?? '',
-                  errorWidget: (cxt, str, val) {
-                    return Center(
-                      child: Icon(
-                        Ionicons.alert_circle_outline,
-                        color: AppColors.red,
-                        size: 36.0,
-                      ),
-                    );
-                  },
-                  fit: BoxFit.contain,
+                child: SliceImage(
+                  company.logo,
                   width: width - 20.h,
                   height: width - 20.h - 60.h,
                 ),

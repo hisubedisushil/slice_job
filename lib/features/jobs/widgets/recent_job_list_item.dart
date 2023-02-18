@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
@@ -8,6 +7,7 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/util/decoration_util.dart';
+import 'package:slice_job/helpers/util/image_util.dart';
 import 'package:slice_job/helpers/util/shimmer_util.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
@@ -35,24 +35,10 @@ class RecentJobListItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
-                child: CachedNetworkImage(
-                  imageUrl: job.company?.logo ?? '',
-                  errorWidget: (cxt, str, val) {
-                    return SizedBox(
-                      height: 62.0,
-                      width: 62.0,
-                      child: Center(
-                        child: Icon(
-                          Ionicons.alert_circle_outline,
-                          color: AppColors.red,
-                          size: 36.0,
-                        ),
-                      ),
-                    );
-                  },
-                  fit: BoxFit.contain,
-                  height: 80.w,
-                  width: 80.w,
+                child: SliceImage(
+                  job.company?.logo,
+                  height: 80,
+                  width: 80,
                 ),
               ),
               const SizedBox(width: 10.0),

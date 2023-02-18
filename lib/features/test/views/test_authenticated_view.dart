@@ -136,8 +136,8 @@ class _TestAuthenticatedViewState extends ConsumerState<TestAuthenticatedView> {
                           height: screenWidth / 3.8,
                           child: SliceImage(
                             category.image ?? '',
-                            width: screenWidth ~/ 3,
-                            height: screenWidth ~/ 5,
+                            width: screenWidth / 3,
+                            height: screenWidth / 5,
                           ),
                         ),
                         Expanded(

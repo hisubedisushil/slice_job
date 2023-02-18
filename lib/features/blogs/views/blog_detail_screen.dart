@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +11,7 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/features/blogs/provider/blogs_provider.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
+import 'package:slice_job/helpers/util/image_util.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
 final blogDetailRef =
@@ -127,9 +127,11 @@ class _BlogDetailScreenState extends ConsumerState<BlogDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: blogDetail.image ?? '',
+                  SliceImage(
+                    blogDetail.image,
                     fit: BoxFit.fitWidth,
+                    width: double.infinity,
+                    enforceHeight: false,
                   ),
                   const SizedBox(height: 20.0),
                   Text(

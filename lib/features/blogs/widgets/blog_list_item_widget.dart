@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:slice_job/app_setup/routes/router.dart';
@@ -6,6 +5,7 @@ import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
 import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/util/decoration_util.dart';
+import 'package:slice_job/helpers/util/image_util.dart';
 import 'package:slice_job/helpers/util/shimmer_util.dart';
 import 'package:slice_job/helpers/util/util.dart';
 
@@ -28,12 +28,12 @@ class BlogListItemWidget extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(5.r),
-              child: CachedNetworkImage(
-                imageUrl: blog.image ?? '',
+              child: SliceImage(
+                blog.image,
                 alignment: Alignment.topCenter,
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
-                height: 160.h,
+                height: 160,
               ),
             ),
             verticalSpacer(5.h),
