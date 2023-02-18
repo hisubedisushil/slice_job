@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/helpers/extensions/string_extension.dart';
-import 'package:slice_job/helpers/util/util.dart';
 
 class SliceImage extends ConsumerWidget {
   const SliceImage(
@@ -27,7 +26,6 @@ class SliceImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ezConsoleLog('url => $url, ::: cacheKey => ${url!.cacheKey()}');
     return url == null
         ? SizedBox(
             height: height?.w ?? 50.w,
