@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -10,7 +8,6 @@ import 'package:slice_job/app.dart';
 import 'package:slice_job/bootstrap.dart';
 import 'package:slice_job/core/models/authentication/login_response.dart';
 import 'package:slice_job/core/models/authentication/user.dart';
-import 'package:slice_job/helpers/extensions/provider_base_extensions.dart';
 
 Future<void> main() async {
   WidgetsBinding wBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -40,15 +37,17 @@ class LoggingObserver extends ProviderObserver {
     ProviderBase provider,
     Object? value,
     ProviderContainer container,
-  ) =>
-      log('EZLOG => ${provider.nameOrType} was added.');
+  ) {
+    // log('EZLOGProviderObserver => ${provider.nameOrType} was added.');
+  }
 
   @override
   void didDisposeProvider(
     ProviderBase provider,
     ProviderContainer container,
-  ) =>
-      log('EZLOG => ${provider.nameOrType} was disposed.');
+  ) {
+    // log('EZLOGProviderObserver => ${provider.nameOrType} was disposed.');
+  }
 
   @override
   void didUpdateProvider(
@@ -56,10 +55,11 @@ class LoggingObserver extends ProviderObserver {
     Object? previousValue,
     Object? newValue,
     ProviderContainer container,
-  ) =>
-      log(
-        'EZLOG => Updated ${provider.nameOrType} from:\n extras: {previousValue: $hashCode, newValue: $newValue}',
-      );
+  ) {
+    // log(
+    //   'EZLOGProviderObserver => Updated ${provider.nameOrType} from:\n extras: {previousValue: $hashCode, newValue: $newValue}',
+    // );
+  }
 
   @override
   void providerDidFail(
@@ -67,9 +67,10 @@ class LoggingObserver extends ProviderObserver {
     Object error,
     StackTrace stackTrace,
     ProviderContainer container,
-  ) =>
-      log(
-        'EZLOG => The ${provider.nameOrType} failed with: $error',
-        stackTrace: stackTrace,
-      );
+  ) {
+    // log(
+    //   'EZLOGProviderObserver => The ${provider.nameOrType} failed with: $error',
+    //   stackTrace: stackTrace,
+    // );
+  }
 }

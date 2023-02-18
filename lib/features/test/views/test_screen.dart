@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,8 +56,9 @@ class _TestScreenState extends ConsumerState<TestScreen> {
   }
 
   void _startTest() {
-    Future.microtask(
-        () => ref.read(testRef.notifier).startTest(widget.category.id));
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(testRef.notifier).startTest(widget.category.id);
+    });
   }
 
   void _finishTest(String entranceSet) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:slice_job/app/entities/base_state.dart';
@@ -30,7 +31,9 @@ class _AppliedJobsScreenState extends ConsumerState<AppliedJobsScreen> {
   }
 
   _fetchAppliedJobs() {
-    Future.microtask(() => ref.read(appliedJobsRef.notifier).getAppliedJobs());
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+       ref.read(appliedJobsRef.notifier).getAppliedJobs();
+  });
   }
 
   Future<void> _onRefresh() {

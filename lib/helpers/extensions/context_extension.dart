@@ -30,7 +30,7 @@ extension RouterExtension on BuildContext {
   }
 
   popUntilNamed(String routeName, {dynamic extra}) {
-    Navigator.of(this).pushNamedAndRemoveUntil(routeName, (route) {
+    Navigator.of(this).popUntil((route) {
       return route.settings.name == mainRoute;
     });
   }

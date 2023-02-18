@@ -15,36 +15,43 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  final ValueNotifier<bool> _profileFetched = ValueNotifier<bool>(false);
+
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       ref.read(authRef.notifier).getSession();
+      _profileFetched.value = !_profileFetched.value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authRef);
+    return ValueListenableBuilder<bool>(
+      valueListenable: _profileFetched,
+      builder: (context, value, child) {
+        if (!value || authState.isAuthenticating || authState.isInitial) {
+          return SafeArea(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 30.w,
+                  height: 30.w,
+                  child: const CircularProgressIndicator(),
+                ).pXY(10.w, 50.h),
+              ],
+            ),
+          );
+        }
 
-    if (authState.isAuthenticating || authState.isInitial) {
-      return SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              width: 30.w,
-              height: 30.w,
-              child: const CircularProgressIndicator(),
-            ).pXY(10.w, 50.h),
-          ],
-        ),
-      );
-    }
+        if (!authState.isAuthenticated) {
+          return const ProfileUnauthenticatedView();
+        }
 
-    if (!authState.isAuthenticated) {
-      return const ProfileUnauthenticatedView();
-    }
-
-    return const ProfileAuthenticatedView();
+        return const ProfileAuthenticatedView();
+      },
+    );
   }
 }

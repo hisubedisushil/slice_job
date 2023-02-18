@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/features/main/controller/bottom_nav_bar_controller.dart';
 import 'package:slice_job/helpers/constants.dart';
@@ -36,32 +35,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           inactiveColor: AppColors.white.withOpacity(0.6),
           selectedIndex: selectedIndex,
           iconSize: 24.0,
-          barItems: <BarItem>[
-            BarItem(
-              icon: Ionicons.home_outline,
-              title: 'Home',
-            ),
-            BarItem(
-              icon: Ionicons.briefcase_outline,
-              title: 'Jobs',
-            ),
-            BarItem(
-              icon: Ionicons.chatbox_ellipses_outline,
-              title: 'Blogs',
-            ),
-            BarItem(
-              icon: Ionicons.person_outline,
-              title: 'Profile',
-            ),
-          ],
+          barItems: navBarItems,
         ),
-        body: PageView.builder(
+        body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: navRef.pageController,
-          itemBuilder: (context, index) {
-            return pages[index];
-          },
-          itemCount: pages.length,
+          children: pages,
         ),
       ),
     );
