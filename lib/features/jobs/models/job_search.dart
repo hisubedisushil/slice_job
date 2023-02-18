@@ -8,7 +8,7 @@ part 'job_search.g.dart';
 @freezed
 class JobSearch with _$JobSearch {
   const factory JobSearch({
-    final String? jobTitle,
+    final String? jobTittle,
     final String? jobCategory,
     final String? jobType,
     final String? careerLevel,
@@ -25,7 +25,7 @@ extension JobSearchX on JobSearch {
   int filterCount() {
     final filterPropMap = toJson();
     final filterPropertyCount = filterPropMap.entries
-        .where((element) => element.key != 'job_title')
+        .where((element) => element.key != 'job_tittle')
         .length;
     return filterPropertyCount;
   }

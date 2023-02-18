@@ -144,6 +144,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
                             ),
                             child: TextFormField(
                               controller: searchTextController,
+                              textInputAction: TextInputAction.search,
                               decoration: InputDecoration(
                                 disabledBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
@@ -157,8 +158,15 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen> {
                                 filled: true,
                                 isDense: true,
                               ),
-                              onChanged: (value) {
-                                // _initSearch();
+                              onFieldSubmitted: (value) {
+                                if (value.trim() ==
+                                    searchData.value.jobTittle) {
+                                  return;
+                                }
+                                searchData.value = searchData.value.copyWith(
+                                  jobTittle: value.trim(),
+                                );
+                                _onRefresh();
                               },
                             ),
                           ),

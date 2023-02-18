@@ -20,7 +20,7 @@ JobSearch _$JobSearchFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$JobSearch {
-  String? get jobTitle => throw _privateConstructorUsedError;
+  String? get jobTittle => throw _privateConstructorUsedError;
   String? get jobCategory => throw _privateConstructorUsedError;
   String? get jobType => throw _privateConstructorUsedError;
   String? get careerLevel => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $JobSearchCopyWith<$Res> {
       _$JobSearchCopyWithImpl<$Res, JobSearch>;
   @useResult
   $Res call(
-      {String? jobTitle,
+      {String? jobTittle,
       String? jobCategory,
       String? jobType,
       String? careerLevel,
@@ -62,7 +62,7 @@ class _$JobSearchCopyWithImpl<$Res, $Val extends JobSearch>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? jobTitle = freezed,
+    Object? jobTittle = freezed,
     Object? jobCategory = freezed,
     Object? jobType = freezed,
     Object? careerLevel = freezed,
@@ -71,9 +71,9 @@ class _$JobSearchCopyWithImpl<$Res, $Val extends JobSearch>
     Object? experience = freezed,
   }) {
     return _then(_value.copyWith(
-      jobTitle: freezed == jobTitle
-          ? _value.jobTitle
-          : jobTitle // ignore: cast_nullable_to_non_nullable
+      jobTittle: freezed == jobTittle
+          ? _value.jobTittle
+          : jobTittle // ignore: cast_nullable_to_non_nullable
               as String?,
       jobCategory: freezed == jobCategory
           ? _value.jobCategory
@@ -111,7 +111,7 @@ abstract class _$$_JobSearchCopyWith<$Res> implements $JobSearchCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? jobTitle,
+      {String? jobTittle,
       String? jobCategory,
       String? jobType,
       String? careerLevel,
@@ -131,7 +131,7 @@ class __$$_JobSearchCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? jobTitle = freezed,
+    Object? jobTittle = freezed,
     Object? jobCategory = freezed,
     Object? jobType = freezed,
     Object? careerLevel = freezed,
@@ -140,9 +140,9 @@ class __$$_JobSearchCopyWithImpl<$Res>
     Object? experience = freezed,
   }) {
     return _then(_$_JobSearch(
-      jobTitle: freezed == jobTitle
-          ? _value.jobTitle
-          : jobTitle // ignore: cast_nullable_to_non_nullable
+      jobTittle: freezed == jobTittle
+          ? _value.jobTittle
+          : jobTittle // ignore: cast_nullable_to_non_nullable
               as String?,
       jobCategory: freezed == jobCategory
           ? _value.jobCategory
@@ -176,7 +176,7 @@ class __$$_JobSearchCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_JobSearch implements _JobSearch {
   const _$_JobSearch(
-      {this.jobTitle,
+      {this.jobTittle,
       this.jobCategory,
       this.jobType,
       this.careerLevel,
@@ -188,7 +188,7 @@ class _$_JobSearch implements _JobSearch {
       _$$_JobSearchFromJson(json);
 
   @override
-  final String? jobTitle;
+  final String? jobTittle;
   @override
   final String? jobCategory;
   @override
@@ -204,7 +204,7 @@ class _$_JobSearch implements _JobSearch {
 
   @override
   String toString() {
-    return 'JobSearch(jobTitle: $jobTitle, jobCategory: $jobCategory, jobType: $jobType, careerLevel: $careerLevel, jobSalary: $jobSalary, educationLevel: $educationLevel, experience: $experience)';
+    return 'JobSearch(jobTittle: $jobTittle, jobCategory: $jobCategory, jobType: $jobType, careerLevel: $careerLevel, jobSalary: $jobSalary, educationLevel: $educationLevel, experience: $experience)';
   }
 
   @override
@@ -212,8 +212,8 @@ class _$_JobSearch implements _JobSearch {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_JobSearch &&
-            (identical(other.jobTitle, jobTitle) ||
-                other.jobTitle == jobTitle) &&
+            (identical(other.jobTittle, jobTittle) ||
+                other.jobTittle == jobTittle) &&
             (identical(other.jobCategory, jobCategory) ||
                 other.jobCategory == jobCategory) &&
             (identical(other.jobType, jobType) || other.jobType == jobType) &&
@@ -229,7 +229,7 @@ class _$_JobSearch implements _JobSearch {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, jobTitle, jobCategory, jobType,
+  int get hashCode => Object.hash(runtimeType, jobTittle, jobCategory, jobType,
       careerLevel, jobSalary, educationLevel, experience);
 
   @JsonKey(ignore: true)
@@ -248,7 +248,7 @@ class _$_JobSearch implements _JobSearch {
 
 abstract class _JobSearch implements JobSearch {
   const factory _JobSearch(
-      {final String? jobTitle,
+      {final String? jobTittle,
       final String? jobCategory,
       final String? jobType,
       final String? careerLevel,
@@ -260,7 +260,7 @@ abstract class _JobSearch implements JobSearch {
       _$_JobSearch.fromJson;
 
   @override
-  String? get jobTitle;
+  String? get jobTittle;
   @override
   String? get jobCategory;
   @override

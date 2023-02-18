@@ -7,7 +7,7 @@ part of 'job_search.dart';
 // **************************************************************************
 
 _$_JobSearch _$$_JobSearchFromJson(Map<String, dynamic> json) => _$_JobSearch(
-      jobTitle: json['job_title'] as String?,
+      jobTittle: json['job_tittle'] as String?,
       jobCategory: json['job_category'] as String?,
       jobType: json['job_type'] as String?,
       careerLevel: json['career_level'] as String?,
@@ -25,7 +25,7 @@ Map<String, dynamic> _$$_JobSearchToJson(_$_JobSearch instance) {
     }
   }
 
-  writeNotNull('job_title', instance.jobTitle);
+  writeNotNull('job_tittle', instance.jobTittle);
   writeNotNull('job_category', instance.jobCategory);
   writeNotNull('job_type', instance.jobType);
   writeNotNull('career_level', instance.careerLevel);
