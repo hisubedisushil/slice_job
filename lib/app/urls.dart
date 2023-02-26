@@ -14,6 +14,7 @@ const String featuredJobsEndpoint = 'featured-jobs';
 const String recentJobsEndpoint = 'recent-jobs';
 const String allJobsEndpoint = 'all-jobs';
 const String topEmployersEndpoint = 'top-employers';
+const String employerJobs = 'employer-jobs';
 const String jobDetailEndpoint = 'job-detail';
 const String getJobsByCategoryEndpoint = 'category-jobs';
 const String getAllBlogsEndpoint = 'all-blogs';

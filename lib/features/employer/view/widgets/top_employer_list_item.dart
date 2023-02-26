@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:slice_job/app_setup/routes/router.dart';
 import 'package:slice_job/constants/app_colors.dart';
 import 'package:slice_job/core/models/company.dart';
+import 'package:slice_job/helpers/extensions/context_extension.dart';
 import 'package:slice_job/helpers/extensions/padding_extensions.dart';
 import 'package:slice_job/helpers/util/image_util.dart';
 import 'package:slice_job/helpers/util/shimmer_util.dart';
@@ -18,7 +20,12 @@ class TopEmployerListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = (ScreenUtil().screenWidth - 30.w) / 2;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        context.pushNamed(
+          employerRoute,
+          extra: company,
+        );
+      },
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
         height: width.w,

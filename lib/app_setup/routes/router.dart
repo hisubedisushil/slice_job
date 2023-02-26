@@ -3,6 +3,7 @@ import 'package:slice_job/app_setup/routes/route_not_found_screen.dart';
 import 'package:slice_job/core/models/authentication/user.dart';
 import 'package:slice_job/core/models/blogs/blog_category.dart';
 import 'package:slice_job/core/models/blogs/blog_response.dart';
+import 'package:slice_job/core/models/company.dart';
 import 'package:slice_job/core/models/experience.dart';
 import 'package:slice_job/core/models/job.dart';
 import 'package:slice_job/core/models/job_category.dart';
@@ -18,6 +19,7 @@ import 'package:slice_job/features/auth/views/reset_password_screen.dart';
 import 'package:slice_job/features/auth/views/verify_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_category_screen.dart';
 import 'package:slice_job/features/blogs/views/blog_detail_screen.dart';
+import 'package:slice_job/features/employer/view/employer_screen.dart';
 import 'package:slice_job/features/job_category/views/job_category_screen.dart';
 import 'package:slice_job/features/jobs/views/applied_jobs_screen.dart';
 import 'package:slice_job/features/jobs/views/job_apply_screen.dart';
@@ -44,6 +46,7 @@ const String splashRoute = 'splashPage';
 const String loginRoute = 'loginPage';
 const String registerRoute = 'registerPage';
 const String jobDetailRoute = 'jobDetail';
+const String employerRoute = 'employerPage';
 const String jobCategoryScreenRoute = 'jobCategoryScreen';
 const String aboutUsRoute = 'aboutUsPage';
 const String contactUsRoute = 'contactUsPage';
@@ -82,6 +85,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       var job = settings.arguments as Job;
       return makeRoouteWithSettings(
         (p0) => JobDetailScreen(job: job),
+        routeName,
+      );
+    case employerRoute:
+      var company = settings.arguments as Company;
+      return makeRoouteWithSettings(
+        (p0) => EmployerScreen(company: company),
         routeName,
       );
     case jobCategoryScreenRoute:
